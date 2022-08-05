@@ -8,12 +8,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface LoginInput {
-    email: string;
-    password: string;
-}
-
-export interface SignupInput {
+export interface AuthInput {
     email: string;
     password: string;
 }
@@ -25,14 +20,19 @@ export interface CreateUserInput {
     last_name?: Nullable<string>;
 }
 
+export interface AuthOutput {
+    user?: Nullable<User>;
+    access_token: string;
+}
+
 export interface IQuery {
-    login(loginInput?: Nullable<LoginInput>): Nullable<User> | Promise<Nullable<User>>;
+    login(loginInput?: Nullable<AuthInput>): Nullable<AuthOutput> | Promise<Nullable<AuthOutput>>;
     users(): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
     user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface IMutation {
-    signup(signupInput?: Nullable<SignupInput>): Nullable<User> | Promise<Nullable<User>>;
+    signup(signupInput?: Nullable<AuthInput>): Nullable<AuthOutput> | Promise<Nullable<AuthOutput>>;
     createUser(createUserInput?: Nullable<CreateUserInput>): Nullable<User> | Promise<Nullable<User>>;
 }
 
@@ -40,7 +40,6 @@ export interface User {
     id: number;
     created_at: string;
     email: string;
-    password: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
 }

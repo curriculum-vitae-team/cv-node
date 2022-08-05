@@ -21,8 +21,8 @@ import { AuthModule } from "src/auth/auth.module";
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
     }),
-    UsersModule,
     AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

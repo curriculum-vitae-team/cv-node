@@ -1,26 +1,38 @@
-import { Injectable } from "@nestjs/common";
-import { LoginInput, SignupInput } from "src/graphql";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { AuthInput, AuthOutput, User } from "src/graphql";
 import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService
+  ) {}
 
-  async validateUser({ email, password }: LoginInput) {
+  async validate({ email, password }: AuthInput) {
     const user = await this.usersService.findOneByEmail(email);
     if (user && user.password === password) {
       return user;
     }
   }
 
-  async createUser(signUpInput: SignupInput) {
-    const user = await this.usersService.create(signUpInput);
-    return user;
+  signJwt(user: User): AuthOutput {
+    const { id, email } = user;
+    const access_token = this.jwtService.sign({ sub: id, email });
+    return { user, access_token };
   }
 
-  async createJwt() {
-    // TODO: JWT generation
-    const token = "";
-    return token;
+  async login(loginInput: AuthInput) {
+    const user = await this.validate(loginInput);
+    if (user) {
+      return this.signJwt(user);
+    }
+    throw new BadRequestException({ message: "Invalid credentials" });
+  }
+
+  async signup(signupInput: AuthInput) {
+    const user = await this.usersService.create(signupInput);
+    return this.signJwt(user);
   }
 }
