@@ -1,3 +1,5 @@
 /node_modules
 /dist
 /.docker-data
+
+.env
