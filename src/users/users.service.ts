@@ -1,8 +1,8 @@
-import { ConflictException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserModel } from "./model/user.model";
-import { CreateUserDto } from "./dto/create-user.dto";
+import { CreateUserInput } from "src/graphql";
 
 @Injectable()
 export class UsersService {
@@ -11,11 +11,11 @@ export class UsersService {
     private readonly userRepository: Repository<UserModel>
   ) {}
 
-  async create(createUserInput: CreateUserDto) {
-    const exUser = await this.findOneByEmail(createUserInput.email);
-    if (exUser) {
-      throw new ConflictException({
-        message: "User with this email already exists",
+  async create(createUserInput: CreateUserInput) {
+    const oldUser = await this.findOneByEmail(createUserInput.email);
+    if (oldUser) {
+      throw new BadRequestException({
+        message: "User with such email already exists",
       });
     }
     const user = this.userRepository.create(createUserInput);
@@ -34,7 +34,7 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
-  private findOneByEmail(email: string) {
+  findOneByEmail(email: string) {
     return this.userRepository.findOneBy({ email });
   }
 }

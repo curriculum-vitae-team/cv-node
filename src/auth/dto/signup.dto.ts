@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsEmail, MinLength } from "class-validator";
-import { CreateUserInput } from "src/graphql";
+import { SignupInput } from "src/graphql";
 
-export class CreateUserDto implements CreateUserInput {
+export class SignupDto implements SignupInput {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -10,8 +10,4 @@ export class CreateUserDto implements CreateUserInput {
   @IsNotEmpty()
   @MinLength(5)
   password: string;
-
-  first_name: string;
-
-  last_name: string;
 }

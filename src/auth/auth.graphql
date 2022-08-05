@@ -1,0 +1,17 @@
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  login(loginInput: LoginInput): User
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  signup(signupInput: SignupInput): User
+}
