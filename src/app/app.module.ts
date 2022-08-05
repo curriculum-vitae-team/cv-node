@@ -14,6 +14,7 @@ import { AuthModule } from "src/auth/auth.module";
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
       type: "postgres",
+      // TODO: move to .env
       host: "localhost",
       port: 5432,
       username: "postgres",
