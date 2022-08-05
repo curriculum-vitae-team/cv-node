@@ -9,7 +9,7 @@ import { User } from "src/graphql";
 @Entity("user")
 export class UserModel implements User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @CreateDateColumn()
   created_at: string;

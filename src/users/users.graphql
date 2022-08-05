@@ -1,5 +1,5 @@
 type User {
-  id: Int!
+  id: ID!
   created_at: String!
   email: String!
   first_name: String
@@ -18,6 +18,14 @@ input CreateUserInput {
   last_name: String
 }
 
+input UpdateUserInput {
+  id: ID!
+  first_name: String
+  last_name: String
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput): User
+  updateUser(updateUserInput: UpdateUserInput): User
+  deleteUser(id: ID!): Boolean
 }

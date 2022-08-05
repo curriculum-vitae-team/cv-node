@@ -16,7 +16,7 @@ export class UsersResolver {
 
   @Query("user")
   @UseGuards(JwtGuard)
-  getUser(@Args("id", ParseIntPipe) id: number) {
+  getUser(@Args("id") id: string) {
     return this.usersService.findOneById(id);
   }
 

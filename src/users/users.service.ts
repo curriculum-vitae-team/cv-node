@@ -30,7 +30,7 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findOneById(id: number) {
+  findOneById(id: string) {
     return this.userRepository.findOneBy({ id });
   }
 

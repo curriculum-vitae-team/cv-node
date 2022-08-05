@@ -1,0 +1,24 @@
+type Cv {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  cvs: [Cv]
+  cv(id: ID!): Cv
+}
+
+input CreateCvInput {
+  name: String!
+}
+
+input UpdateCvInput {
+  id: ID!
+  name: String!
+}
+
+type Mutation {
+  createCv(createCvInput: CreateCvInput): Cv
+  updateCv(createCvInput: UpdateCvInput): Cv
+  deleteCv(id: ID!): Boolean
+}
