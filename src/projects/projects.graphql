@@ -1,11 +1,17 @@
 type Project {
   id: ID!
   name: String!
+  internal_name: String
+  description: String!
+  domain: String!
+  from: String!
+  to: String!
+  skills: [Skill]!
 }
 
 type Query {
-  projects: [Project]
-  project(id: ID!): User
+  projects: [Project]!
+  project(id: ID!): Project
 }
 
 input CreateProjectInput {

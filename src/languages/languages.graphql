@@ -1,0 +1,32 @@
+type Language {
+  id: ID!
+  created_at: String!
+  iso2: String!
+  name: String!
+}
+
+type Query {
+  languages: [Language]!
+}
+
+input CreateLanguageInput {
+  iso2: String!
+  name: String!
+}
+
+type Mutation {
+  createLanguage(createLanguageInput: CreateLanguageInput): Language
+  deleteLanguage(id: ID!): DeleteOutput
+}
+
+# language proficiency for cv
+
+type LanguageProficiency {
+  language: Language!
+  proficiency: String!
+}
+
+input LanguageProficiencyInput {
+  languageId: String!
+  proficiency: String!
+}

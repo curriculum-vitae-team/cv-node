@@ -1,15 +1,24 @@
 type Cv {
   id: ID!
+  created_at: String!
   name: String!
+  description: String!
+  projects: [Project!]!
+  languages: [LanguageProficiency!]!
+  skills: [SkillMastery!]!
+  user: User
 }
 
 type Query {
-  cvs: [Cv]
-  cv(id: ID!): Cv
+  cvs: [Cv!]!
+  cv(id: ID!): Cv!
 }
 
 input CreateCvInput {
   name: String!
+  description: String!
+  languages: [LanguageProficiencyInput!]
+  userId: ID!
 }
 
 input UpdateCvInput {
@@ -18,7 +27,7 @@ input UpdateCvInput {
 }
 
 type Mutation {
-  createCv(createCvInput: CreateCvInput): Cv
-  updateCv(createCvInput: UpdateCvInput): Cv
-  deleteCv(id: ID!): Boolean
+  createCv(createCvInput: CreateCvInput!): Cv!
+  updateCv(createCvInput: UpdateCvInput!): Cv!
+  deleteCv(id: ID!): DeleteOutput!
 }

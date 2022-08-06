@@ -2,8 +2,10 @@ import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsersModule } from "src/users/users.module";
-import { AuthModule } from "src/auth/auth.module";
+import { AuthModule } from "../auth/auth.module";
+import { UsersModule } from "../users/users.module";
+import { LanguagesModule } from "../languages/languages.module";
+import { CvsModule } from "../cvs/cvs.module";
 
 @Module({
   imports: [
@@ -20,9 +22,12 @@ import { AuthModule } from "src/auth/auth.module";
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
+      synchronize: true,
     }),
     AuthModule,
     UsersModule,
+    LanguagesModule,
+    CvsModule,
   ],
 })
 export class AppModule {}

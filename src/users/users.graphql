@@ -4,11 +4,12 @@ type User {
   email: String!
   first_name: String
   last_name: String
+  cvs: [Cv!]!
 }
 
 type Query {
-  users: [User]
-  user(id: ID!): User
+  users: [User!]!
+  user(id: ID!): User!
 }
 
 input CreateUserInput {
@@ -16,6 +17,7 @@ input CreateUserInput {
   password: String!
   first_name: String
   last_name: String
+  cvsIds: [String!]
 }
 
 input UpdateUserInput {
@@ -25,7 +27,7 @@ input UpdateUserInput {
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput): User
-  updateUser(updateUserInput: UpdateUserInput): User
-  deleteUser(id: ID!): Boolean
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  deleteUser(id: ID!): DeleteOutput!
 }

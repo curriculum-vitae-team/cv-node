@@ -1,40 +1,55 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserModel } from "./model/user.model";
 import { CreateUserInput } from "src/graphql";
+import { CvsService } from "src/cvs/cvs.service";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserModel)
-    private readonly userRepository: Repository<UserModel>
+    private readonly userRepository: Repository<UserModel>,
+    @Inject(forwardRef(() => CvsService))
+    private readonly cvsService: CvsService
   ) {}
 
-  async create(createUserInput: CreateUserInput) {
-    const oldUser = await this.findOneByEmail(createUserInput.email);
-    if (oldUser) {
-      throw new BadRequestException({
-        message: "User with such email already exists",
-      });
-    }
+  async create({ cvsIds, ...createUserInput }: CreateUserInput) {
     const user = this.userRepository.create(createUserInput);
-    return await this.userRepository.save(user);
+    if (cvsIds) {
+      const cvs = await this.cvsService.findManyById(cvsIds);
+      await Promise.all(cvs.map((cv) => this.cvsService.save(cv)));
+      user.cvs = cvs;
+    }
+    return this.save(user);
   }
 
   update() {}
 
-  delete() {}
+  save(user: UserModel) {
+    return this.userRepository.save(user);
+  }
+
+  delete(id: string) {
+    return this.userRepository.delete(id);
+  }
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: ["cvs"],
+    });
   }
 
   findOneById(id: string) {
-    return this.userRepository.findOneBy({ id });
+    return this.userRepository.findOne({
+      relations: ["cvs"],
+      where: { id },
+    });
   }
 
   findOneByEmail(email: string) {
-    return this.userRepository.findOneBy({ email });
+    return this.userRepository.findOne({
+      where: { email },
+    });
   }
 }

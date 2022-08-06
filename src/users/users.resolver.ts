@@ -9,20 +9,26 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query("users")
-  @UseGuards(JwtGuard)
-  getUsers() {
+  // @UseGuards(JwtGuard)
+  users() {
     return this.usersService.findAll();
   }
 
   @Query("user")
-  @UseGuards(JwtGuard)
-  getUser(@Args("id") id: string) {
+  // @UseGuards(JwtGuard)
+  user(@Args("id") id: string) {
     return this.usersService.findOneById(id);
   }
 
   @Mutation("createUser")
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
   createUser(@Args("createUserInput") args: CreateUserDto) {
     return this.usersService.create(args);
+  }
+
+  @Mutation("deleteUser")
+  // @UseGuards(JwtGuard)
+  deleteUser(@Args("id") id: string) {
+    return this.usersService.delete(id);
   }
 }
