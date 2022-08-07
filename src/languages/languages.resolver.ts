@@ -4,7 +4,7 @@ import { JwtGuard } from "src/auth/jwt.guard";
 import { LanguagesService } from "./languages.service";
 import { CreateLanguageDto } from "./dto/create-language.dto";
 
-@Resolver("language")
+@Resolver()
 export class LanguagesResolver {
   constructor(private readonly languagesService: LanguagesService) {}
 

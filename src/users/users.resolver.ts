@@ -1,10 +1,10 @@
-import { ParseIntPipe, UseGuards } from "@nestjs/common";
+import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UsersService } from "./users.service";
 
-@Resolver("user")
+@Resolver()
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
