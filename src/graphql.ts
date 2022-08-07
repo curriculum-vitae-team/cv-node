@@ -73,7 +73,7 @@ export interface DeleteOutput {
 }
 
 export interface LoginOutput {
-    user?: Nullable<User>;
+    user: User;
     access_token: string;
 }
 
