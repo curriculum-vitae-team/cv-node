@@ -7,7 +7,6 @@ import { UsersModule } from "../users/users.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
-import { AppController } from "./app.controller";
 
 @Module({
   imports: [
@@ -16,6 +15,7 @@ import { AppController } from "./app.controller";
       typePaths: ["./**/*.graphql"],
       cache: "bounded",
       playground: true,
+      introspection: true,
       cors: true,
     }),
     TypeOrmModule.forRoot({
@@ -32,6 +32,5 @@ import { AppController } from "./app.controller";
     ProjectsModule,
     CvsModule,
   ],
-  controllers: [AppController],
 })
 export class AppModule {}
