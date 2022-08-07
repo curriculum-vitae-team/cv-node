@@ -3,8 +3,8 @@ type Cv {
   created_at: String!
   name: String!
   description: String!
-  projects: [Project!]!
   user: User
+  projects: [Project!]
 }
 
 type Query {

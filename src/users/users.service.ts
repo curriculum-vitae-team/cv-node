@@ -23,11 +23,9 @@ export class UsersService {
       password,
       first_name,
       last_name,
-      cvs: [],
     });
-    if (cvsIds && cvsIds.length) {
+    if (cvsIds) {
       const cvs = await this.cvsService.findManyById(cvsIds);
-      // await Promise.all(cvs.map((cv) => this.cvsService.save(cv)));
       user.cvs = cvs;
     }
     return this.save(user);

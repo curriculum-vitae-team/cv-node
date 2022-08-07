@@ -8,7 +8,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface AuthInput {
+export interface LoginInput {
+    email: string;
+    password: string;
+}
+
+export interface SignupInput {
     email: string;
     password: string;
 }
@@ -67,13 +72,13 @@ export interface DeleteOutput {
     affected: number;
 }
 
-export interface AuthOutput {
+export interface LoginOutput {
     user?: Nullable<User>;
     access_token: string;
 }
 
 export interface IQuery {
-    login(loginInput: AuthInput): AuthOutput | Promise<AuthOutput>;
+    login(loginInput: LoginInput): LoginOutput | Promise<LoginOutput>;
     cvs(): Cv[] | Promise<Cv[]>;
     cv(id: string): Cv | Promise<Cv>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
@@ -84,7 +89,7 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    signup(signupInput: AuthInput): AuthOutput | Promise<AuthOutput>;
+    signup(signupInput: SignupInput): LoginOutput | Promise<LoginOutput>;
     createCv(createCvInput: CreateCvInput): Cv | Promise<Cv>;
     updateCv(createCvInput: UpdateCvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteOutput | Promise<DeleteOutput>;
@@ -103,8 +108,8 @@ export interface Cv {
     created_at: string;
     name: string;
     description: string;
-    projects: Project[];
     user?: Nullable<User>;
+    projects?: Nullable<Project[]>;
 }
 
 export interface Language {
@@ -136,7 +141,7 @@ export interface User {
     email: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    cvs: Cv[];
+    cvs?: Nullable<Cv[]>;
 }
 
 type Nullable<T> = T | null;

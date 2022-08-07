@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Cv, LanguageProficiency } from "src/graphql";
+import { Cv } from "src/graphql";
 import { UserModel } from "src/users/model/user.model";
 import { ProjectModel } from "src/projects/model/project.model";
 
@@ -26,23 +25,10 @@ export class CvModel implements Cv {
   @Column()
   description: string;
 
-  @Column("json", { array: true, default: [] })
-  languages: LanguageProficiency[];
-
-  // @Column()
-  skills: [];
-
   @ManyToOne(() => UserModel, (user) => user.cvs, { onDelete: "SET NULL" })
   user: UserModel;
 
   @ManyToMany(() => ProjectModel, { cascade: true })
   @JoinTable()
   projects: ProjectModel[];
-
-  @AfterLoad()
-  afterLoad() {
-    if (!this.projects) {
-      this.projects = [];
-    }
-  }
 }

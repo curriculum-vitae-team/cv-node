@@ -9,8 +9,6 @@ export class CreateCvDto implements CreateCvInput {
   @IsNotEmpty()
   description: string;
 
-  languages: { languageId: string; proficiency: string }[];
-
   @IsNotEmpty()
   userId: string;
 

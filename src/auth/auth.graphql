@@ -1,17 +1,22 @@
-input AuthInput {
+input LoginInput {
   email: String!
   password: String!
 }
 
-type AuthOutput {
+type LoginOutput {
   user: User
   access_token: String!
 }
 
+input SignupInput {
+  email: String!
+  password: String!
+}
+
 type Query {
-  login(loginInput: AuthInput!): AuthOutput!
+  login(loginInput: LoginInput!): LoginOutput!
 }
 
 type Mutation {
-  signup(signupInput: AuthInput!): AuthOutput!
+  signup(signupInput: SignupInput!): LoginOutput!
 }
