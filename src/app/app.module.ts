@@ -17,7 +17,7 @@ import { ProjectsModule } from "../projects/projects.module";
       playground: true,
       introspection: true,
       cors: true,
-      path: "/api",
+      path: "/api/graphql",
     }),
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
