@@ -13,6 +13,7 @@ import { ProjectsModule } from "../projects/projects.module";
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
+      cache: "bounded",
     }),
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
