@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "yarn clear && nest build && node dist/src/main",
+    "build": "yarn clean && nest build && node dist/src/main",
     "schema": "ts-node create-definitions",
     "start": "yarn schema && nest start --watch"
   },
