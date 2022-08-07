@@ -19,9 +19,7 @@ import { ProjectsModule } from "../projects/projects.module";
       keepConnectionAlive: true,
       type: "postgres",
       url: process.env.DATABASE_URL,
-      ssl: process.env.NODE_ENV === "production" && {
-        rejectUnauthorized: false,
-      },
+      ssl: process.env.DATABASE_SSL && { rejectUnauthorized: false },
       autoLoadEntities: true,
       synchronize: true,
     }),
