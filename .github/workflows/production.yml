@@ -1,0 +1,29 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: 'yarn'
+      - run: yarn ci
+      - run: yarn build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "cv-gen-be"
+          heroku_email: "rastsislau.kharlanau@innowise-group.com"
+          remote_branch: master
