@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { hash } from "bcrypt";
 import { UserModel } from "./model/user.model";
 import { CreateUserInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
@@ -14,8 +15,16 @@ export class UsersService {
     private readonly cvsService: CvsService
   ) {}
 
-  async create({ cvsIds, ...createUserInput }: CreateUserInput) {
-    const user = this.userRepository.create(createUserInput);
+  async create(createUserInput: CreateUserInput) {
+    const { email, first_name, last_name, cvsIds } = createUserInput;
+    const password = await hash(createUserInput.password, 10);
+    const user = this.userRepository.create({
+      email,
+      password,
+      first_name,
+      last_name,
+      cvs: [],
+    });
     if (cvsIds) {
       const cvs = await this.cvsService.findManyById(cvsIds);
       await Promise.all(cvs.map((cv) => this.cvsService.save(cv)));

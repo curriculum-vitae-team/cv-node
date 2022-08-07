@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthInput, AuthOutput, User } from "src/graphql";
+import { compare } from "bcrypt";
+import { AuthInput, AuthOutput, User } from "../graphql";
 import { UsersService } from "../users/users.service";
 
 @Injectable()
@@ -10,9 +11,10 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async validate({ email, password }: AuthInput) {
+  async validate(loginInput: AuthInput) {
+    const { email } = loginInput;
     const user = await this.usersService.findOneByEmail(email);
-    if (user && user.password === password) {
+    if (user && (await compare(loginInput.password, user.password))) {
       return user;
     }
   }

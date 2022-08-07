@@ -31,6 +31,6 @@ export class CvModel implements Cv {
   // @Column()
   skills: [];
 
-  @ManyToOne(() => UserModel, (user) => user.cvs, { onDelete: "CASCADE" })
+  @ManyToOne(() => UserModel, (user) => user.cvs, { onDelete: "SET NULL" })
   user: UserModel;
 }
