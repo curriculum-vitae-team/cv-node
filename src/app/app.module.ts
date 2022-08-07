@@ -7,6 +7,7 @@ import { UsersModule } from "../users/users.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
+import { AppController } from "./app.controller";
 
 @Module({
   imports: [
@@ -14,6 +15,8 @@ import { ProjectsModule } from "../projects/projects.module";
       driver: ApolloDriver,
       typePaths: ["./**/*.graphql"],
       cache: "bounded",
+      playground: true,
+      cors: true,
     }),
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
@@ -29,5 +32,6 @@ import { ProjectsModule } from "../projects/projects.module";
     ProjectsModule,
     CvsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
