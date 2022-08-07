@@ -1,8 +1,9 @@
 import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
-import { UsersService } from "../users/users.service";
 import { CvModel } from "./model/cv.model";
+import { UsersService } from "../users/users.service";
+import { ProjectsService } from "../projects/projects.service";
 import { CreateCvInput } from "../graphql";
 
 @Injectable()
@@ -11,18 +12,20 @@ export class CvsService {
     @InjectRepository(CvModel)
     private readonly cvRepository: Repository<CvModel>,
     @Inject(forwardRef(() => UsersService))
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    @Inject(forwardRef(() => ProjectsService))
+    private readonly projectsService: ProjectsService
   ) {}
 
   findAll() {
     return this.cvRepository.find({
-      relations: ["user"],
+      relations: ["user", "projects"],
     });
   }
 
   findOneById(id: string) {
     return this.cvRepository.findOne({
-      relations: ["user"],
+      relations: ["user", "projects"],
       where: { id },
     });
   }
@@ -33,13 +36,16 @@ export class CvsService {
     });
   }
 
-  async create({ userId, ...createCvInput }: CreateCvInput) {
+  async create({ userId, projectsIds, ...createCvInput }: CreateCvInput) {
     const cv = this.cvRepository.create(createCvInput);
     const user = await this.usersService.findOneById(userId);
     if (user) {
       cv.user = user;
       user.cvs.push(cv);
-      await this.usersService.save(user);
+    }
+    if (projectsIds) {
+      const projects = await this.projectsService.findManyByIds(projectsIds);
+      cv.projects = projects;
     }
     return this.save(cv);
   }

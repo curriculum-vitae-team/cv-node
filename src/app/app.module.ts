@@ -6,6 +6,7 @@ import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { CvsModule } from "../cvs/cvs.module";
+import { ProjectsModule } from "../projects/projects.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CvsModule } from "../cvs/cvs.module";
     AuthModule,
     UsersModule,
     LanguagesModule,
+    ProjectsModule,
     CvsModule,
   ],
 })

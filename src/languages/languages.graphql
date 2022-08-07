@@ -15,8 +15,8 @@ input CreateLanguageInput {
 }
 
 type Mutation {
-  createLanguage(createLanguageInput: CreateLanguageInput): Language
-  deleteLanguage(id: ID!): DeleteOutput
+  createLanguage(createLanguageInput: CreateLanguageInput!): Language!
+  deleteLanguage(id: ID!): DeleteOutput!
 }
 
 # language proficiency for cv

@@ -16,8 +16,8 @@ export interface AuthInput {
 export interface CreateCvInput {
     name: string;
     description: string;
-    languages?: Nullable<LanguageProficiencyInput[]>;
     userId: string;
+    projectsIds?: Nullable<string[]>;
 }
 
 export interface UpdateCvInput {
@@ -37,6 +37,11 @@ export interface LanguageProficiencyInput {
 
 export interface CreateProjectInput {
     name: string;
+    internal_name?: Nullable<string>;
+    description: string;
+    domain: string;
+    start_date: string;
+    end_date?: Nullable<string>;
 }
 
 export interface UpdateProjectInput {
@@ -68,27 +73,26 @@ export interface AuthOutput {
 }
 
 export interface IQuery {
-    login(loginInput?: Nullable<AuthInput>): Nullable<AuthOutput> | Promise<Nullable<AuthOutput>>;
+    login(loginInput: AuthInput): AuthOutput | Promise<AuthOutput>;
     cvs(): Cv[] | Promise<Cv[]>;
     cv(id: string): Cv | Promise<Cv>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
-    projects(): Nullable<Project>[] | Promise<Nullable<Project>[]>;
-    project(id: string): Nullable<Project> | Promise<Nullable<Project>>;
-    skills(): Nullable<Skill>[] | Promise<Nullable<Skill>[]>;
+    projects(): Project[] | Promise<Project[]>;
+    project(id: string): Project | Promise<Project>;
     users(): User[] | Promise<User[]>;
     user(id: string): User | Promise<User>;
 }
 
 export interface IMutation {
-    signup(signupInput?: Nullable<AuthInput>): Nullable<AuthOutput> | Promise<Nullable<AuthOutput>>;
+    signup(signupInput: AuthInput): AuthOutput | Promise<AuthOutput>;
     createCv(createCvInput: CreateCvInput): Cv | Promise<Cv>;
     updateCv(createCvInput: UpdateCvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteOutput | Promise<DeleteOutput>;
-    createLanguage(createLanguageInput?: Nullable<CreateLanguageInput>): Nullable<Language> | Promise<Nullable<Language>>;
-    deleteLanguage(id: string): Nullable<DeleteOutput> | Promise<Nullable<DeleteOutput>>;
-    createProject(createProjectInput?: Nullable<CreateProjectInput>): Nullable<Project> | Promise<Nullable<Project>>;
-    updateProject(updateProjectInput?: Nullable<UpdateProjectInput>): Nullable<Project> | Promise<Nullable<Project>>;
-    deleteProject(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+    createLanguage(createLanguageInput: CreateLanguageInput): Language | Promise<Language>;
+    deleteLanguage(id: string): DeleteOutput | Promise<DeleteOutput>;
+    createProject(createProjectInput: CreateProjectInput): Project | Promise<Project>;
+    updateProject(updateProjectInput: UpdateProjectInput): Project | Promise<Project>;
+    deleteProject(id: string): DeleteOutput | Promise<DeleteOutput>;
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
     deleteUser(id: string): DeleteOutput | Promise<DeleteOutput>;
@@ -100,8 +104,6 @@ export interface Cv {
     name: string;
     description: string;
     projects: Project[];
-    languages: LanguageProficiency[];
-    skills: SkillMastery[];
     user?: Nullable<User>;
 }
 
@@ -119,23 +121,13 @@ export interface LanguageProficiency {
 
 export interface Project {
     id: string;
+    created_at: string;
     name: string;
     internal_name?: Nullable<string>;
     description: string;
     domain: string;
-    from: string;
-    to: string;
-    skills: Nullable<Skill>[];
-}
-
-export interface Skill {
-    id: string;
-    name: string;
-}
-
-export interface SkillMastery {
-    skill: Skill;
-    mastery: string;
+    start_date: string;
+    end_date?: Nullable<string>;
 }
 
 export interface User {

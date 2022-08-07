@@ -9,9 +9,9 @@ type AuthOutput {
 }
 
 type Query {
-  login(loginInput: AuthInput): AuthOutput
+  login(loginInput: AuthInput!): AuthOutput!
 }
 
 type Mutation {
-  signup(signupInput: AuthInput): AuthOutput
+  signup(signupInput: AuthInput!): AuthOutput!
 }

@@ -4,8 +4,6 @@ type Cv {
   name: String!
   description: String!
   projects: [Project!]!
-  languages: [LanguageProficiency!]!
-  skills: [SkillMastery!]!
   user: User
 }
 
@@ -17,8 +15,8 @@ type Query {
 input CreateCvInput {
   name: String!
   description: String!
-  languages: [LanguageProficiencyInput!]
   userId: ID!
+  projectsIds: [ID!]
 }
 
 input UpdateCvInput {

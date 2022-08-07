@@ -1,21 +1,26 @@
 type Project {
   id: ID!
+  created_at: String!
   name: String!
   internal_name: String
   description: String!
   domain: String!
-  from: String!
-  to: String!
-  skills: [Skill]!
+  start_date: String!
+  end_date: String
 }
 
 type Query {
-  projects: [Project]!
-  project(id: ID!): Project
+  projects: [Project!]!
+  project(id: ID!): Project!
 }
 
 input CreateProjectInput {
   name: String!
+  internal_name: String
+  description: String!
+  domain: String!
+  start_date: String!
+  end_date: String
 }
 
 input UpdateProjectInput {
@@ -24,7 +29,7 @@ input UpdateProjectInput {
 }
 
 type Mutation {
-  createProject(createProjectInput: CreateProjectInput): Project
-  updateProject(updateProjectInput: UpdateProjectInput): Project
-  deleteProject(id: ID!): Boolean
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  updateProject(updateProjectInput: UpdateProjectInput!): Project!
+  deleteProject(id: ID!): DeleteOutput!
 }

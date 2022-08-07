@@ -3,7 +3,6 @@ import { CreateLanguageInput } from "src/graphql";
 
 export class CreateLanguageDto implements CreateLanguageInput {
   @IsString()
-  @IsNotEmpty()
   @Length(2)
   iso2: string;
 
