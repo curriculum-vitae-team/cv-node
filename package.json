@@ -2,6 +2,9 @@
   "name": "cv-gen-be",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn clean && nest build && node dist/src/main",
