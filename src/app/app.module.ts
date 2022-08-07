@@ -17,6 +17,7 @@ import { ProjectsModule } from "../projects/projects.module";
       playground: true,
       introspection: true,
       cors: true,
+      useGlobalPrefix: true,
     }),
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
