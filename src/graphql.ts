@@ -52,6 +52,11 @@ export interface CreateProjectInput {
 export interface UpdateProjectInput {
     id: string;
     name: string;
+    internal_name?: Nullable<string>;
+    description: string;
+    domain: string;
+    start_date: string;
+    end_date?: Nullable<string>;
 }
 
 export interface CreateUserInput {

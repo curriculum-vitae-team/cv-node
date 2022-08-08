@@ -26,6 +26,11 @@ input CreateProjectInput {
 input UpdateProjectInput {
   id: ID!
   name: String!
+  internal_name: String
+  description: String!
+  domain: String!
+  start_date: String!
+  end_date: String
 }
 
 type Mutation {

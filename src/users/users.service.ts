@@ -48,8 +48,10 @@ export class UsersService {
     const { id, first_name, last_name, cvsIds } = updateUserInput;
     const user = await this.findOneById(id);
     if (user) {
-      user.first_name = first_name;
-      user.last_name = last_name;
+      Object.assign(user, {
+        first_name,
+        last_name,
+      });
       const cvs = await this.cvsService.findManyById(cvsIds);
       user.cvs = cvs;
       return this.userRepository.save(user);
