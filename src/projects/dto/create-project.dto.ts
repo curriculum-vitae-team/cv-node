@@ -17,7 +17,6 @@ export class CreateProjectDto implements CreateProjectInput {
   domain: string;
 
   @IsISO8601()
-  @IsOptional()
   start_date: string;
 
   @IsISO8601()
