@@ -16,16 +16,19 @@ input CreateCvInput {
   name: String!
   description: String!
   userId: ID
-  projectsIds: [ID!]
+  projectsIds: [ID!]!
 }
 
 input UpdateCvInput {
   id: ID!
   name: String!
+  description: String!
+  userId: ID
+  projectsIds: [ID!]!
 }
 
 type Mutation {
   createCv(createCvInput: CreateCvInput!): Cv!
-  updateCv(createCvInput: UpdateCvInput!): Cv!
+  updateCv(updateCvInput: UpdateCvInput!): Cv!
   deleteCv(id: ID!): DeleteOutput!
 }

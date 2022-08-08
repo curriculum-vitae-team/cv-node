@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { hash } from "bcrypt";
 import { UserModel } from "./model/user.model";
-import { CreateUserInput } from "src/graphql";
+import { CreateUserInput, SignupInput, UpdateUserInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
 
 @Injectable()
@@ -14,32 +14,6 @@ export class UsersService {
     @Inject(forwardRef(() => CvsService))
     private readonly cvsService: CvsService
   ) {}
-
-  async create(createUserInput: CreateUserInput) {
-    const { email, first_name, last_name, cvsIds } = createUserInput;
-    const password = await hash(createUserInput.password, 10);
-    const user = this.userRepository.create({
-      email,
-      password,
-      first_name,
-      last_name,
-    });
-    if (cvsIds) {
-      const cvs = await this.cvsService.findManyById(cvsIds);
-      user.cvs = cvs;
-    }
-    return this.save(user);
-  }
-
-  update() {}
-
-  save(user: UserModel) {
-    return this.userRepository.save(user);
-  }
-
-  delete(id: string) {
-    return this.userRepository.delete(id);
-  }
 
   findAll() {
     return this.userRepository.find({
@@ -58,5 +32,45 @@ export class UsersService {
     return this.userRepository.findOne({
       where: { email },
     });
+  }
+
+  async signup(signupInput: SignupInput) {
+    const { email } = signupInput;
+    const password = await hash(signupInput.password, 10);
+    const user = this.userRepository.create({
+      email,
+      password,
+    });
+    return this.userRepository.save(user);
+  }
+
+  async create(createUserInput: CreateUserInput) {
+    const { email, first_name, last_name, cvsIds } = createUserInput;
+    const password = await hash(createUserInput.password, 10);
+    const user = this.userRepository.create({
+      email,
+      password,
+      first_name,
+      last_name,
+    });
+    const cvs = await this.cvsService.findManyByIds(cvsIds);
+    user.cvs = cvs;
+    return this.userRepository.save(user);
+  }
+
+  async update(updateUserInput: UpdateUserInput) {
+    const { id, first_name, last_name, cvsIds } = updateUserInput;
+    const user = await this.findOneById(id);
+    Object.assign(user, {
+      first_name,
+      last_name,
+    });
+    const cvs = await this.cvsService.findManyByIds(cvsIds);
+    user.cvs = cvs;
+    return this.userRepository.save(user);
+  }
+
+  delete(id: string) {
+    return this.userRepository.delete(id);
   }
 }

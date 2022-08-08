@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { ProjectModel } from "./model/project.model";
-import { CreateProjectInput } from "../graphql";
+import { CreateProjectInput, UpdateProjectInput } from "../graphql";
 
 @Injectable()
 export class ProjectsService {
@@ -10,21 +10,6 @@ export class ProjectsService {
     @InjectRepository(ProjectModel)
     private readonly projectsRepository: Repository<ProjectModel>
   ) {}
-
-  async create(createProjectInput: CreateProjectInput) {
-    const project = this.projectsRepository.create(createProjectInput);
-    return this.save(project);
-  }
-
-  update() {}
-
-  save(project: ProjectModel) {
-    return this.projectsRepository.save(project);
-  }
-
-  delete(id: string) {
-    return this.projectsRepository.delete(id);
-  }
 
   findAll() {
     return this.projectsRepository.find();
@@ -40,5 +25,36 @@ export class ProjectsService {
     return this.projectsRepository.find({
       where: { id: In(ids) },
     });
+  }
+
+  async create(createProjectInput: CreateProjectInput) {
+    const project = this.projectsRepository.create(createProjectInput);
+    return this.projectsRepository.save(project);
+  }
+
+  async update(updateProjectInput: UpdateProjectInput) {
+    const {
+      id,
+      name,
+      internal_name,
+      description,
+      domain,
+      start_date,
+      end_date,
+    } = updateProjectInput;
+    const project = await this.findOneById(id);
+    Object.assign(project, {
+      name,
+      internal_name,
+      description,
+      domain,
+      start_date,
+      end_date,
+    });
+    return this.projectsRepository.save(project);
+  }
+
+  delete(id: string) {
+    return this.projectsRepository.delete(id);
   }
 }

@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  MinLength,
-  IsArray,
-  IsOptional,
-  ArrayMinSize,
-} from "class-validator";
+import { IsEmail, MinLength, IsArray } from "class-validator";
 import { Type } from "class-transformer";
 import { CreateUserInput } from "src/graphql";
 
@@ -21,7 +15,5 @@ export class CreateUserDto implements CreateUserInput {
 
   @IsArray()
   @Type(() => String)
-  @ArrayMinSize(1)
-  @IsOptional()
   cvsIds: string[];
 }

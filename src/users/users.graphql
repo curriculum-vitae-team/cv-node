@@ -17,13 +17,14 @@ input CreateUserInput {
   password: String!
   first_name: String
   last_name: String
-  cvsIds: [String!]
+  cvsIds: [String!]!
 }
 
 input UpdateUserInput {
   id: ID!
   first_name: String
   last_name: String
+  cvsIds: [String!]!
 }
 
 type Mutation {

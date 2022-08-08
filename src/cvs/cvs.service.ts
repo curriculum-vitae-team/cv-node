@@ -4,7 +4,7 @@ import { In, Repository } from "typeorm";
 import { CvModel } from "./model/cv.model";
 import { UsersService } from "../users/users.service";
 import { ProjectsService } from "../projects/projects.service";
-import { CreateCvInput } from "../graphql";
+import { CreateCvInput, UpdateCvInput } from "../graphql";
 
 @Injectable()
 export class CvsService {
@@ -30,29 +30,42 @@ export class CvsService {
     });
   }
 
-  findManyById(ids: string[]) {
+  findManyByIds(ids: string[]) {
     return this.cvRepository.find({
       where: { id: In(ids) },
     });
   }
 
-  async create({ userId, projectsIds, ...createCvInput }: CreateCvInput) {
-    const cv = this.cvRepository.create(createCvInput);
+  async create(createCvInput: CreateCvInput) {
+    const { name, description, userId, projectsIds } = createCvInput;
+    const cv = this.cvRepository.create({
+      name,
+      description,
+    });
     if (userId) {
       const user = await this.usersService.findOneById(userId);
       cv.user = user;
-      user.cvs.push(cv);
     }
-    if (projectsIds) {
-      const projects = await this.projectsService.findManyByIds(projectsIds);
-      cv.projects = projects;
-    }
-    return this.save(cv);
+    const projects = await this.projectsService.findManyByIds(projectsIds);
+    cv.projects = projects;
+    return this.cvRepository.save(cv);
   }
 
-  update() {}
-
-  save(cv: CvModel) {
+  async update(updateCvInput: UpdateCvInput) {
+    const { id, name, description, userId, projectsIds } = updateCvInput;
+    const cv = await this.findOneById(id);
+    Object.assign(cv, {
+      name,
+      description,
+    });
+    if (userId) {
+      const user = await this.usersService.findOneById(userId);
+      cv.user = user;
+    } else {
+      cv.user = null;
+    }
+    const projects = await this.projectsService.findManyByIds(projectsIds);
+    cv.projects = projects;
     return this.cvRepository.save(cv);
   }
 
