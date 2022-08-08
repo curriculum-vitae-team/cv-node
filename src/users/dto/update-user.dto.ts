@@ -1,8 +1,9 @@
-import { IsArray, IsNotEmpty } from "class-validator";
+import { IsArray, IsNotEmpty, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { UpdateUserInput } from "src/graphql";
 
 export class UpdateUserDto implements UpdateUserInput {
+  @IsString()
   @IsNotEmpty()
   id: string;
 

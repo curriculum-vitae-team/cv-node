@@ -43,10 +43,8 @@ export class CvsService {
       cv.user = user;
       user.cvs.push(cv);
     }
-    if (projectsIds) {
-      const projects = await this.projectsService.findManyByIds(projectsIds);
-      cv.projects = projects;
-    }
+    const projects = await this.projectsService.findManyByIds(projectsIds);
+    cv.projects = projects;
     return this.cvRepository.save(cv);
   }
 

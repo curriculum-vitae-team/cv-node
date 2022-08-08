@@ -22,7 +22,7 @@ export interface CreateCvInput {
     name: string;
     description: string;
     userId?: Nullable<string>;
-    projectsIds?: Nullable<string[]>;
+    projectsIds: string[];
 }
 
 export interface UpdateCvInput {

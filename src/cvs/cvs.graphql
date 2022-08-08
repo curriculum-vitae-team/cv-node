@@ -16,7 +16,7 @@ input CreateCvInput {
   name: String!
   description: String!
   userId: ID
-  projectsIds: [ID!]
+  projectsIds: [ID!]!
 }
 
 input UpdateCvInput {
