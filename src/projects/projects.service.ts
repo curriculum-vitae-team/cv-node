@@ -11,6 +11,22 @@ export class ProjectsService {
     private readonly projectsRepository: Repository<ProjectModel>
   ) {}
 
+  findAll() {
+    return this.projectsRepository.find();
+  }
+
+  findOneById(id: string) {
+    return this.projectsRepository.findOne({
+      where: { id },
+    });
+  }
+
+  findManyByIds(ids: string[]) {
+    return this.projectsRepository.find({
+      where: { id: In(ids) },
+    });
+  }
+
   async create(createProjectInput: CreateProjectInput) {
     const project = this.projectsRepository.create(createProjectInput);
     return this.projectsRepository.save(project);
@@ -40,21 +56,5 @@ export class ProjectsService {
 
   delete(id: string) {
     return this.projectsRepository.delete(id);
-  }
-
-  findAll() {
-    return this.projectsRepository.find();
-  }
-
-  findOneById(id: string) {
-    return this.projectsRepository.findOne({
-      where: { id },
-    });
-  }
-
-  findManyByIds(ids: string[]) {
-    return this.projectsRepository.find({
-      where: { id: In(ids) },
-    });
   }
 }

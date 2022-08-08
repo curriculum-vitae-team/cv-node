@@ -11,6 +11,10 @@ export class LanguagesService {
     private readonly languageRepository: Repository<LanguageModel>
   ) {}
 
+  findAll() {
+    return this.languageRepository.find();
+  }
+
   async create(createLanguageInput: CreateLanguageInput) {
     const language = this.languageRepository.create(createLanguageInput);
     return await this.languageRepository.save(language);
@@ -18,9 +22,5 @@ export class LanguagesService {
 
   delete(id: string) {
     return this.languageRepository.delete(id);
-  }
-
-  findAll() {
-    return this.languageRepository.find();
   }
 }

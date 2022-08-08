@@ -28,6 +28,9 @@ export interface CreateCvInput {
 export interface UpdateCvInput {
     id: string;
     name: string;
+    description: string;
+    userId?: Nullable<string>;
+    projectsIds: string[];
 }
 
 export interface CreateLanguageInput {
@@ -97,7 +100,7 @@ export interface IQuery {
 export interface IMutation {
     signup(signupInput: SignupInput): LoginOutput | Promise<LoginOutput>;
     createCv(createCvInput: CreateCvInput): Cv | Promise<Cv>;
-    updateCv(createCvInput: UpdateCvInput): Cv | Promise<Cv>;
+    updateCv(updateCvInput: UpdateCvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteOutput | Promise<DeleteOutput>;
     createLanguage(createLanguageInput: CreateLanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteOutput | Promise<DeleteOutput>;

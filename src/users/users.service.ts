@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  forwardRef,
-  Inject,
-  Injectable,
-} from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { hash } from "bcrypt";
@@ -19,6 +14,25 @@ export class UsersService {
     @Inject(forwardRef(() => CvsService))
     private readonly cvsService: CvsService
   ) {}
+
+  findAll() {
+    return this.userRepository.find({
+      relations: ["cvs"],
+    });
+  }
+
+  findOneById(id: string) {
+    return this.userRepository.findOne({
+      relations: ["cvs"],
+      where: { id },
+    });
+  }
+
+  findOneByEmail(email: string) {
+    return this.userRepository.findOne({
+      where: { email },
+    });
+  }
 
   async signup(signupInput: SignupInput) {
     const { email } = signupInput;
@@ -39,7 +53,7 @@ export class UsersService {
       first_name,
       last_name,
     });
-    const cvs = await this.cvsService.findManyById(cvsIds);
+    const cvs = await this.cvsService.findManyByIds(cvsIds);
     user.cvs = cvs;
     return this.userRepository.save(user);
   }
@@ -47,38 +61,16 @@ export class UsersService {
   async update(updateUserInput: UpdateUserInput) {
     const { id, first_name, last_name, cvsIds } = updateUserInput;
     const user = await this.findOneById(id);
-    if (user) {
-      Object.assign(user, {
-        first_name,
-        last_name,
-      });
-      const cvs = await this.cvsService.findManyById(cvsIds);
-      user.cvs = cvs;
-      return this.userRepository.save(user);
-    }
-    throw new BadRequestException({ message: "User does not exist" });
+    Object.assign(user, {
+      first_name,
+      last_name,
+    });
+    const cvs = await this.cvsService.findManyByIds(cvsIds);
+    user.cvs = cvs;
+    return this.userRepository.save(user);
   }
 
   delete(id: string) {
     return this.userRepository.delete(id);
-  }
-
-  findAll() {
-    return this.userRepository.find({
-      relations: ["cvs"],
-    });
-  }
-
-  findOneById(id: string) {
-    return this.userRepository.findOne({
-      relations: ["cvs"],
-      where: { id },
-    });
-  }
-
-  findOneByEmail(email: string) {
-    return this.userRepository.findOne({
-      where: { email },
-    });
   }
 }
