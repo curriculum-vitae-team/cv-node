@@ -38,8 +38,8 @@ export class CvsService {
 
   async create({ userId, projectsIds, ...createCvInput }: CreateCvInput) {
     const cv = this.cvRepository.create(createCvInput);
-    const user = await this.usersService.findOneById(userId);
-    if (user) {
+    if (userId) {
+      const user = await this.usersService.findOneById(userId);
       cv.user = user;
       user.cvs.push(cv);
     }

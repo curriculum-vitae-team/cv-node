@@ -15,7 +15,7 @@ type Query {
 input CreateCvInput {
   name: String!
   description: String!
-  userId: ID!
+  userId: ID
   projectsIds: [ID!]
 }
 
