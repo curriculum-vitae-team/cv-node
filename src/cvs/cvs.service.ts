@@ -47,14 +47,10 @@ export class CvsService {
       const projects = await this.projectsService.findManyByIds(projectsIds);
       cv.projects = projects;
     }
-    return this.save(cv);
+    return this.cvRepository.save(cv);
   }
 
   update() {}
-
-  save(cv: CvModel) {
-    return this.cvRepository.save(cv);
-  }
 
   delete(id: string) {
     return this.cvRepository.delete(id);

@@ -1,9 +1,14 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { hash } from "bcrypt";
 import { UserModel } from "./model/user.model";
-import { CreateUserInput } from "src/graphql";
+import { CreateUserInput, SignupInput, UpdateUserInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
 
 @Injectable()
@@ -15,6 +20,16 @@ export class UsersService {
     private readonly cvsService: CvsService
   ) {}
 
+  async signup(signupInput: SignupInput) {
+    const { email } = signupInput;
+    const password = await hash(signupInput.password, 10);
+    const user = this.userRepository.create({
+      email,
+      password,
+    });
+    return this.userRepository.save(user);
+  }
+
   async create(createUserInput: CreateUserInput) {
     const { email, first_name, last_name, cvsIds } = createUserInput;
     const password = await hash(createUserInput.password, 10);
@@ -24,17 +39,22 @@ export class UsersService {
       first_name,
       last_name,
     });
-    if (cvsIds) {
-      const cvs = await this.cvsService.findManyById(cvsIds);
-      user.cvs = cvs;
-    }
-    return this.save(user);
+    const cvs = await this.cvsService.findManyById(cvsIds);
+    user.cvs = cvs;
+    return this.userRepository.save(user);
   }
 
-  update() {}
-
-  save(user: UserModel) {
-    return this.userRepository.save(user);
+  async update(updateUserInput: UpdateUserInput) {
+    const { id, first_name, last_name, cvsIds } = updateUserInput;
+    const user = await this.findOneById(id);
+    if (user) {
+      user.first_name = first_name;
+      user.last_name = last_name;
+      const cvs = await this.cvsService.findManyById(cvsIds);
+      user.cvs = cvs;
+      return this.userRepository.save(user);
+    }
+    throw new BadRequestException({ message: "User does not exist" });
   }
 
   delete(id: string) {

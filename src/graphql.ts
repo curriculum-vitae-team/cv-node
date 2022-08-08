@@ -59,13 +59,14 @@ export interface CreateUserInput {
     password: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    cvsIds?: Nullable<string[]>;
+    cvsIds: string[];
 }
 
 export interface UpdateUserInput {
     id: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
+    cvsIds: string[];
 }
 
 export interface DeleteOutput {

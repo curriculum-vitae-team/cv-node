@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async signup(signupInput: SignupInput) {
-    const user = await this.usersService.create(signupInput);
+    const user = await this.usersService.signup(signupInput);
     return this.signJwt(user);
   }
 }
