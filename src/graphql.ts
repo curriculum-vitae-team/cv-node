@@ -21,7 +21,7 @@ export interface SignupInput {
 export interface CreateCvInput {
     name: string;
     description: string;
-    userId: string;
+    userId?: Nullable<string>;
     projectsIds?: Nullable<string[]>;
 }
 

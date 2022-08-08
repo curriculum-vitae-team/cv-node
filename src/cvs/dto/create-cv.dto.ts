@@ -10,6 +10,7 @@ export class CreateCvDto implements CreateCvInput {
   description: string;
 
   @IsNotEmpty()
+  @IsOptional()
   userId: string;
 
   @IsArray()
