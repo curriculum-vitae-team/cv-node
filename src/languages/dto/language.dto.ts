@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, Length } from "class-validator";
-import { CreateLanguageInput } from "src/graphql";
+import { LanguageInput } from "src/graphql";
 
-export class CreateLanguageDto implements CreateLanguageInput {
+export class LanguageDto implements LanguageInput {
   @Length(2)
   iso2: string;
 

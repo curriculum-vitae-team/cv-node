@@ -12,15 +12,7 @@ type Query {
   cv(id: ID!): Cv!
 }
 
-input CreateCvInput {
-  name: String!
-  description: String!
-  userId: ID
-  projectsIds: [ID!]!
-}
-
-input UpdateCvInput {
-  id: ID!
+input CvInput {
   name: String!
   description: String!
   userId: ID
@@ -28,7 +20,7 @@ input UpdateCvInput {
 }
 
 type Mutation {
-  createCv(createCvInput: CreateCvInput!): Cv!
-  updateCv(updateCvInput: UpdateCvInput!): Cv!
-  deleteCv(id: ID!): DeleteOutput!
+  createCv(cv: CvInput!): Cv!
+  updateCv(id: ID!, cv: CvInput!): Cv!
+  deleteCv(id: ID!): DeleteResult!
 }

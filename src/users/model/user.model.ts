@@ -2,11 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "src/graphql";
 import { CvModel } from "src/cvs/model/cv.model";
+import { ProfileModel } from "src/profile/model/profile.model";
 
 @Entity("user")
 export class UserModel implements User {
@@ -22,11 +25,9 @@ export class UserModel implements User {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
-  first_name: string;
-
-  @Column({ nullable: true })
-  last_name: string;
+  @OneToOne(() => ProfileModel, { cascade: true })
+  @JoinColumn()
+  profile: ProfileModel;
 
   @OneToMany(() => CvModel, (cv) => cv.user, { cascade: true })
   cvs: CvModel[];

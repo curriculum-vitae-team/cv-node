@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
-import { LoginInput } from "src/graphql";
+import { AuthInput } from "src/graphql";
 
-export class LoginDto implements LoginInput {
+export class LoginDto implements AuthInput {
   @IsEmail()
   email: string;
 

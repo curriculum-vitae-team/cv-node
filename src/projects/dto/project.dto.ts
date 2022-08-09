@@ -1,11 +1,7 @@
 import { IsISO8601, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { UpdateProjectInput } from "src/graphql";
+import { ProjectInput } from "src/graphql";
 
-export class UpdateProjectDto implements UpdateProjectInput {
-  @IsString()
-  @IsNotEmpty()
-  id: string;
-
+export class ProjectDto implements ProjectInput {
   @IsString()
   @IsNotEmpty()
   name: string;

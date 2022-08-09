@@ -1,8 +1,8 @@
 import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { CreateCvInput } from "src/graphql";
+import { CvInput } from "src/graphql";
 
-export class CreateCvDto implements CreateCvInput {
+export class CvDto implements CvInput {
   @IsString()
   @IsNotEmpty()
   name: string;
