@@ -15,9 +15,23 @@ export class LanguagesService {
     return this.languageRepository.find();
   }
 
-  async create(variables: LanguageInput) {
+  findOneById(id: string) {
+    return this.languageRepository.findOneOrFail({
+      where: { id },
+    });
+  }
+
+  create(variables: LanguageInput) {
     const language = this.languageRepository.create(variables);
-    return await this.languageRepository.save(language);
+    return this.languageRepository.save(language);
+  }
+
+  async update(id: string, variables: LanguageInput) {
+    const language = await this.findOneById(id);
+    Object.assign(language, {
+      ...variables,
+    });
+    return this.languageRepository.save(language);
   }
 
   delete(id: string) {

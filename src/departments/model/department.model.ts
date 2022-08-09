@@ -4,18 +4,15 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Language } from "src/graphql";
+import { Department } from "src/graphql";
 
-@Entity("language")
-export class LanguageModel implements Language {
+@Entity("department")
+export class DepartmentModel implements Department {
   @PrimaryGeneratedColumn()
   id: string;
 
   @CreateDateColumn()
   created_at: string;
-
-  @Column({ unique: true })
-  iso2: string;
 
   @Column({ unique: true })
   name: string;

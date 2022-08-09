@@ -20,6 +20,10 @@ export interface CvInput {
     projectsIds: string[];
 }
 
+export interface DepartmentInput {
+    name: string;
+}
+
 export interface LanguageInput {
     iso2: string;
     name: string;
@@ -61,6 +65,7 @@ export interface IQuery {
     login(auth: AuthInput): AuthResult | Promise<AuthResult>;
     cvs(): Cv[] | Promise<Cv[]>;
     cv(id: string): Cv | Promise<Cv>;
+    departments(): Department[] | Promise<Department[]>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
@@ -73,7 +78,11 @@ export interface IMutation {
     createCv(cv: CvInput): Cv | Promise<Cv>;
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
+    createDepartment(department: DepartmentInput): Department | Promise<Department>;
+    updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
+    deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
     createLanguage(language: LanguageInput): Language | Promise<Language>;
+    updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
@@ -90,6 +99,12 @@ export interface Cv {
     description: string;
     user?: Nullable<User>;
     projects?: Nullable<Project[]>;
+}
+
+export interface Department {
+    id: string;
+    created_at: string;
+    name: string;
 }
 
 export interface Language {

@@ -8,6 +8,7 @@ import { ProfileModule } from "../profile/profile.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
+import { DepartmentsModule } from "src/departments/departments.module";
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ProjectsModule } from "../projects/projects.module";
     AuthModule,
     UsersModule,
     ProfileModule,
+    DepartmentsModule,
     LanguagesModule,
     ProjectsModule,
     CvsModule,

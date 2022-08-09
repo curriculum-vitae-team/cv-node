@@ -16,5 +16,6 @@ input LanguageInput {
 
 type Mutation {
   createLanguage(language: LanguageInput!): Language!
+  updateLanguage(id: ID!, language: LanguageInput!): Language!
   deleteLanguage(id: ID!): DeleteResult!
 }
