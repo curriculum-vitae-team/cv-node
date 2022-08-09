@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
+import { ProfileModule } from "../profile/profile.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
@@ -29,6 +30,7 @@ import { ProjectsModule } from "../projects/projects.module";
     }),
     AuthModule,
     UsersModule,
+    ProfileModule,
     LanguagesModule,
     ProjectsModule,
     CvsModule,

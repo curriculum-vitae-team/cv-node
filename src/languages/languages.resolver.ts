@@ -2,7 +2,7 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { LanguagesService } from "./languages.service";
-import { CreateLanguageDto } from "./dto/create-language.dto";
+import { LanguageDto } from "./dto/language.dto";
 
 @Resolver()
 export class LanguagesResolver {
@@ -16,7 +16,7 @@ export class LanguagesResolver {
 
   @Mutation("createLanguage")
   // @UseGuards(JwtGuard)
-  createLanguage(@Args("createLanguageInput") args: CreateLanguageDto) {
+  createLanguage(@Args("language") args: LanguageDto) {
     return this.languagesService.create(args);
   }
 

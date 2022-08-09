@@ -8,42 +8,33 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface LoginInput {
+export interface AuthInput {
     email: string;
     password: string;
 }
 
-export interface SignupInput {
-    email: string;
-    password: string;
-}
-
-export interface CreateCvInput {
+export interface CvInput {
     name: string;
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
 }
 
-export interface UpdateCvInput {
-    id: string;
-    name: string;
-    description: string;
-    userId?: Nullable<string>;
-    projectsIds: string[];
-}
-
-export interface CreateLanguageInput {
+export interface LanguageInput {
     iso2: string;
     name: string;
 }
 
-export interface LanguageProficiencyInput {
-    languageId: string;
-    proficiency: string;
+export interface ProfileInput {
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    department?: Nullable<string>;
+    specialization?: Nullable<string>;
+    skills?: Nullable<string[]>;
+    languages?: Nullable<string[]>;
 }
 
-export interface CreateProjectInput {
+export interface ProjectInput {
     name: string;
     internal_name?: Nullable<string>;
     description: string;
@@ -52,42 +43,22 @@ export interface CreateProjectInput {
     end_date?: Nullable<string>;
 }
 
-export interface UpdateProjectInput {
-    id: string;
-    name: string;
-    internal_name?: Nullable<string>;
-    description: string;
-    domain: string;
-    start_date: string;
-    end_date?: Nullable<string>;
-}
-
-export interface CreateUserInput {
-    email: string;
-    password: string;
-    first_name?: Nullable<string>;
-    last_name?: Nullable<string>;
+export interface UserInput {
+    profile: ProfileInput;
     cvsIds: string[];
 }
 
-export interface UpdateUserInput {
-    id: string;
-    first_name?: Nullable<string>;
-    last_name?: Nullable<string>;
-    cvsIds: string[];
-}
-
-export interface DeleteOutput {
+export interface DeleteResult {
     affected: number;
 }
 
-export interface LoginOutput {
+export interface AuthResult {
     user: User;
     access_token: string;
 }
 
 export interface IQuery {
-    login(loginInput: LoginInput): LoginOutput | Promise<LoginOutput>;
+    login(auth: AuthInput): AuthResult | Promise<AuthResult>;
     cvs(): Cv[] | Promise<Cv[]>;
     cv(id: string): Cv | Promise<Cv>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
@@ -98,18 +69,18 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    signup(signupInput: SignupInput): LoginOutput | Promise<LoginOutput>;
-    createCv(createCvInput: CreateCvInput): Cv | Promise<Cv>;
-    updateCv(updateCvInput: UpdateCvInput): Cv | Promise<Cv>;
-    deleteCv(id: string): DeleteOutput | Promise<DeleteOutput>;
-    createLanguage(createLanguageInput: CreateLanguageInput): Language | Promise<Language>;
-    deleteLanguage(id: string): DeleteOutput | Promise<DeleteOutput>;
-    createProject(createProjectInput: CreateProjectInput): Project | Promise<Project>;
-    updateProject(updateProjectInput: UpdateProjectInput): Project | Promise<Project>;
-    deleteProject(id: string): DeleteOutput | Promise<DeleteOutput>;
-    createUser(createUserInput: CreateUserInput): User | Promise<User>;
-    updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
-    deleteUser(id: string): DeleteOutput | Promise<DeleteOutput>;
+    signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
+    createCv(cv: CvInput): Cv | Promise<Cv>;
+    updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
+    deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
+    createLanguage(language: LanguageInput): Language | Promise<Language>;
+    deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
+    createProject(project: ProjectInput): Project | Promise<Project>;
+    updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
+    deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
+    createUser(user: UserInput, auth: AuthInput): User | Promise<User>;
+    updateUser(id: string, user: UserInput): User | Promise<User>;
+    deleteUser(id: string): DeleteResult | Promise<DeleteResult>;
 }
 
 export interface Cv {
@@ -128,9 +99,15 @@ export interface Language {
     name: string;
 }
 
-export interface LanguageProficiency {
-    language: Language;
-    proficiency: string;
+export interface Profile {
+    id: string;
+    created_at: string;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+    department?: Nullable<string>;
+    specialization?: Nullable<string>;
+    skills?: Nullable<string[]>;
+    languages?: Nullable<string[]>;
 }
 
 export interface Project {
@@ -148,8 +125,7 @@ export interface User {
     id: string;
     created_at: string;
     email: string;
-    first_name?: Nullable<string>;
-    last_name?: Nullable<string>;
+    profile: Profile;
     cvs?: Nullable<Cv[]>;
 }
 

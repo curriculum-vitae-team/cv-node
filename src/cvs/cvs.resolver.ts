@@ -1,7 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { CvsService } from "./cvs.service";
-import { CreateCvDto } from "./dto/create-cv.dto";
-import { UpdateCvDto } from "./dto/update-cv.dto";
+import { CvDto } from "./dto/cv.dto";
 
 @Resolver()
 export class CvsResolver {
@@ -18,13 +17,13 @@ export class CvsResolver {
   }
 
   @Mutation("createCv")
-  createCv(@Args("createCvInput") args: CreateCvDto) {
+  createCv(@Args("cv") args: CvDto) {
     return this.cvsService.create(args);
   }
 
   @Mutation("updateCv")
-  updateCv(@Args("updateCvInput") args: UpdateCvDto) {
-    return this.cvsService.update(args);
+  updateCv(@Args("id") id: string, @Args("cv") args: CvDto) {
+    return this.cvsService.update(id, args);
   }
 
   @Mutation("deleteCv")

@@ -4,7 +4,7 @@ import { In, Repository } from "typeorm";
 import { CvModel } from "./model/cv.model";
 import { UsersService } from "../users/users.service";
 import { ProjectsService } from "../projects/projects.service";
-import { CreateCvInput, UpdateCvInput } from "../graphql";
+import { CvInput } from "../graphql";
 
 @Injectable()
 export class CvsService {
@@ -24,7 +24,7 @@ export class CvsService {
   }
 
   findOneById(id: string) {
-    return this.cvRepository.findOne({
+    return this.cvRepository.findOneOrFail({
       relations: ["user", "projects"],
       where: { id },
     });
@@ -36,36 +36,26 @@ export class CvsService {
     });
   }
 
-  async create(createCvInput: CreateCvInput) {
-    const { name, description, userId, projectsIds } = createCvInput;
+  async create(variables: CvInput) {
+    const { name, description, userId, projectsIds } = variables;
     const cv = this.cvRepository.create({
       name,
       description,
+      user: await this.usersService.findOneById(userId),
+      projects: await this.projectsService.findManyByIds(projectsIds),
     });
-    if (userId) {
-      const user = await this.usersService.findOneById(userId);
-      cv.user = user;
-    }
-    const projects = await this.projectsService.findManyByIds(projectsIds);
-    cv.projects = projects;
     return this.cvRepository.save(cv);
   }
 
-  async update(updateCvInput: UpdateCvInput) {
-    const { id, name, description, userId, projectsIds } = updateCvInput;
+  async update(id: string, variables: CvInput) {
+    const { name, description, userId, projectsIds } = variables;
     const cv = await this.findOneById(id);
     Object.assign(cv, {
       name,
       description,
+      user: await this.usersService.findOneById(userId),
+      projects: await this.projectsService.findManyByIds(projectsIds),
     });
-    if (userId) {
-      const user = await this.usersService.findOneById(userId);
-      cv.user = user;
-    } else {
-      cv.user = null;
-    }
-    const projects = await this.projectsService.findManyByIds(projectsIds);
-    cv.projects = projects;
     return this.cvRepository.save(cv);
   }
 

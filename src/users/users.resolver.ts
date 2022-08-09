@@ -1,9 +1,9 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { JwtGuard } from "src/auth/jwt.guard";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
+import { UserDto } from "./dto/user.dto";
+import { SignupDto } from "src/auth/dto/signup.dto";
 
 @Resolver()
 export class UsersResolver {
@@ -23,14 +23,14 @@ export class UsersResolver {
 
   @Mutation("createUser")
   // @UseGuards(JwtGuard)
-  createUser(@Args("createUserInput") args: CreateUserDto) {
-    return this.usersService.create(args);
+  createUser(@Args("user") args: UserDto, @Args("auth") auth: SignupDto) {
+    return this.usersService.create(args, auth);
   }
 
   @Mutation("updateUser")
   // @UseGuards(JwtGuard)
-  updateUser(@Args("updateUserInput") args: UpdateUserDto) {
-    return this.usersService.update(args);
+  updateUser(@Args("id") id: string, @Args("user") args: UserDto) {
+    return this.usersService.update(id, args);
   }
 
   @Mutation("deleteUser")

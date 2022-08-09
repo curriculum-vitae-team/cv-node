@@ -1,6 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { CreateProjectDto } from "./dto/create-project.dto";
-import { UpdateProjectDto } from "./dto/update-project.dto";
+import { ProjectDto } from "./dto/project.dto";
 import { ProjectsService } from "./projects.service";
 
 @Resolver()
@@ -18,13 +17,13 @@ export class ProjectsResolver {
   }
 
   @Mutation("createProject")
-  createProject(@Args("createProjectInput") args: CreateProjectDto) {
+  createProject(@Args("project") args: ProjectDto) {
     return this.projectsService.create(args);
   }
 
   @Mutation("updateProject")
-  updateProject(@Args("updateProjectInput") args: UpdateProjectDto) {
-    return this.projectsService.update(args);
+  updateProject(@Args("id") id: string, @Args("project") args: ProjectDto) {
+    return this.projectsService.update(id, args);
   }
 
   @Mutation("deleteProject")

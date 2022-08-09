@@ -9,24 +9,12 @@ type Query {
   languages: [Language]!
 }
 
-input CreateLanguageInput {
+input LanguageInput {
   iso2: String!
   name: String!
 }
 
 type Mutation {
-  createLanguage(createLanguageInput: CreateLanguageInput!): Language!
-  deleteLanguage(id: ID!): DeleteOutput!
-}
-
-# language proficiency for cv
-
-type LanguageProficiency {
-  language: Language!
-  proficiency: String!
-}
-
-input LanguageProficiencyInput {
-  languageId: String!
-  proficiency: String!
+  createLanguage(language: LanguageInput!): Language!
+  deleteLanguage(id: ID!): DeleteResult!
 }

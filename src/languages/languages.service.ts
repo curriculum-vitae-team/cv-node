@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { LanguageModel } from "./model/language.model";
-import { CreateLanguageInput } from "src/graphql";
+import { LanguageInput } from "src/graphql";
 
 @Injectable()
 export class LanguagesService {
@@ -15,8 +15,8 @@ export class LanguagesService {
     return this.languageRepository.find();
   }
 
-  async create(createLanguageInput: CreateLanguageInput) {
-    const language = this.languageRepository.create(createLanguageInput);
+  async create(variables: LanguageInput) {
+    const language = this.languageRepository.create(variables);
     return await this.languageRepository.save(language);
   }
 

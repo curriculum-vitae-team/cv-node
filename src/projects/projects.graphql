@@ -14,17 +14,7 @@ type Query {
   project(id: ID!): Project!
 }
 
-input CreateProjectInput {
-  name: String!
-  internal_name: String
-  description: String!
-  domain: String!
-  start_date: String!
-  end_date: String
-}
-
-input UpdateProjectInput {
-  id: ID!
+input ProjectInput {
   name: String!
   internal_name: String
   description: String!
@@ -34,7 +24,7 @@ input UpdateProjectInput {
 }
 
 type Mutation {
-  createProject(createProjectInput: CreateProjectInput!): Project!
-  updateProject(updateProjectInput: UpdateProjectInput!): Project!
-  deleteProject(id: ID!): DeleteOutput!
+  createProject(project: ProjectInput!): Project!
+  updateProject(id: ID!, project: ProjectInput!): Project!
+  deleteProject(id: ID!): DeleteResult!
 }

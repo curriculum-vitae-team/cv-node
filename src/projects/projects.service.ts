@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { ProjectModel } from "./model/project.model";
-import { CreateProjectInput, UpdateProjectInput } from "../graphql";
+import { ProjectInput } from "../graphql";
 
 @Injectable()
 export class ProjectsService {
@@ -16,7 +16,7 @@ export class ProjectsService {
   }
 
   findOneById(id: string) {
-    return this.projectsRepository.findOne({
+    return this.projectsRepository.findOneOrFail({
       where: { id },
     });
   }
@@ -27,29 +27,15 @@ export class ProjectsService {
     });
   }
 
-  async create(createProjectInput: CreateProjectInput) {
-    const project = this.projectsRepository.create(createProjectInput);
+  async create(variables: ProjectInput) {
+    const project = this.projectsRepository.create(variables);
     return this.projectsRepository.save(project);
   }
 
-  async update(updateProjectInput: UpdateProjectInput) {
-    const {
-      id,
-      name,
-      internal_name,
-      description,
-      domain,
-      start_date,
-      end_date,
-    } = updateProjectInput;
+  async update(id: string, variables: ProjectInput) {
     const project = await this.findOneById(id);
     Object.assign(project, {
-      name,
-      internal_name,
-      description,
-      domain,
-      start_date,
-      end_date,
+      ...variables,
     });
     return this.projectsRepository.save(project);
   }

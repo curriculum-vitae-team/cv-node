@@ -1,10 +1,10 @@
 import { IsEmail, MinLength } from "class-validator";
-import { SignupInput } from "src/graphql";
+import { AuthInput } from "src/graphql";
 
-export class SignupDto implements SignupInput {
+export class SignupDto implements AuthInput {
   @IsEmail()
   email: string;
 
-  @MinLength(10)
+  @MinLength(5)
   password: string;
 }

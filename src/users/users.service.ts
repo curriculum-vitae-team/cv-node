@@ -3,8 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { hash } from "bcrypt";
 import { UserModel } from "./model/user.model";
-import { CreateUserInput, SignupInput, UpdateUserInput } from "src/graphql";
+import { UserInput, AuthInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
+import { ProfileService } from "src/profile/profile.service";
 
 @Injectable()
 export class UsersService {
@@ -12,61 +13,55 @@ export class UsersService {
     @InjectRepository(UserModel)
     private readonly userRepository: Repository<UserModel>,
     @Inject(forwardRef(() => CvsService))
-    private readonly cvsService: CvsService
+    private readonly cvsService: CvsService,
+    private readonly profileService: ProfileService
   ) {}
 
   findAll() {
     return this.userRepository.find({
-      relations: ["cvs"],
+      relations: ["profile", "cvs"],
     });
   }
 
   findOneById(id: string) {
-    return this.userRepository.findOne({
-      relations: ["cvs"],
+    return this.userRepository.findOneOrFail({
+      relations: ["profile", "cvs"],
       where: { id },
     });
   }
 
   findOneByEmail(email: string) {
     return this.userRepository.findOne({
+      relations: ["profile"],
       where: { email },
     });
   }
 
-  async signup(signupInput: SignupInput) {
-    const { email } = signupInput;
-    const password = await hash(signupInput.password, 10);
+  async signup({ email, password }: AuthInput) {
     const user = this.userRepository.create({
       email,
-      password,
+      password: await hash(password, 10),
+      profile: await this.profileService.create({}),
     });
     return this.userRepository.save(user);
   }
 
-  async create(createUserInput: CreateUserInput) {
-    const { email, first_name, last_name, cvsIds } = createUserInput;
-    const password = await hash(createUserInput.password, 10);
+  async create({ profile, cvsIds }: UserInput, { email, password }: AuthInput) {
     const user = this.userRepository.create({
       email,
-      password,
-      first_name,
-      last_name,
+      password: await hash(password, 10),
+      profile: await this.profileService.create(profile),
+      cvs: await this.cvsService.findManyByIds(cvsIds),
     });
-    const cvs = await this.cvsService.findManyByIds(cvsIds);
-    user.cvs = cvs;
     return this.userRepository.save(user);
   }
 
-  async update(updateUserInput: UpdateUserInput) {
-    const { id, first_name, last_name, cvsIds } = updateUserInput;
+  async update(id: string, { profile, cvsIds }: UserInput) {
     const user = await this.findOneById(id);
     Object.assign(user, {
-      first_name,
-      last_name,
+      profile: await this.profileService.update(user.profile.id, profile),
+      cvs: await this.cvsService.findManyByIds(cvsIds),
     });
-    const cvs = await this.cvsService.findManyByIds(cvsIds);
-    user.cvs = cvs;
     return this.userRepository.save(user);
   }
 
