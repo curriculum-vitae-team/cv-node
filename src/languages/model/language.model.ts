@@ -14,9 +14,9 @@ export class LanguageModel implements Language {
   @CreateDateColumn()
   created_at: string;
 
-  @Column("varchar", { unique: true })
+  @Column({ unique: true })
   iso2: string;
 
-  @Column("varchar")
+  @Column({ unique: true })
   name: string;
 }

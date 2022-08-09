@@ -16,25 +16,21 @@ export class UsersResolver {
   }
 
   @Query("user")
-  // @UseGuards(JwtGuard)
   user(@Args("id") id: string) {
     return this.usersService.findOneById(id);
   }
 
   @Mutation("createUser")
-  // @UseGuards(JwtGuard)
   createUser(@Args("user") args: UserDto, @Args("auth") auth: SignupDto) {
     return this.usersService.create(args, auth);
   }
 
   @Mutation("updateUser")
-  // @UseGuards(JwtGuard)
   updateUser(@Args("id") id: string, @Args("user") args: UserDto) {
     return this.usersService.update(id, args);
   }
 
   @Mutation("deleteUser")
-  // @UseGuards(JwtGuard)
   deleteUser(@Args("id") id: string) {
     return this.usersService.delete(id);
   }

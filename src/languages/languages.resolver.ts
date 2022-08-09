@@ -15,13 +15,16 @@ export class LanguagesResolver {
   }
 
   @Mutation("createLanguage")
-  // @UseGuards(JwtGuard)
   createLanguage(@Args("language") args: LanguageDto) {
     return this.languagesService.create(args);
   }
 
+  @Mutation("updateLanguage")
+  updateLanguage(@Args("id") id: string, @Args("language") args: LanguageDto) {
+    return this.languagesService.update(id, args);
+  }
+
   @Mutation("deleteLanguage")
-  // @UseGuards(JwtGuard)
   deleteLanguage(@Args("id") id: string) {
     return this.languagesService.delete(id);
   }

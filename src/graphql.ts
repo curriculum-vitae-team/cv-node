@@ -82,6 +82,7 @@ export interface IMutation {
     updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
     deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
     createLanguage(language: LanguageInput): Language | Promise<Language>;
+    updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
