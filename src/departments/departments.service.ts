@@ -28,9 +28,7 @@ export class DepartmentsService {
 
   async update(id: string, variables: DepartmentInput) {
     const department = await this.findOneById(id);
-    Object.assign(department, {
-      ...variables,
-    });
+    Object.assign(department, variables);
     return this.departmentRepository.save(department);
   }
 

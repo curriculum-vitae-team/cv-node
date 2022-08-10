@@ -28,9 +28,7 @@ export class LanguagesService {
 
   async update(id: string, variables: LanguageInput) {
     const language = await this.findOneById(id);
-    Object.assign(language, {
-      ...variables,
-    });
+    Object.assign(language, variables);
     return this.languageRepository.save(language);
   }
 

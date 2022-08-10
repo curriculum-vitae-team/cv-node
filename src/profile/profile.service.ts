@@ -24,9 +24,7 @@ export class ProfileService {
 
   async update(id: string, variables: ProfileInput) {
     const profile = await this.findOnyById(id);
-    Object.assign(profile, {
-      ...variables,
-    });
+    Object.assign(profile, variables);
     return this.profileRepository.save(profile);
   }
 }
