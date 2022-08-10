@@ -32,7 +32,7 @@ export interface LanguageInput {
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    department?: Nullable<string>;
+    departmentId?: Nullable<string>;
     specialization?: Nullable<string>;
     skills?: Nullable<string[]>;
     languages?: Nullable<string[]>;
@@ -127,7 +127,7 @@ export interface Profile {
     created_at: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    department?: Nullable<string>;
+    department?: Nullable<Department>;
     specialization?: Nullable<string>;
     skills?: Nullable<string[]>;
     languages?: Nullable<string[]>;

@@ -10,7 +10,7 @@ export class ProfileDto implements ProfileInput {
   last_name: string;
 
   @IsString()
-  department: string;
+  departmentId: string;
 
   @IsString()
   specialization: string;
