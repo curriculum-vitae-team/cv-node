@@ -32,7 +32,7 @@ export interface LanguageInput {
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    department?: Nullable<string>;
+    departmentId?: Nullable<string>;
     specialization?: Nullable<string>;
     skills?: Nullable<string[]>;
     languages?: Nullable<string[]>;
@@ -45,6 +45,10 @@ export interface ProjectInput {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+}
+
+export interface SkillInput {
+    name: string;
 }
 
 export interface UserInput {
@@ -69,6 +73,7 @@ export interface IQuery {
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
+    skills(): Skill[] | Promise<Skill[]>;
     users(): User[] | Promise<User[]>;
     user(id: string): User | Promise<User>;
 }
@@ -87,6 +92,9 @@ export interface IMutation {
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
+    createSkill(skill: SkillInput): Skill | Promise<Skill>;
+    updateSkill(id: string, skill: SkillInput): Skill | Promise<Skill>;
+    deleteSkill(id: string): DeleteResult | Promise<DeleteResult>;
     createUser(user: UserInput, auth: AuthInput): User | Promise<User>;
     updateUser(id: string, user: UserInput): User | Promise<User>;
     deleteUser(id: string): DeleteResult | Promise<DeleteResult>;
@@ -119,7 +127,7 @@ export interface Profile {
     created_at: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    department?: Nullable<string>;
+    department?: Nullable<Department>;
     specialization?: Nullable<string>;
     skills?: Nullable<string[]>;
     languages?: Nullable<string[]>;
@@ -134,6 +142,12 @@ export interface Project {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+}
+
+export interface Skill {
+    id: string;
+    created_at: string;
+    name: string;
 }
 
 export interface User {

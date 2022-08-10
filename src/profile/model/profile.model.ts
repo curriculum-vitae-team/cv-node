@@ -1,8 +1,11 @@
+import { DepartmentModel } from "src/departments/model/department.model";
 import { Profile } from "src/graphql";
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -20,8 +23,9 @@ export class ProfileModel implements Profile {
   @Column({ nullable: true })
   last_name: string;
 
-  @Column({ nullable: true })
-  department: string;
+  @ManyToOne(() => DepartmentModel, { nullable: true, eager: true })
+  @JoinColumn()
+  department: DepartmentModel;
 
   @Column({ nullable: true })
   specialization: string;

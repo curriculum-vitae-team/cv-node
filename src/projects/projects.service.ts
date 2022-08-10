@@ -34,9 +34,7 @@ export class ProjectsService {
 
   async update(id: string, variables: ProjectInput) {
     const project = await this.findOneById(id);
-    Object.assign(project, {
-      ...variables,
-    });
+    Object.assign(project, variables);
     return this.projectsRepository.save(project);
   }
 

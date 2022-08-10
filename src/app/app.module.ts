@@ -5,10 +5,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { ProfileModule } from "../profile/profile.module";
+import { DepartmentsModule } from "src/departments/departments.module";
 import { LanguagesModule } from "../languages/languages.module";
+import { SkillsModule } from "src/skills/skills.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
-import { DepartmentsModule } from "src/departments/departments.module";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DepartmentsModule } from "src/departments/departments.module";
     ProfileModule,
     DepartmentsModule,
     LanguagesModule,
+    SkillsModule,
     ProjectsModule,
     CvsModule,
   ],
