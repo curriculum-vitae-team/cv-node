@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { hash } from "bcrypt";
 import { UserModel } from "./model/user.model";
-import { UserInput, AuthInput } from "src/graphql";
+import { CreateUserInput, UpdateUserInput, AuthInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
 import { ProfileService } from "src/profile/profile.service";
 
@@ -46,7 +46,8 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async create({ profile, cvsIds }: UserInput, { email, password }: AuthInput) {
+  async create({ auth, profile, cvsIds }: CreateUserInput) {
+    const { email, password } = auth;
     const user = this.userRepository.create({
       email,
       password: await hash(password, 10),
@@ -56,12 +57,14 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async update(id: string, { profile, cvsIds }: UserInput) {
+  async update(id: string, { profile, cvsIds }: UpdateUserInput) {
     const user = await this.findOneById(id);
-    Object.assign(user, {
-      profile: await this.profileService.update(user.profile.id, profile),
-      cvs: await this.cvsService.findManyByIds(cvsIds),
-    });
+    if (profile) {
+      user.profile = await this.profileService.update(user.profile.id, profile);
+    }
+    if (cvsIds) {
+      user.cvs = await this.cvsService.findManyByIds(cvsIds);
+    }
     return this.userRepository.save(user);
   }
 

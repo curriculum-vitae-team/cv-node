@@ -51,9 +51,15 @@ export interface SkillInput {
     name: string;
 }
 
-export interface UserInput {
+export interface CreateUserInput {
+    auth: AuthInput;
     profile: ProfileInput;
     cvsIds: string[];
+}
+
+export interface UpdateUserInput {
+    profile?: Nullable<ProfileInput>;
+    cvsIds?: Nullable<string[]>;
 }
 
 export interface DeleteResult {
@@ -95,8 +101,8 @@ export interface IMutation {
     createSkill(skill: SkillInput): Skill | Promise<Skill>;
     updateSkill(id: string, skill: SkillInput): Skill | Promise<Skill>;
     deleteSkill(id: string): DeleteResult | Promise<DeleteResult>;
-    createUser(user: UserInput, auth: AuthInput): User | Promise<User>;
-    updateUser(id: string, user: UserInput): User | Promise<User>;
+    createUser(user: CreateUserInput): User | Promise<User>;
+    updateUser(id: string, user: UpdateUserInput): User | Promise<User>;
     deleteUser(id: string): DeleteResult | Promise<DeleteResult>;
 }
 

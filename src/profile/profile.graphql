@@ -12,7 +12,7 @@ type Profile {
 input ProfileInput {
   first_name: String
   last_name: String
-  departmentId: String
+  departmentId: ID
   specialization: String
   skills: [String!]
   languages: [String!]
