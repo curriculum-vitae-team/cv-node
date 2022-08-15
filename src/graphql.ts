@@ -133,10 +133,11 @@ export interface Profile {
     created_at: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
+    full_name?: Nullable<string>;
     department?: Nullable<Department>;
     specialization?: Nullable<string>;
-    skills?: Nullable<string[]>;
-    languages?: Nullable<string[]>;
+    skills: string[];
+    languages: string[];
 }
 
 export interface Project {
