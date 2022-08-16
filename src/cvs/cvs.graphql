@@ -23,4 +23,5 @@ type Mutation {
   createCv(cv: CvInput!): Cv!
   updateCv(id: ID!, cv: CvInput!): Cv!
   deleteCv(id: ID!): DeleteResult!
+  unbindCv(id: ID!): Cv!
 }

@@ -1,5 +1,3 @@
-import { DepartmentModel } from "src/departments/model/department.model";
-import { Profile } from "src/graphql";
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +6,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Expose } from "class-transformer";
+import { DepartmentModel } from "src/departments/model/department.model";
+import { Profile } from "src/graphql";
 
 @Entity("profile")
 export class ProfileModel implements Profile {
@@ -23,6 +24,14 @@ export class ProfileModel implements Profile {
   @Column({ nullable: true })
   last_name: string;
 
+  @Expose()
+  get full_name() {
+    if (!this.first_name && !this.last_name) {
+      return null;
+    }
+    return [this.first_name, this.last_name].join(" ").trim();
+  }
+
   @ManyToOne(() => DepartmentModel, { nullable: true, eager: true })
   @JoinColumn()
   department: DepartmentModel;
@@ -30,9 +39,9 @@ export class ProfileModel implements Profile {
   @Column({ nullable: true })
   specialization: string;
 
-  @Column("json", { array: true, default: [] })
+  @Column("json", { default: [] })
   skills: string[];
 
-  @Column("json", { array: true, default: [] })
+  @Column("json", { default: [] })
   languages: string[];
 }
