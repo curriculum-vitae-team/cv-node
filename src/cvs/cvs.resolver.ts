@@ -30,4 +30,9 @@ export class CvsResolver {
   deleteCv(@Args("id") id: string) {
     return this.cvsService.delete(id);
   }
+
+  @Mutation("unbindCv")
+  unbindCv(@Args("id") id: string) {
+    return this.cvsService.unbind(id);
+  }
 }

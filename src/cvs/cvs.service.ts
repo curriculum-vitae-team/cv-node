@@ -62,4 +62,10 @@ export class CvsService {
   delete(id: string) {
     return this.cvRepository.delete(id);
   }
+
+  async unbind(id: string) {
+    const cv = await this.findOneById(id);
+    cv.user = null;
+    return this.cvRepository.save(cv);
+  }
 }
