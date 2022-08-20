@@ -1,6 +1,13 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { CvInput } from "src/graphql";
+import { LanguageProficiencyDto } from "src/languages/dto/language-proficiency.dto";
 
 export class CvDto implements CvInput {
   @IsString()
@@ -19,4 +26,9 @@ export class CvDto implements CvInput {
   @IsArray()
   @Type(() => String)
   projectsIds: string[];
+
+  @IsArray()
+  @Type(() => LanguageProficiencyDto)
+  @ValidateNested()
+  languages: LanguageProficiencyDto[];
 }

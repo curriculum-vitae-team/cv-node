@@ -18,6 +18,7 @@ export interface CvInput {
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
+    languages: LanguageProficiencyInput[];
 }
 
 export interface DepartmentInput {
@@ -27,6 +28,11 @@ export interface DepartmentInput {
 export interface LanguageInput {
     iso2: string;
     name: string;
+}
+
+export interface LanguageProficiencyInput {
+    language_name: string;
+    proficiency: string;
 }
 
 export interface ProfileInput {
@@ -89,6 +95,7 @@ export interface IMutation {
     createCv(cv: CvInput): Cv | Promise<Cv>;
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
+    unbindCv(id: string): Cv | Promise<Cv>;
     createDepartment(department: DepartmentInput): Department | Promise<Department>;
     updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
     deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
@@ -113,6 +120,7 @@ export interface Cv {
     description: string;
     user?: Nullable<User>;
     projects?: Nullable<Project[]>;
+    languages: LanguageProficiency[];
 }
 
 export interface Department {
@@ -126,6 +134,11 @@ export interface Language {
     created_at: string;
     iso2: string;
     name: string;
+}
+
+export interface LanguageProficiency {
+    language_name: string;
+    proficiency: string;
 }
 
 export interface Profile {

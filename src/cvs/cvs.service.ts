@@ -37,18 +37,20 @@ export class CvsService {
   }
 
   async create(variables: CvInput) {
-    const { name, description, userId, projectsIds } = variables;
+    const { name, description, userId, projectsIds, languages } = variables;
     const cv = this.cvRepository.create({
       name,
       description,
       user: await this.usersService.findOneById(userId),
       projects: await this.projectsService.findManyByIds(projectsIds),
+      languages,
     });
     return this.cvRepository.save(cv);
   }
 
   async update(id: string, variables: CvInput) {
-    const { name, description, userId, projectsIds } = variables;
+    const { name, description, userId, projectsIds, languages } = variables;
+    await this.cvRepository.update(id, { languages });
     const cv = await this.findOneById(id);
     Object.assign(cv, {
       name,

@@ -5,6 +5,7 @@ type Cv {
   description: String!
   user: User
   projects: [Project!]
+  languages: [LanguageProficiency!]!
 }
 
 type Query {
@@ -17,6 +18,7 @@ input CvInput {
   description: String!
   userId: ID
   projectsIds: [ID!]!
+  languages: [LanguageProficiencyInput!]!
 }
 
 type Mutation {
