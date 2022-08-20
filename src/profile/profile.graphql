@@ -5,6 +5,7 @@ type Profile {
   last_name: String
   full_name: String
   department: Department
+  department_name: String
   specialization: String
   skills: [String!]!
   languages: [String!]!

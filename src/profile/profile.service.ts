@@ -28,10 +28,11 @@ export class ProfileService {
       languages,
       skills,
     } = variables;
+    const department = await this.departmentsService.findOneById(departmentId);
     const profile = this.profileRepository.create({
       first_name,
       last_name,
-      department: await this.departmentsService.findOneById(departmentId),
+      department,
       specialization,
       languages,
       skills,
@@ -48,11 +49,14 @@ export class ProfileService {
       languages,
       skills,
     } = variables;
-    const profile = await this.findOnyById(id);
+    const [profile, department] = await Promise.all([
+      this.findOnyById(id),
+      this.departmentsService.findOneById(departmentId),
+    ]);
     Object.assign(profile, {
       first_name,
       last_name,
-      department: await this.departmentsService.findOneById(departmentId),
+      department,
       specialization,
       languages,
       skills,

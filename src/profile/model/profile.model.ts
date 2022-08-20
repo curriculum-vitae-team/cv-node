@@ -36,6 +36,14 @@ export class ProfileModel implements Profile {
   @JoinColumn()
   department: DepartmentModel;
 
+  @Expose()
+  get department_name() {
+    if (!this.department) {
+      return null;
+    }
+    return this.department.name;
+  }
+
   @Column({ nullable: true })
   specialization: string;
 

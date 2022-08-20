@@ -155,6 +155,7 @@ export interface Profile {
     last_name?: Nullable<string>;
     full_name?: Nullable<string>;
     department?: Nullable<Department>;
+    department_name?: Nullable<string>;
     specialization?: Nullable<string>;
     skills: string[];
     languages: string[];
