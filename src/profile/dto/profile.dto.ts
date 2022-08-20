@@ -1,6 +1,8 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { ProfileInput } from "src/graphql";
+import { SkillMasteryDto } from "src/skills/dto/skill-mastery.dto";
+import { LanguageProficiencyDto } from "src/languages/dto/language-proficiency.dto";
 
 export class ProfileDto implements ProfileInput {
   @IsString()
@@ -16,10 +18,12 @@ export class ProfileDto implements ProfileInput {
   specialization: string;
 
   @IsArray()
-  @Type(() => String)
-  skills: string[];
+  @Type(() => SkillMasteryDto)
+  @ValidateNested()
+  skills: SkillMasteryDto[];
 
   @IsArray()
-  @Type(() => String)
-  languages: string[];
+  @Type(() => LanguageProficiencyDto)
+  @ValidateNested()
+  languages: LanguageProficiencyDto[];
 }

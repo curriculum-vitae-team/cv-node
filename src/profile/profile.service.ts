@@ -25,8 +25,8 @@ export class ProfileService {
       last_name,
       departmentId,
       specialization,
-      languages,
       skills,
+      languages,
     } = variables;
     const department = await this.departmentsService.findOneById(departmentId);
     const profile = this.profileRepository.create({
@@ -34,8 +34,8 @@ export class ProfileService {
       last_name,
       department,
       specialization,
-      languages,
       skills,
+      languages,
     });
     return this.profileRepository.save(profile);
   }
@@ -46,8 +46,8 @@ export class ProfileService {
       last_name,
       departmentId,
       specialization,
-      languages,
       skills,
+      languages,
     } = variables;
     const [profile, department] = await Promise.all([
       this.findOnyById(id),
@@ -58,8 +58,8 @@ export class ProfileService {
       last_name,
       department,
       specialization,
-      languages,
       skills,
+      languages,
     });
     return this.profileRepository.save(profile);
   }

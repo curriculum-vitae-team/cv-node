@@ -41,8 +41,8 @@ export interface ProfileInput {
     last_name?: Nullable<string>;
     departmentId?: Nullable<string>;
     specialization?: Nullable<string>;
-    skills?: Nullable<string[]>;
-    languages?: Nullable<string[]>;
+    skills?: Nullable<SkillMasteryInput[]>;
+    languages?: Nullable<LanguageProficiencyInput[]>;
 }
 
 export interface ProjectInput {
@@ -157,8 +157,8 @@ export interface Profile {
     department?: Nullable<Department>;
     department_name?: Nullable<string>;
     specialization?: Nullable<string>;
-    skills: string[];
-    languages: string[];
+    skills: SkillMastery[];
+    languages: LanguageProficiency[];
 }
 
 export interface Project {
