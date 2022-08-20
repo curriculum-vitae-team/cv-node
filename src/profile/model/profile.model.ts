@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Expose } from "class-transformer";
 import { DepartmentModel } from "src/departments/model/department.model";
-import { Profile } from "src/graphql";
+import { LanguageProficiency, Profile, SkillMastery } from "src/graphql";
 
 @Entity("profile")
 export class ProfileModel implements Profile {
@@ -36,12 +36,20 @@ export class ProfileModel implements Profile {
   @JoinColumn()
   department: DepartmentModel;
 
+  @Expose()
+  get department_name() {
+    if (!this.department) {
+      return null;
+    }
+    return this.department.name;
+  }
+
   @Column({ nullable: true })
   specialization: string;
 
-  @Column("json", { default: [] })
-  skills: string[];
+  @Column("simple-json", { default: [] })
+  skills: SkillMastery[];
 
-  @Column("json", { default: [] })
-  languages: string[];
+  @Column("simple-json", { default: [] })
+  languages: LanguageProficiency[];
 }

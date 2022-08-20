@@ -37,7 +37,8 @@ export class UsersService {
     });
   }
 
-  async signup({ email, password }: AuthInput) {
+  async signup(variables: AuthInput) {
+    const { email, password } = variables;
     const user = this.userRepository.create({
       email,
       password: await hash(password, 10),
@@ -46,7 +47,8 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async create({ auth, profile, cvsIds }: CreateUserInput) {
+  async create(variables: CreateUserInput) {
+    const { auth, profile, cvsIds } = variables;
     const { email, password } = auth;
     const user = this.userRepository.create({
       email,
@@ -57,7 +59,8 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async update(id: string, { profile, cvsIds }: UpdateUserInput) {
+  async update(id: string, variables: UpdateUserInput) {
+    const { profile, cvsIds } = variables;
     const user = await this.findOneById(id);
     if (profile) {
       user.profile = await this.profileService.update(user.profile.id, profile);

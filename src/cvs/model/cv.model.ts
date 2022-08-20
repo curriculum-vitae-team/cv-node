@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Cv } from "src/graphql";
+import { Cv, LanguageProficiency, SkillMastery } from "src/graphql";
 import { UserModel } from "src/users/model/user.model";
 import { ProjectModel } from "src/projects/model/project.model";
 
@@ -31,4 +31,10 @@ export class CvModel implements Cv {
   @ManyToMany(() => ProjectModel, { cascade: true })
   @JoinTable()
   projects: ProjectModel[];
+
+  @Column("simple-json", { default: [] })
+  skills: SkillMastery[];
+
+  @Column("simple-json", { default: [] })
+  languages: LanguageProficiency[];
 }

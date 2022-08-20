@@ -19,3 +19,13 @@ type Mutation {
   updateLanguage(id: ID!, language: LanguageInput!): Language!
   deleteLanguage(id: ID!): DeleteResult!
 }
+
+type LanguageProficiency {
+  language_name: String!
+  proficiency: String!
+}
+
+input LanguageProficiencyInput {
+  language_name: String!
+  proficiency: String!
+}

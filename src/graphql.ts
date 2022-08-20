@@ -18,6 +18,8 @@ export interface CvInput {
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
+    skills: SkillMasteryInput[];
+    languages: LanguageProficiencyInput[];
 }
 
 export interface DepartmentInput {
@@ -29,13 +31,18 @@ export interface LanguageInput {
     name: string;
 }
 
+export interface LanguageProficiencyInput {
+    language_name: string;
+    proficiency: string;
+}
+
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     departmentId?: Nullable<string>;
     specialization?: Nullable<string>;
-    skills?: Nullable<string[]>;
-    languages?: Nullable<string[]>;
+    skills?: Nullable<SkillMasteryInput[]>;
+    languages?: Nullable<LanguageProficiencyInput[]>;
 }
 
 export interface ProjectInput {
@@ -49,6 +56,11 @@ export interface ProjectInput {
 
 export interface SkillInput {
     name: string;
+}
+
+export interface SkillMasteryInput {
+    skill_name: string;
+    mastery: string;
 }
 
 export interface CreateUserInput {
@@ -89,6 +101,7 @@ export interface IMutation {
     createCv(cv: CvInput): Cv | Promise<Cv>;
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
+    unbindCv(id: string): Cv | Promise<Cv>;
     createDepartment(department: DepartmentInput): Department | Promise<Department>;
     updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
     deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
@@ -113,6 +126,8 @@ export interface Cv {
     description: string;
     user?: Nullable<User>;
     projects?: Nullable<Project[]>;
+    skills: SkillMastery[];
+    languages: LanguageProficiency[];
 }
 
 export interface Department {
@@ -128,6 +143,11 @@ export interface Language {
     name: string;
 }
 
+export interface LanguageProficiency {
+    language_name: string;
+    proficiency: string;
+}
+
 export interface Profile {
     id: string;
     created_at: string;
@@ -135,9 +155,10 @@ export interface Profile {
     last_name?: Nullable<string>;
     full_name?: Nullable<string>;
     department?: Nullable<Department>;
+    department_name?: Nullable<string>;
     specialization?: Nullable<string>;
-    skills: string[];
-    languages: string[];
+    skills: SkillMastery[];
+    languages: LanguageProficiency[];
 }
 
 export interface Project {
@@ -155,6 +176,11 @@ export interface Skill {
     id: string;
     created_at: string;
     name: string;
+}
+
+export interface SkillMastery {
+    skill_name: string;
+    mastery: string;
 }
 
 export interface User {
