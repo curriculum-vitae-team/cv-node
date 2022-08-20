@@ -18,6 +18,7 @@ export interface CvInput {
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
+    skills: SkillMasteryInput[];
     languages: LanguageProficiencyInput[];
 }
 
@@ -55,6 +56,11 @@ export interface ProjectInput {
 
 export interface SkillInput {
     name: string;
+}
+
+export interface SkillMasteryInput {
+    skill_name: string;
+    mastery: string;
 }
 
 export interface CreateUserInput {
@@ -120,6 +126,7 @@ export interface Cv {
     description: string;
     user?: Nullable<User>;
     projects?: Nullable<Project[]>;
+    skills: SkillMastery[];
     languages: LanguageProficiency[];
 }
 
@@ -168,6 +175,11 @@ export interface Skill {
     id: string;
     created_at: string;
     name: string;
+}
+
+export interface SkillMastery {
+    skill_name: string;
+    mastery: string;
 }
 
 export interface User {

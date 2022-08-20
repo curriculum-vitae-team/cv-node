@@ -17,3 +17,13 @@ type Mutation {
   updateSkill(id: ID!, skill: SkillInput!): Skill!
   deleteSkill(id: ID!): DeleteResult!
 }
+
+type SkillMastery {
+  skill_name: String!
+  mastery: String!
+}
+
+input SkillMasteryInput {
+  skill_name: String!
+  mastery: String!
+}
