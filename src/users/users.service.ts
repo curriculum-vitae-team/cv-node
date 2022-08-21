@@ -42,7 +42,10 @@ export class UsersService {
     const user = this.userRepository.create({
       email,
       password: await hash(password, 10),
-      profile: await this.profileService.create({}),
+      profile: await this.profileService.create({
+        skills: [],
+        languages: [],
+      }),
     });
     return this.userRepository.save(user);
   }
