@@ -16,6 +16,6 @@ input ProfileInput {
   last_name: String
   departmentId: ID
   specialization: String
-  skills: [SkillMasteryInput!]
-  languages: [LanguageProficiencyInput!]
+  skills: [SkillMasteryInput!]!
+  languages: [LanguageProficiencyInput!]!
 }
