@@ -11,6 +11,7 @@ import { Exclude } from "class-transformer";
 import { User } from "src/graphql";
 import { CvModel } from "src/cvs/model/cv.model";
 import { ProfileModel } from "src/profile/model/profile.model";
+import { UserRoles } from "./user.roles";
 
 @Entity("user")
 export class UserModel implements User {
@@ -33,4 +34,7 @@ export class UserModel implements User {
 
   @OneToMany(() => CvModel, (cv) => cv.user, { cascade: true })
   cvs: CvModel[];
+
+  @Column("enum", { enum: UserRoles, default: UserRoles.Employee })
+  role: UserRoles;
 }

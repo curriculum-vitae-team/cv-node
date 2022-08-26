@@ -189,6 +189,7 @@ export interface User {
     email: string;
     profile: Profile;
     cvs?: Nullable<Cv[]>;
+    role: string;
 }
 
 type Nullable<T> = T | null;
