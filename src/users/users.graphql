@@ -4,6 +4,7 @@ type User {
   email: String!
   profile: Profile!
   cvs: [Cv!]
+  role: String!
 }
 
 type Query {
