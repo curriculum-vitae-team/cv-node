@@ -1,4 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import { JwtGuard } from "../auth/jwt.guard";
 import { CvsService } from "./cvs.service";
 import { CvDto } from "./dto/cv.dto";
 
@@ -6,6 +8,7 @@ import { CvDto } from "./dto/cv.dto";
 export class CvsResolver {
   constructor(private readonly cvsService: CvsService) {}
 
+  @UseGuards(JwtGuard)
   @Query("cvs")
   cvs() {
     return this.cvsService.findAll();
