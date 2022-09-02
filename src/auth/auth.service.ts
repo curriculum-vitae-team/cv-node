@@ -19,8 +19,8 @@ export class AuthService {
   }
 
   signJwt(user: User): AuthResult {
-    const { id, email } = user;
-    const access_token = this.jwtService.sign({ sub: id, email });
+    const { id, email, role } = user;
+    const access_token = this.jwtService.sign({ sub: id, email, role });
     return { user, access_token };
   }
 

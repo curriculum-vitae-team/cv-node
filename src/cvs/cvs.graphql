@@ -7,6 +7,7 @@ type Cv {
   projects: [Project!]
   skills: [SkillMastery!]!
   languages: [LanguageProficiency!]!
+  is_template: Boolean!
 }
 
 type Query {
@@ -21,6 +22,7 @@ input CvInput {
   projectsIds: [ID!]!
   skills: [SkillMasteryInput!]!
   languages: [LanguageProficiencyInput!]!
+  is_template: Boolean!
 }
 
 type Mutation {

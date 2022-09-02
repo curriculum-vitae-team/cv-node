@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -37,4 +38,7 @@ export class CvDto implements CvInput {
   @Type(() => LanguageProficiencyDto)
   @ValidateNested()
   languages: LanguageProficiencyDto[];
+
+  @IsBoolean()
+  is_template: boolean;
 }

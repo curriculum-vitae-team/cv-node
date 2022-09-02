@@ -6,6 +6,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Cv, LanguageProficiency, SkillMastery } from "src/graphql";
 import { UserModel } from "src/users/model/user.model";
@@ -18,6 +19,9 @@ export class CvModel implements Cv {
 
   @CreateDateColumn()
   created_at: string;
+
+  @UpdateDateColumn()
+  updated_at: string;
 
   @Column()
   name: string;
@@ -37,4 +41,7 @@ export class CvModel implements Cv {
 
   @Column("simple-json", { default: [] })
   languages: LanguageProficiency[];
+
+  @Column("bool", { default: false })
+  is_template: boolean;
 }

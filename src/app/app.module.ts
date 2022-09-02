@@ -2,14 +2,18 @@ import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { APP_GUARD } from "@nestjs/core";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { ProfileModule } from "../profile/profile.module";
 import { DepartmentsModule } from "src/departments/departments.module";
+import { PositionsModule } from "src/positions/positions.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { SkillsModule } from "src/skills/skills.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
+import { JwtGuard } from "src/auth/jwt.guard";
+import { RolesGuard } from "./roles.guard";
 
 @Module({
   imports: [
@@ -34,10 +38,21 @@ import { ProjectsModule } from "../projects/projects.module";
     UsersModule,
     ProfileModule,
     DepartmentsModule,
+    PositionsModule,
     LanguagesModule,
     SkillsModule,
     ProjectsModule,
     CvsModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule {}

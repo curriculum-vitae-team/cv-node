@@ -1,4 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Roles } from "src/app/roles.decorator";
+import { UserRoles } from "src/users/model/user.roles";
 import { PositionsService } from "./positions.service";
 import { PositionDto } from "./dto/position.dto";
 
@@ -11,16 +13,19 @@ export class PositionsResolver {
     return this.positionsService.findAll();
   }
 
+  @Roles(UserRoles.Admin)
   @Mutation("createPosition")
   createPosition(@Args("position") args: PositionDto) {
     return this.positionsService.create(args);
   }
 
+  @Roles(UserRoles.Admin)
   @Mutation("updatePosition")
   updatePosition(@Args("id") id: string, @Args("position") args: PositionDto) {
     return this.positionsService.update(id, args);
   }
 
+  @Roles(UserRoles.Admin)
   @Mutation("deletePosition")
   deletePosition(@Args("id") id: string) {
     return this.positionsService.delete(id);
