@@ -20,6 +20,7 @@ export interface CvInput {
     projectsIds: string[];
     skills: SkillMasteryInput[];
     languages: LanguageProficiencyInput[];
+    is_template: boolean;
 }
 
 export interface DepartmentInput {
@@ -139,6 +140,7 @@ export interface Cv {
     projects?: Nullable<Project[]>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
+    is_template: boolean;
 }
 
 export interface Department {
