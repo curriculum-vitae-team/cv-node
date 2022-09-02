@@ -7,5 +7,6 @@ import { SkillsService } from "./skills.service";
 @Module({
   imports: [TypeOrmModule.forFeature([SkillModel])],
   providers: [SkillsResolver, SkillsService],
+  exports: [SkillsService],
 })
 export class SkillsModule {}

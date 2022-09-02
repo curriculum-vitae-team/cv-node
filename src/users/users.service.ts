@@ -38,39 +38,41 @@ export class UsersService {
   }
 
   async signup(variables: AuthInput) {
-    const { email, password } = variables;
+    const [password, profile] = await Promise.all([
+      hash(variables.password, 10),
+      this.profileService.create({ skills: [], languages: [] }),
+    ]);
     const user = this.userRepository.create({
-      email,
-      password: await hash(password, 10),
-      profile: await this.profileService.create({
-        skills: [],
-        languages: [],
-      }),
+      email: variables.email,
+      password,
+      profile,
     });
     return this.userRepository.save(user);
   }
 
   async create(variables: CreateUserInput) {
-    const { auth, profile, cvsIds } = variables;
-    const { email, password } = auth;
-    const user = this.userRepository.create({
-      email,
-      password: await hash(password, 10),
-      profile: await this.profileService.create(profile),
-      cvs: await this.cvsService.findManyByIds(cvsIds),
+    const user = await this.signup(variables.auth);
+    const [profile, cvs] = await Promise.all([
+      this.profileService.update(user.profile.id, variables.profile),
+      this.cvsService.findMany(variables.cvsIds),
+    ]);
+    Object.assign(user, {
+      profile,
+      cvs,
     });
     return this.userRepository.save(user);
   }
 
   async update(id: string, variables: UpdateUserInput) {
-    const { profile, cvsIds } = variables;
     const user = await this.findOneById(id);
-    if (profile) {
-      user.profile = await this.profileService.update(user.profile.id, profile);
-    }
-    if (cvsIds) {
-      user.cvs = await this.cvsService.findManyByIds(cvsIds);
-    }
+    const [profile, cvs] = await Promise.all([
+      this.profileService.update(user.profile.id, variables.profile),
+      this.cvsService.findMany(variables.cvsIds),
+    ]);
+    Object.assign(user, {
+      profile,
+      cvs,
+    });
     return this.userRepository.save(user);
   }
 

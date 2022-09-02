@@ -36,11 +36,15 @@ export interface LanguageProficiencyInput {
     proficiency: string;
 }
 
+export interface PositionInput {
+    name: string;
+}
+
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     departmentId?: Nullable<string>;
-    specialization?: Nullable<string>;
+    positionId?: Nullable<string>;
     skills: SkillMasteryInput[];
     languages: LanguageProficiencyInput[];
 }
@@ -52,6 +56,8 @@ export interface ProjectInput {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+    team_size: number;
+    skillsIds: string[];
 }
 
 export interface SkillInput {
@@ -89,6 +95,8 @@ export interface IQuery {
     cv(id: string): Cv | Promise<Cv>;
     departments(): Department[] | Promise<Department[]>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
+    positions(): Position[] | Promise<Position[]>;
+    position(id: string): Position | Promise<Position>;
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
     skills(): Skill[] | Promise<Skill[]>;
@@ -108,6 +116,9 @@ export interface IMutation {
     createLanguage(language: LanguageInput): Language | Promise<Language>;
     updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
+    createPosition(position: PositionInput): Position | Promise<Position>;
+    updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
+    deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
@@ -148,6 +159,12 @@ export interface LanguageProficiency {
     proficiency: string;
 }
 
+export interface Position {
+    id: string;
+    created_at: string;
+    name: string;
+}
+
 export interface Profile {
     id: string;
     created_at: string;
@@ -156,7 +173,8 @@ export interface Profile {
     full_name?: Nullable<string>;
     department?: Nullable<Department>;
     department_name?: Nullable<string>;
-    specialization?: Nullable<string>;
+    position?: Nullable<Position>;
+    position_name?: Nullable<string>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
 }
@@ -170,6 +188,8 @@ export interface Project {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+    team_size: number;
+    tech_stack?: Nullable<Skill[]>;
 }
 
 export interface Skill {

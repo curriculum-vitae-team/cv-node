@@ -7,8 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Expose } from "class-transformer";
-import { DepartmentModel } from "src/departments/model/department.model";
 import { LanguageProficiency, Profile, SkillMastery } from "src/graphql";
+import { DepartmentModel } from "src/departments/model/department.model";
+import { PositionModel } from "src/positions/model/position.model";
 
 @Entity("profile")
 export class ProfileModel implements Profile {
@@ -44,8 +45,17 @@ export class ProfileModel implements Profile {
     return this.department.name;
   }
 
-  @Column({ nullable: true })
-  specialization: string;
+  @ManyToOne(() => PositionModel, { nullable: true, eager: true })
+  @JoinColumn()
+  position: PositionModel;
+
+  @Expose()
+  get position_name() {
+    if (!this.position) {
+      return null;
+    }
+    return this.position.name;
+  }
 
   @Column("simple-json", { default: [] })
   skills: SkillMastery[];

@@ -1,4 +1,12 @@
-import { IsISO8601, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsArray,
+  IsISO8601,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from "class-validator";
+import { Type } from "class-transformer";
 import { ProjectInput } from "src/graphql";
 
 export class ProjectDto implements ProjectInput {
@@ -22,4 +30,11 @@ export class ProjectDto implements ProjectInput {
   @IsISO8601()
   @IsOptional()
   end_date: string;
+
+  @IsNumber()
+  team_size: number;
+
+  @IsArray()
+  @Type(() => String)
+  skillsIds: string[];
 }
