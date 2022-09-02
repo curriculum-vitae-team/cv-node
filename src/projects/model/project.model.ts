@@ -31,4 +31,7 @@ export class ProjectModel implements Project {
 
   @Column("date", { nullable: true })
   end_date?: string;
+
+  @Column("int", { default: 1 })
+  team_size: number;
 }

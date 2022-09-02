@@ -52,6 +52,7 @@ export interface ProjectInput {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+    team_size: number;
 }
 
 export interface SkillInput {
@@ -170,6 +171,7 @@ export interface Project {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+    team_size: number;
 }
 
 export interface Skill {

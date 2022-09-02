@@ -7,6 +7,7 @@ type Project {
   domain: String!
   start_date: String!
   end_date: String
+  team_size: Int!
 }
 
 type Query {
@@ -21,6 +22,7 @@ input ProjectInput {
   domain: String!
   start_date: String!
   end_date: String
+  team_size: Int!
 }
 
 type Mutation {
