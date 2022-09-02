@@ -24,7 +24,7 @@ export class UsersService {
   }
 
   findOneById(id: string) {
-    return this.userRepository.findOneOrFail({
+    return this.userRepository.findOne({
       relations: ["profile", "cvs"],
       where: { id },
     });

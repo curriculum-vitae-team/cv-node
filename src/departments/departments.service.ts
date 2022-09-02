@@ -16,7 +16,10 @@ export class DepartmentsService {
   }
 
   findOneById(id: string) {
-    return this.departmentRepository.findOneOrFail({
+    if (!id) {
+      return null;
+    }
+    return this.departmentRepository.findOne({
       where: { id },
     });
   }

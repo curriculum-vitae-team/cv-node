@@ -22,7 +22,10 @@ export class PositionsService {
   }
 
   findOneById(id: string) {
-    return this.positionRepository.findOneOrFail({
+    if (!id) {
+      return null;
+    }
+    return this.positionRepository.findOne({
       where: { id },
     });
   }

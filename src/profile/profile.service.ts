@@ -16,7 +16,7 @@ export class ProfileService {
   ) {}
 
   findOnyById(id: string) {
-    return this.profileRepository.findOneOrFail({
+    return this.profileRepository.findOne({
       where: { id },
     });
   }
