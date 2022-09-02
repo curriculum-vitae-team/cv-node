@@ -15,7 +15,7 @@ export class ProfileDto implements ProfileInput {
   departmentId: string;
 
   @IsString()
-  specialization: string;
+  positionId: string;
 
   @IsArray()
   @Type(() => SkillMasteryDto)

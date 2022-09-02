@@ -1,0 +1,28 @@
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { PositionsService } from "./positions.service";
+import { PositionDto } from "./dto/position.dto";
+
+@Resolver()
+export class PositionsResolver {
+  constructor(private readonly positionsService: PositionsService) {}
+
+  @Query("positions")
+  positions() {
+    return this.positionsService.findAll();
+  }
+
+  @Mutation("createPosition")
+  createPosition(@Args("position") args: PositionDto) {
+    return this.positionsService.create(args);
+  }
+
+  @Mutation("updatePosition")
+  updatePosition(@Args("id") id: string, @Args("position") args: PositionDto) {
+    return this.positionsService.update(id, args);
+  }
+
+  @Mutation("deletePosition")
+  deletePosition(@Args("id") id: string) {
+    return this.positionsService.delete(id);
+  }
+}
