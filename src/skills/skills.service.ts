@@ -22,7 +22,7 @@ export class SkillsService {
   }
 
   findOneById(id: string) {
-    return this.skillsRepository.findOneOrFail({
+    return this.skillsRepository.findOne({
       where: { id },
     });
   }

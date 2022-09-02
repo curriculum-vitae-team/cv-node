@@ -16,7 +16,7 @@ export class LanguagesService {
   }
 
   findOneById(id: string) {
-    return this.languageRepository.findOneOrFail({
+    return this.languageRepository.findOne({
       where: { id },
     });
   }

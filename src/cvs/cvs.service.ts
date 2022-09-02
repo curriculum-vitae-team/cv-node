@@ -30,14 +30,14 @@ export class CvsService {
   }
 
   findOneById(id: string) {
-    return this.cvRepository.findOneOrFail({
+    return this.cvRepository.findOne({
       relations: ["user", "projects"],
       where: { id },
     });
   }
 
   findOneByIdAndJoinProfile(id: string) {
-    return this.cvRepository.findOneOrFail({
+    return this.cvRepository.findOne({
       relations: ["projects"],
       join: {
         alias: "cv",
