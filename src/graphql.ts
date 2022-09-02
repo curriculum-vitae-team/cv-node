@@ -53,6 +53,7 @@ export interface ProjectInput {
     start_date: string;
     end_date?: Nullable<string>;
     team_size: number;
+    skillsIds: string[];
 }
 
 export interface SkillInput {
@@ -172,6 +173,7 @@ export interface Project {
     start_date: string;
     end_date?: Nullable<string>;
     team_size: number;
+    tech_stack?: Nullable<Skill[]>;
 }
 
 export interface Skill {
