@@ -16,7 +16,7 @@ export class CvsResolver {
 
   @Query("cv")
   cv(@Args("id") id: string) {
-    return this.cvsService.findOneById(id);
+    return this.cvsService.findOneByIdAndJoinProfile(id);
   }
 
   @Mutation("createCv")

@@ -15,9 +15,9 @@ export class SkillsService {
     return this.skillsRepository.find();
   }
 
-  findMany(skillsIds: string[]) {
+  findMany(ids: string[]) {
     return this.skillsRepository.find({
-      where: { id: In(skillsIds) },
+      where: { id: In(ids) },
     });
   }
 

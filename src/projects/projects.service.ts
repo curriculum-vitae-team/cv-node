@@ -17,6 +17,12 @@ export class ProjectsService {
     return this.projectsRepository.find();
   }
 
+  findMany(ids: string[]) {
+    return this.projectsRepository.find({
+      where: { id: In(ids) },
+    });
+  }
+
   findOneById(id: string) {
     return this.projectsRepository.findOneOrFail({
       relations: ["tech_stack"],
@@ -24,27 +30,25 @@ export class ProjectsService {
     });
   }
 
-  findManyByIds(ids: string[]) {
-    return this.projectsRepository.find({
-      where: { id: In(ids) },
-    });
-  }
-
   async create(variables: ProjectInput) {
     const { skillsIds, ...fields } = variables;
+    const tech_stack = await this.skillsService.findMany(skillsIds);
     const project = this.projectsRepository.create({
       ...fields,
-      tech_stack: await this.skillsService.findMany(skillsIds),
+      tech_stack,
     });
     return this.projectsRepository.save(project);
   }
 
   async update(id: string, variables: ProjectInput) {
     const { skillsIds, ...fields } = variables;
-    const project = await this.findOneById(id);
+    const [project, tech_stack] = await Promise.all([
+      this.findOneById(id),
+      this.skillsService.findMany(skillsIds),
+    ]);
     Object.assign(project, {
       ...fields,
-      tech_stack: await this.skillsService.findMany(skillsIds),
+      tech_stack,
     });
     return this.projectsRepository.save(project);
   }

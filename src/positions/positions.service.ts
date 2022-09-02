@@ -15,9 +15,9 @@ export class PositionsService {
     return this.positionRepository.find();
   }
 
-  findMany(positionsIds: string[]) {
+  findMany(ids: string[]) {
     return this.positionRepository.find({
-      where: { id: In(positionsIds) },
+      where: { id: In(ids) },
     });
   }
 

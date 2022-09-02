@@ -23,6 +23,12 @@ export class CvsService {
     });
   }
 
+  findMany(ids: string[]) {
+    return this.cvRepository.find({
+      where: { id: In(ids) },
+    });
+  }
+
   findOneById(id: string) {
     return this.cvRepository.findOneOrFail({
       relations: ["user", "projects"],
@@ -30,45 +36,45 @@ export class CvsService {
     });
   }
 
-  findManyByIds(ids: string[]) {
-    return this.cvRepository.find({
-      where: { id: In(ids) },
+  findOneByIdAndJoinProfile(id: string) {
+    return this.cvRepository.findOneOrFail({
+      relations: ["projects"],
+      join: {
+        alias: "cv",
+        leftJoinAndSelect: {
+          user: "cv.user",
+          profile: "user.profile",
+        },
+      },
+      where: { id },
     });
   }
 
   async create(variables: CvInput) {
-    const { name, description, userId, projectsIds, skills, languages } =
-      variables;
+    const { userId, projectsIds, ...fields } = variables;
     const [user, projects] = await Promise.all([
       this.usersService.findOneById(userId),
-      this.projectsService.findManyByIds(projectsIds),
+      this.projectsService.findMany(projectsIds),
     ]);
     const cv = this.cvRepository.create({
-      name,
-      description,
+      ...fields,
       user,
       projects,
-      skills,
-      languages,
     });
     return this.cvRepository.save(cv);
   }
 
   async update(id: string, variables: CvInput) {
-    const { name, description, userId, projectsIds, skills, languages } =
-      variables;
+    const { userId, projectsIds, ...fields } = variables;
     const [cv, user, projects] = await Promise.all([
       this.findOneById(id),
       this.usersService.findOneById(userId),
-      this.projectsService.findManyByIds(projectsIds),
+      this.projectsService.findMany(projectsIds),
     ]);
     Object.assign(cv, {
-      name,
-      description,
+      ...fields,
       user,
       projects,
-      skills,
-      languages,
     });
     return this.cvRepository.save(cv);
   }
@@ -79,7 +85,9 @@ export class CvsService {
 
   async unbind(id: string) {
     const cv = await this.findOneById(id);
-    cv.user = null;
+    Object.assign(cv, {
+      user: null,
+    });
     return this.cvRepository.save(cv);
   }
 }
