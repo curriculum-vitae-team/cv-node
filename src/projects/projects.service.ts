@@ -25,8 +25,8 @@ export class ProjectsService {
 
   findOneById(id: string) {
     return this.projectsRepository.findOne({
-      relations: ["tech_stack"],
       where: { id },
+      relations: ["tech_stack"],
     });
   }
 

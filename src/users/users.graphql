@@ -14,8 +14,9 @@ type Query {
 
 input CreateUserInput {
   auth: AuthInput!
-  profile: ProfileInput!
-  cvsIds: [String!]!
+  role: String!
+  profile: ProfileInput
+  cvsIds: [String!]
 }
 
 input UpdateUserInput {
