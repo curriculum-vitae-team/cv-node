@@ -14,6 +14,7 @@ import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { RolesGuard } from "./roles.guard";
+import { ComplexityPlugin } from "./complexity.plugin";
 
 @Module({
   imports: [
@@ -44,15 +45,16 @@ import { RolesGuard } from "./roles.guard";
     ProjectsModule,
     CvsModule,
   ],
-  // providers: [
-  //   {
-  //     provide: APP_GUARD,
-  //     useClass: JwtGuard,
-  //   },
-  //   {
-  //     provide: APP_GUARD,
-  //     useClass: RolesGuard,
-  //   },
-  // ],
+  providers: [
+    ComplexityPlugin,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: JwtGuard,
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
+  ],
 })
 export class AppModule {}
