@@ -51,14 +51,17 @@ export class UsersService {
   }
 
   async create(variables: CreateUserInput) {
+    const { role, profile, cvsIds } = variables;
     const user = await this.signup(variables.auth);
-    const [profile, cvs] = await Promise.all([
-      this.profileService.update(user.profile.id, variables.profile),
-      this.cvsService.findMany(variables.cvsIds),
-    ]);
+    if (profile) {
+      const profileId = user.profile.id;
+      user.profile = await this.profileService.update(profileId, profile);
+    }
+    if (cvsIds) {
+      user.cvs = await this.cvsService.findMany(variables.cvsIds);
+    }
     Object.assign(user, {
-      profile,
-      cvs,
+      role,
     });
     return this.userRepository.save(user);
   }
