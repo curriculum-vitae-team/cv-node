@@ -64,15 +64,15 @@ export class UsersService {
   }
 
   async update(id: string, variables: UpdateUserInput) {
+    const { profile, cvsIds } = variables;
     const user = await this.findOneById(id);
-    const [profile, cvs] = await Promise.all([
-      this.profileService.update(user.profile.id, variables.profile),
-      this.cvsService.findMany(variables.cvsIds),
-    ]);
-    Object.assign(user, {
-      profile,
-      cvs,
-    });
+    if (profile) {
+      const profileId = user.profile.id;
+      user.profile = await this.profileService.update(profileId, profile);
+    }
+    if (cvsIds) {
+      user.cvs = await this.cvsService.findMany(cvsIds);
+    }
     return this.userRepository.save(user);
   }
 
