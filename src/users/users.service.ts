@@ -25,15 +25,15 @@ export class UsersService {
 
   findOneById(id: string) {
     return this.userRepository.findOne({
-      relations: ["profile", "cvs"],
       where: { id },
+      relations: ["profile", "cvs"],
     });
   }
 
   findOneByEmail(email: string) {
     return this.userRepository.findOne({
-      relations: ["profile"],
       where: { email },
+      relations: ["profile"],
     });
   }
 

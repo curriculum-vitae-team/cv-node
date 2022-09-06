@@ -31,22 +31,24 @@ export class CvsService {
 
   findOneById(id: string) {
     return this.cvRepository.findOne({
-      relations: ["user", "projects"],
       where: { id },
+      relations: ["user", "projects"],
     });
   }
 
   findOneByIdAndJoinProfile(id: string) {
     return this.cvRepository.findOne({
+      where: { id },
       relations: ["projects"],
       join: {
         alias: "cv",
         leftJoinAndSelect: {
           user: "cv.user",
           profile: "user.profile",
+          department: "profile.department",
+          position: "profile.position",
         },
       },
-      where: { id },
     });
   }
 
