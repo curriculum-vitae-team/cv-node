@@ -11,12 +11,6 @@ export class ProfileDto implements ProfileInput {
   @IsString()
   last_name: string;
 
-  @IsString()
-  departmentId: string;
-
-  @IsString()
-  positionId: string;
-
   @IsArray()
   @Type(() => SkillMasteryDto)
   @ValidateNested()

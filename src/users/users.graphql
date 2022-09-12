@@ -4,6 +4,10 @@ type User {
   email: String!
   profile: Profile!
   cvs: [Cv!]
+  department: Department
+  department_name: String
+  position: Position
+  position_name: String
   role: String!
 }
 
@@ -14,14 +18,18 @@ type Query {
 
 input CreateUserInput {
   auth: AuthInput!
-  role: String!
   profile: ProfileInput!
   cvsIds: [String!]!
+  departmentId: ID
+  positionId: ID
+  role: String!
 }
 
 input UpdateUserInput {
   profile: ProfileInput!
   cvsIds: [String!]!
+  departmentId: ID
+  positionId: ID
 }
 
 type Mutation {

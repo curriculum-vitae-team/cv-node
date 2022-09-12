@@ -3,14 +3,17 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Exclude } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import { User } from "src/graphql";
 import { CvModel } from "src/cvs/model/cv.model";
 import { ProfileModel } from "src/profile/model/profile.model";
+import { DepartmentModel } from "src/departments/model/department.model";
+import { PositionModel } from "src/positions/model/position.model";
 import { UserRoles } from "./user.roles";
 
 @Entity("user")
@@ -34,6 +37,30 @@ export class UserModel implements User {
 
   @OneToMany(() => CvModel, (cv) => cv.user, { cascade: true })
   cvs: CvModel[];
+
+  @ManyToOne(() => DepartmentModel, { nullable: true, eager: true })
+  @JoinColumn()
+  department: DepartmentModel;
+
+  @Expose()
+  get department_name() {
+    if (!this.department) {
+      return null;
+    }
+    return this.department.name;
+  }
+
+  @ManyToOne(() => PositionModel, { nullable: true, eager: true })
+  @JoinColumn()
+  position: PositionModel;
+
+  @Expose()
+  get position_name() {
+    if (!this.position) {
+      return null;
+    }
+    return this.position.name;
+  }
 
   @Column("enum", { enum: UserRoles, default: UserRoles.Employee })
   role: UserRoles;

@@ -45,8 +45,8 @@ export class CvsService {
         leftJoinAndSelect: {
           user: "cv.user",
           profile: "user.profile",
-          department: "profile.department",
-          position: "profile.position",
+          department: "user.department",
+          position: "user.position",
         },
       },
     });

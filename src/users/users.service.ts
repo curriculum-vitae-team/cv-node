@@ -6,6 +6,8 @@ import { UserModel } from "./model/user.model";
 import { CreateUserInput, UpdateUserInput, AuthInput } from "src/graphql";
 import { CvsService } from "src/cvs/cvs.service";
 import { ProfileService } from "src/profile/profile.service";
+import { DepartmentsService } from "src/departments/departments.service";
+import { PositionsService } from "src/positions/positions.service";
 
 @Injectable()
 export class UsersService {
@@ -14,19 +16,21 @@ export class UsersService {
     private readonly userRepository: Repository<UserModel>,
     @Inject(forwardRef(() => CvsService))
     private readonly cvsService: CvsService,
-    private readonly profileService: ProfileService
+    private readonly profileService: ProfileService,
+    private readonly departmentsService: DepartmentsService,
+    private readonly positionsService: PositionsService
   ) {}
 
   findAll() {
     return this.userRepository.find({
-      relations: ["profile", "cvs"],
+      relations: ["profile", "cvs", "department", "position"],
     });
   }
 
   findOneById(id: string) {
     return this.userRepository.findOne({
       where: { id },
-      relations: ["profile", "cvs"],
+      relations: ["profile", "cvs", "department", "position"],
     });
   }
 
@@ -51,10 +55,12 @@ export class UsersService {
   }
 
   async create(variables: CreateUserInput) {
-    const { role, cvsIds } = variables;
-    const [user, cvs] = await Promise.all([
+    const { role, cvsIds, departmentId, positionId } = variables;
+    const [user, cvs, department, position] = await Promise.all([
       this.signup(variables.auth),
       this.cvsService.findMany(cvsIds),
+      this.departmentsService.findOneById(departmentId),
+      this.positionsService.findOneById(positionId),
     ]);
     const profile = await this.profileService.update(
       user.profile.id,
@@ -63,16 +69,20 @@ export class UsersService {
     Object.assign(user, {
       profile,
       cvs,
+      department,
+      position,
       role,
     });
     return this.userRepository.save(user);
   }
 
   async update(id: string, variables: UpdateUserInput) {
-    const { cvsIds } = variables;
-    const [user, cvs] = await Promise.all([
+    const { cvsIds, departmentId, positionId } = variables;
+    const [user, cvs, department, position] = await Promise.all([
       this.findOneById(id),
       this.cvsService.findMany(cvsIds),
+      this.departmentsService.findOneById(departmentId),
+      this.positionsService.findOneById(positionId),
     ]);
     const profile = await this.profileService.update(
       user.profile.id,
@@ -81,6 +91,8 @@ export class UsersService {
     Object.assign(user, {
       profile,
       cvs,
+      department,
+      position,
     });
     return this.userRepository.save(user);
   }

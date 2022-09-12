@@ -44,8 +44,6 @@ export interface PositionInput {
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    departmentId?: Nullable<string>;
-    positionId?: Nullable<string>;
     skills: SkillMasteryInput[];
     languages: LanguageProficiencyInput[];
 }
@@ -72,14 +70,18 @@ export interface SkillMasteryInput {
 
 export interface CreateUserInput {
     auth: AuthInput;
-    role: string;
     profile: ProfileInput;
     cvsIds: string[];
+    departmentId?: Nullable<string>;
+    positionId?: Nullable<string>;
+    role: string;
 }
 
 export interface UpdateUserInput {
     profile: ProfileInput;
     cvsIds: string[];
+    departmentId?: Nullable<string>;
+    positionId?: Nullable<string>;
 }
 
 export interface DeleteResult {
@@ -174,10 +176,6 @@ export interface Profile {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     full_name?: Nullable<string>;
-    department?: Nullable<Department>;
-    department_name?: Nullable<string>;
-    position?: Nullable<Position>;
-    position_name?: Nullable<string>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
 }
@@ -212,6 +210,10 @@ export interface User {
     email: string;
     profile: Profile;
     cvs?: Nullable<Cv[]>;
+    department?: Nullable<Department>;
+    department_name?: Nullable<string>;
+    position?: Nullable<Position>;
+    position_name?: Nullable<string>;
     role: string;
 }
 
