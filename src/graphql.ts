@@ -73,13 +73,13 @@ export interface SkillMasteryInput {
 export interface CreateUserInput {
     auth: AuthInput;
     role: string;
-    profile?: Nullable<ProfileInput>;
-    cvsIds?: Nullable<string[]>;
+    profile: ProfileInput;
+    cvsIds: string[];
 }
 
 export interface UpdateUserInput {
-    profile?: Nullable<ProfileInput>;
-    cvsIds?: Nullable<string[]>;
+    profile: ProfileInput;
+    cvsIds: string[];
 }
 
 export interface DeleteResult {

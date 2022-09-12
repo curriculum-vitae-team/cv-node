@@ -15,13 +15,13 @@ type Query {
 input CreateUserInput {
   auth: AuthInput!
   role: String!
-  profile: ProfileInput
-  cvsIds: [String!]
+  profile: ProfileInput!
+  cvsIds: [String!]!
 }
 
 input UpdateUserInput {
-  profile: ProfileInput
-  cvsIds: [String!]
+  profile: ProfileInput!
+  cvsIds: [String!]!
 }
 
 type Mutation {
