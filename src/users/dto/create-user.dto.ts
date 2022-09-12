@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsObject, IsOptional } from "class-validator";
+import { IsArray, IsEnum, IsObject, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { CreateUserInput } from "src/graphql";
 import { SignupDto } from "src/auth/dto/signup.dto";
@@ -15,11 +15,15 @@ export class CreateUserDto implements CreateUserInput {
 
   @IsObject()
   @Type(() => ProfileDto)
-  @IsOptional()
   profile: ProfileDto;
 
   @IsArray()
   @Type(() => String)
-  @IsOptional()
   cvsIds: string[];
+
+  @IsString()
+  departmentId: string;
+
+  @IsString()
+  positionId: string;
 }

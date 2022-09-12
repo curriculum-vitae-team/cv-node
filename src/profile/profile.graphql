@@ -4,10 +4,6 @@ type Profile {
   first_name: String
   last_name: String
   full_name: String
-  department: Department
-  department_name: String
-  position: Position
-  position_name: String
   skills: [SkillMastery!]!
   languages: [LanguageProficiency!]!
 }
@@ -15,8 +11,6 @@ type Profile {
 input ProfileInput {
   first_name: String
   last_name: String
-  departmentId: ID
-  positionId: ID
   skills: [SkillMasteryInput!]!
   languages: [LanguageProficiencyInput!]!
 }
