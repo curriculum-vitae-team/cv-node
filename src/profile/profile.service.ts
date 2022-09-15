@@ -27,4 +27,26 @@ export class ProfileService {
     Object.assign(profile, variables);
     return this.profileRepository.save(profile);
   }
+
+  fileToBase64(avatar: File) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(avatar);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  async uploadAvatar(id: string, avatar: File) {
+    const [profile, url] = await Promise.all([
+      this.findOnyById(id),
+      this.fileToBase64(avatar),
+    ]);
+    // TODO: save avatar to cloud and get url
+    Object.assign(profile, {
+      avatar: url,
+    });
+    await this.profileRepository.save(profile);
+    return url;
+  }
 }

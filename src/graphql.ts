@@ -123,6 +123,7 @@ export interface IMutation {
     createPosition(position: PositionInput): Position | Promise<Position>;
     updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
     deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
+    uploadAvatar(id: string, avatar: Upload): string | Promise<string>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
@@ -176,6 +177,7 @@ export interface Profile {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
     full_name?: Nullable<string>;
+    avatar?: Nullable<string>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
 }
@@ -217,4 +219,5 @@ export interface User {
     role: string;
 }
 
+export type Upload = any;
 type Nullable<T> = T | null;

@@ -29,6 +29,9 @@ export class ProfileModel implements Profile {
     return [this.first_name, this.last_name].join(" ").trim();
   }
 
+  @Column({ nullable: true })
+  avatar: string;
+
   @Column("simple-json", { default: [] })
   skills: SkillMastery[];
 
