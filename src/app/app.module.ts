@@ -47,14 +47,14 @@ import { ComplexityPlugin } from "./complexity.plugin";
   ],
   providers: [
     ComplexityPlugin,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: JwtGuard,
-    // },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
   ],
 })
 export class AppModule {}
