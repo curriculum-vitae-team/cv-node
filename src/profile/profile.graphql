@@ -16,8 +16,15 @@ input ProfileInput {
   languages: [LanguageProficiencyInput!]!
 }
 
-scalar Upload
+scalar Void
+
+input AvatarInput {
+  base64: String!
+  size: Int!
+  type: String!
+}
 
 type Mutation {
-  uploadAvatar(id: ID!, avatar: Upload!): String!
+  uploadAvatar(id: ID!, avatar: AvatarInput!): String!
+  deleteAvatar(id: ID!): Void
 }
