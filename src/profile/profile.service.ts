@@ -28,7 +28,7 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  fileToBase64(avatar: File) {
+  fileToBase64(avatar) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(avatar);
@@ -37,7 +37,7 @@ export class ProfileService {
     });
   }
 
-  async uploadAvatar(id: string, avatar: File) {
+  async uploadAvatar(id: string, avatar) {
     const [profile, url] = await Promise.all([
       this.findOnyById(id),
       this.fileToBase64(avatar),
