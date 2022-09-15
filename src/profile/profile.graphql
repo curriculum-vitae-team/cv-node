@@ -4,6 +4,7 @@ type Profile {
   first_name: String
   last_name: String
   full_name: String
+  avatar: String
   skills: [SkillMastery!]!
   languages: [LanguageProficiency!]!
 }
@@ -13,4 +14,10 @@ input ProfileInput {
   last_name: String
   skills: [SkillMasteryInput!]!
   languages: [LanguageProficiencyInput!]!
+}
+
+scalar Upload
+
+type Mutation {
+  uploadAvatar(id: ID!, avatar: Upload!): String!
 }
