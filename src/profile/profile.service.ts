@@ -28,25 +28,22 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  fileToBase64(avatar) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(avatar);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  }
+  // fileToBase64(avatar) {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(avatar);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // }
 
   async uploadAvatar(id: string, avatar) {
-    const [profile, url] = await Promise.all([
-      this.findOnyById(id),
-      this.fileToBase64(avatar),
-    ]);
+    const profile = await this.findOnyById(id);
     // TODO: save avatar to cloud and get url
-    Object.assign(profile, {
-      avatar: url,
-    });
-    await this.profileRepository.save(profile);
-    return url;
+    // Object.assign(profile, {
+    //   avatar,
+    // });
+    // await this.profileRepository.save(profile);
+    return "url";
   }
 }
