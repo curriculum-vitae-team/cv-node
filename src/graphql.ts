@@ -48,6 +48,12 @@ export interface ProfileInput {
     languages: LanguageProficiencyInput[];
 }
 
+export interface AvatarInput {
+    base64: string;
+    size: number;
+    type: string;
+}
+
 export interface ProjectInput {
     name: string;
     internal_name?: Nullable<string>;
@@ -123,7 +129,8 @@ export interface IMutation {
     createPosition(position: PositionInput): Position | Promise<Position>;
     updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
     deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
-    uploadAvatar(id: string, avatar: Upload): string | Promise<string>;
+    uploadAvatar(id: string, avatar: AvatarInput): string | Promise<string>;
+    deleteAvatar(id: string): Nullable<Void> | Promise<Nullable<Void>>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
@@ -219,5 +226,5 @@ export interface User {
     role: string;
 }
 
-export type Upload = any;
+export type Void = any;
 type Nullable<T> = T | null;

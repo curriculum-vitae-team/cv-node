@@ -6,12 +6,14 @@ import { APP_GUARD } from "@nestjs/core";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { ProfileModule } from "../profile/profile.module";
+import { CloudModule } from "src/cloud/cloud.module";
 import { DepartmentsModule } from "src/departments/departments.module";
 import { PositionsModule } from "src/positions/positions.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { SkillsModule } from "src/skills/skills.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
+import { Void } from "./void.scalar";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { RolesGuard } from "./roles.guard";
 import { ComplexityPlugin } from "./complexity.plugin";
@@ -26,6 +28,9 @@ import { ComplexityPlugin } from "./complexity.plugin";
       introspection: true,
       cors: true,
       path: "/api/graphql",
+      resolvers: {
+        Void,
+      },
     }),
     TypeOrmModule.forRoot({
       keepConnectionAlive: true,
@@ -37,6 +42,7 @@ import { ComplexityPlugin } from "./complexity.plugin";
     }),
     AuthModule,
     UsersModule,
+    CloudModule,
     ProfileModule,
     DepartmentsModule,
     PositionsModule,
