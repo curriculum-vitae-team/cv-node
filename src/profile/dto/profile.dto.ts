@@ -12,12 +12,12 @@ export class ProfileDto implements ProfileInput {
   last_name: string;
 
   @IsArray()
-  @Type(() => SkillMasteryDto)
   @ValidateNested()
+  @Type(() => SkillMasteryDto)
   skills: SkillMasteryDto[];
 
   @IsArray()
-  @Type(() => LanguageProficiencyDto)
   @ValidateNested()
+  @Type(() => LanguageProficiencyDto)
   languages: LanguageProficiencyDto[];
 }

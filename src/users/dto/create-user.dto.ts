@@ -1,4 +1,10 @@
-import { IsArray, IsEnum, IsObject, IsString } from "class-validator";
+import {
+  IsArray,
+  IsEnum,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { CreateUserInput } from "src/graphql";
 import { SignupDto } from "src/auth/dto/signup.dto";
@@ -14,6 +20,7 @@ export class CreateUserDto implements CreateUserInput {
   role: UserRoles;
 
   @IsObject()
+  @ValidateNested()
   @Type(() => ProfileDto)
   profile: ProfileDto;
 
