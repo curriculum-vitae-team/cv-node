@@ -10,7 +10,7 @@ export class CloudService {
     const hash = createHash("md5").update(base64);
     const filename = hash.digest("base64");
     const result = await this.cloudRepository.upload(base64, {
-      folder: "user_avatars_v2",
+      folder: "user_avatars",
       use_filename: true,
       unique_filename: false,
       filename_override: filename,
