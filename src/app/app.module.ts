@@ -13,6 +13,7 @@ import { LanguagesModule } from "../languages/languages.module";
 import { SkillsModule } from "src/skills/skills.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
+import { MailModule } from "src/mail/mail.module";
 import { Void } from "./void.scalar";
 import { JwtGuard } from "src/auth/jwt.guard";
 import { RolesGuard } from "./roles.guard";
@@ -50,6 +51,7 @@ import { ComplexityPlugin } from "./complexity.plugin";
     SkillsModule,
     ProjectsModule,
     CvsModule,
+    MailModule,
   ],
   providers: [
     ComplexityPlugin,
