@@ -6,11 +6,12 @@ import { User } from "src/graphql";
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  onSignUpSuccess(user: User, origin: string, token: string) {
-    this.mailerService.sendMail({
+  confirmEmailAfterSignUp(user: User, origin: string, token: string) {
+    return this.mailerService.sendMail({
       to: user.email,
       subject: "Please confirm your email address.",
-      template: "./confirm-email",
+      // template: "./confirm-email",
+      text: "123",
       context: {
         email: user.email,
         url: origin + `/verify?token=${token}`,

@@ -7,17 +7,17 @@ import { MailService } from "./mail.service";
 @Module({
   imports: [
     MailerModule.forRoot({
-      transport: process.env.SMTPS_URL,
+      transport: process.env.SMTP_URL,
       defaults: {
-        from: '"No Reply" <noreply@cv-gen.com>',
+        from: '"No Reply" <noreply.cv.gen@gmail.com>',
       },
-      template: {
-        dir: join(__dirname, "templates"),
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
-        },
-      },
+      // template: {
+      //   dir: "./templates",
+      //   adapter: new HandlebarsAdapter(),
+      //   options: {
+      //     strict: true,
+      //   },
+      // },
     }),
   ],
   providers: [MailService],
