@@ -2,6 +2,7 @@ type User {
   id: ID!
   created_at: String!
   email: String!
+  is_verified: Boolean!
   profile: Profile!
   cvs: [Cv!]
   department: Department

@@ -217,6 +217,7 @@ export interface User {
     id: string;
     created_at: string;
     email: string;
+    is_verified: boolean;
     profile: Profile;
     cvs?: Nullable<Cv[]>;
     department?: Nullable<Department>;

@@ -27,6 +27,9 @@ export class UserModel implements User {
   @Column({ unique: true })
   email: string;
 
+  @Column("boolean", { default: false })
+  is_verified: boolean;
+
   @Column()
   @Exclude()
   password: string;
