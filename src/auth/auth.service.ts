@@ -40,8 +40,7 @@ export class AuthService {
     this.mailService.confirmEmailAfterSignUp(
       user,
       // TODO: use real url
-      "https://cv-gen-fe",
-      result.access_token
+      "https://cv-gen-fe"
     );
     return result;
   }
