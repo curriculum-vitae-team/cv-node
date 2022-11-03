@@ -1,14 +1,16 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
-import { AuthInput, AuthResult, User } from "../graphql";
 import { UsersService } from "../users/users.service";
+import { MailService } from "src/mail/mail.service";
+import { AuthInput, AuthResult, User } from "../graphql";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly mailService: MailService
   ) {}
 
   async validate({ email, password }: AuthInput) {
@@ -34,6 +36,13 @@ export class AuthService {
 
   async signup(variables: AuthInput) {
     const user = await this.usersService.signup(variables);
-    return this.signJwt(user);
+    const result = this.signJwt(user);
+    this.mailService.confirmEmailAfterSignUp(
+      user,
+      // TODO: use real url
+      "https://cv-gen-fe",
+      result.access_token
+    );
+    return result;
   }
 }
