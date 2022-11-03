@@ -6,14 +6,20 @@ import { User } from "src/graphql";
 export class MailService {
   constructor(private readonly mailerService: MailerService) {}
 
-  confirmEmailAfterSignUp(user: User, origin: string, token: string) {
+  createVerificationCode() {
+    return [...Array(6)].map(() => (Math.random() * 10) | 0).join("");
+  }
+
+  confirmEmailAfterSignUp(user: User, origin: string) {
+    const code = this.createVerificationCode();
     return this.mailerService.sendMail({
       to: user.email,
       subject: "Please confirm your email address.",
       template: "./confirm-email.hbs",
       context: {
-        email: user.email,
-        url: origin + `/verify?token=${token}`,
+        code,
+        url: origin + `/verify?code=${code}`,
+        from: process.env.MAIL_FROM,
       },
     });
   }
