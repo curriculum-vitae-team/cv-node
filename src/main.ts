@@ -1,5 +1,4 @@
-const env = require("dotenv").config();
-require("dotenv-expand").expand(env);
+require("dotenv").config();
 
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
