@@ -3,8 +3,6 @@ import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { MailService } from "./mail.service";
 
-console.log(process.env.SMTP_URL);
-
 @Module({
   imports: [
     MailerModule.forRoot({
