@@ -10,6 +10,7 @@ jobs:
     name: Deploy
     timeout-minutes: 5
     env:
+      YARN_PRODUCTION: false
       PORT: 3000
       NODE_ENV: production
       DATABASE_URL: postgres://rjyxjtuowkxnig:af1092ab3911a43ef1324f15ddbbcbb65926ea81a3bc29620f85810da6160b92@ec2-34-253-119-24.eu-west-1.compute.amazonaws.com:5432/de3fb1pkk65f62
@@ -28,7 +29,7 @@ jobs:
           node-version: "16.x"
 
       - name: Install
-        run: yarn --production=false --frozen-lockfile
+        run: yarn --frozen-lockfile
 
       - name: Build
         run: nest build
