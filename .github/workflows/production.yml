@@ -28,7 +28,7 @@ jobs:
           node-version: "16.x"
 
       - name: Install
-        run: yarn --frozen-lockfile
+        run: yarn --production=false --frozen-lockfile
 
       - name: Build
         run: nest build
