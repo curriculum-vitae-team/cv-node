@@ -9,7 +9,6 @@ jobs:
   build:
     name: Deploy
     timeout-minutes: 5
-    runs-on: ubuntu-latest
     env:
       PORT: 3000
       NODE_ENV: production
@@ -19,12 +18,13 @@ jobs:
       CLOUDINARY_URL: cloudinary://176525619261476:cOXUW6blKaXL89800PmAK3Umez0@cv-gen-cloud
       MAIL_FROM: curriculum.vitae.team@gmail.com
       SMTP_URL: smtp://curriculum.vitae.team@gmail.com:gymnjxhsmvgdbjxw@smtp.gmail.com:587
+    runs-on: ubuntu-latest
     steps:
       - name: Build
-      run: yarn install
-      run: yarn build
+        run: yarn install
+        run: yarn build
       - name: Upload
-      run: scp -r /dist devss@10.90.15.143:/dist
+        run: scp -r /dist devss@10.90.15.143:/dist
       - name: Start
-      run: ssh devss@10.90.15.143 'killall node'
-      run: ssh devss@10.90.15.143 'node dist/src/main'
+        run: ssh devss@10.90.15.143 'killall node'
+        run: ssh devss@10.90.15.143 'node dist/src/main'
