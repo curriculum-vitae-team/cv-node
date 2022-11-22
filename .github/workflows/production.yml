@@ -3,7 +3,7 @@ name: Production
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         run: yarn install
 
       - name: Build
-        run: yarn build
+        run: yarn @nestjs/cli build
 
       - name: Upload
         run: scp -r /dist devss@10.90.15.143:/dist
