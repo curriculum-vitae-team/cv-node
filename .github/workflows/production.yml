@@ -20,11 +20,17 @@ jobs:
       SMTP_URL: smtp://curriculum.vitae.team@gmail.com:gymnjxhsmvgdbjxw@smtp.gmail.com:587
     runs-on: ubuntu-latest
     steps:
-      - name: Build
+      - name: Install
         run: yarn install
+
+      - name: Build
         run: yarn build
+
       - name: Upload
         run: scp -r /dist devss@10.90.15.143:/dist
-      - name: Start
+
+      - name: Stop
         run: ssh devss@10.90.15.143 'killall node'
+
+      - name: Start
         run: ssh devss@10.90.15.143 'node dist/src/main'
