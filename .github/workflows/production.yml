@@ -20,6 +20,8 @@ jobs:
       SMTP_URL: smtp://curriculum.vitae.team@gmail.com:gymnjxhsmvgdbjxw@smtp.gmail.com:587
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install
         run: yarn install
 
