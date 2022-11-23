@@ -37,5 +37,5 @@ Builds the app for production to the `dist` folder.
 
 ## Production
 
-It is up to you. Any Node.js & PostgreSQL supported service will work.\
-Currently deployed on [Heroku](https://cv-gen-be.herokuapp.com/api/graphql).
+Old deployment on [Heroku](https://cv-gen-be.herokuapp.com/api/graphql).
+Application should be exposed on port 80. Production [link](https://cv-project-js.inno.ws/api/graphql).
