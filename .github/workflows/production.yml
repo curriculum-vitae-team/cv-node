@@ -11,17 +11,26 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - name: Stop
-        run: ssh devss@10.90.15.143 'killall node'
+      steps:
+        - name: Add SSH key
+          uses: shimataro/ssh-key-action@v2
+          with:
+            key: ${{ secrets.SSH_KEY }}
 
-      - name: Upload
-        run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
+        - name: Add known hosts
+          run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Install
-        run: ssh devss@10.90.15.143 'cd cv-node && yarn --frozen-lockfile'
+        - name: Stop process
+          run: ssh ${{ secrets.SSH_LOGIN }} 'killall node'
 
-      - name: Build
-        run: ssh devss@10.90.15.143 'cd cv-node && yarn build'
+        - name: Upload
+          run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock ${{ secrets.SSH_LOGIN }}:cv-node
 
-      - name: Start
-        run: ssh devss@10.90.15.143 'sudo node cv-node/dist/main'
+        - name: Install
+          run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn --frozen-lockfile'
+
+        - name: Build
+          run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn build'
+
+        - name: Start
+          run: ssh ${{ secrets.SSH_LOGIN }} 'sudo node cv-node/dist/main'
