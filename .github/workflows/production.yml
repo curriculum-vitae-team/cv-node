@@ -6,9 +6,9 @@ on:
       - develop
 
 jobs:
-  timeout-minutes: 1
   build:
     name: Deploy
+    timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
       - name: Add SSH key
