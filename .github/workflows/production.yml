@@ -21,7 +21,7 @@ jobs:
       # run: ssh-copy-id ${{ secrets.SSH_LOGIN }}
 
       - name: Stop process
-        run: ssh devss@10.90.15.143 'killall node'
+        run: ssh devss@10.90.15.143 -tt -vvv 'killall node'
 
       - name: Upload
         run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock ${{ secrets.SSH_LOGIN }}:cv-node
