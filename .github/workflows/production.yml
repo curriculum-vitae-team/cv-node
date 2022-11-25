@@ -17,8 +17,8 @@ jobs:
       - name: Execute remote commands
         uses: appleboy/ssh-action@master
         with:
-          host: devss@10.90.15.143
-          # username: devss
+          host: 10.90.15.143
+          username: devss
           password: CGFe3cw!c@w
           # key: ${{ secrets.SSH_KEY }}
           # port: ${{ secrets.PORT }}
