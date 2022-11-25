@@ -11,35 +11,19 @@ jobs:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
+      - name: Upload
+        run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
+
       - name: Execute remote commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: production
-      # - name: Add SSH key
-      #   uses: shimataro/ssh-key-action@v2
-      #   with:
-      #     key: ${{ secrets.SSH_KEY }}
-      #     known_hosts: ${{ secrets.SSH_HOST }}
-
-      # - name: Add to authorized keys
-      # run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      # run: ssh-copy-id ${{ secrets.SSH_LOGIN }}
-
-      # - name: Stop process
-      #   run: ssh -tt -vvv devss@10.90.15.143 'killall node'
-
-      # - name: Upload
-      #   run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock ${{ secrets.SSH_LOGIN }}:cv-node
-
-      # - name: Install
-      #   run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn --frozen-lockfile'
-
-      # - name: Build
-      #   run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn build'
-
-      # - name: Start
-      #   run: ssh ${{ secrets.SSH_LOGIN }} 'sudo node cv-node/dist/main'
+          script: |
+            whoami
+            killall node
+            cd cv-node
+            yarn --frozen-lockfile
+            yarn build
+            sudo node cv-node/dist/main
