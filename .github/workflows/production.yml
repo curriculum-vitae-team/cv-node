@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload
-        run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
+        run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
 
       - name: Execute remote commands
         uses: appleboy/ssh-action@master
