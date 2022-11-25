@@ -16,21 +16,21 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: unknown
 
-      - name: Add to authorized keys
-        # run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        run: ssh-copy-id ${{ secrets.SSH_LOGIN }}
+      # - name: Add to authorized keys
+      # run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      # run: ssh-copy-id ${{ secrets.SSH_LOGIN }}
 
       - name: Stop process
-        run: ssh ${{ secrets.SSH_LOGIN }} 'killall node'
+        run: ssh -A ${{ secrets.SSH_LOGIN }} 'killall node'
 
       - name: Upload
         run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock ${{ secrets.SSH_LOGIN }}:cv-node
 
       - name: Install
-        run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn --frozen-lockfile'
+        run: ssh -A ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn --frozen-lockfile'
 
       - name: Build
-        run: ssh ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn build'
+        run: ssh -A ${{ secrets.SSH_LOGIN }} 'cd cv-node && yarn build'
 
       - name: Start
-        run: ssh ${{ secrets.SSH_LOGIN }} 'sudo node cv-node/dist/main'
+        run: ssh -A ${{ secrets.SSH_LOGIN }} 'sudo node cv-node/dist/main'
