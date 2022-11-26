@@ -18,7 +18,7 @@ jobs:
 
       - name: Kill process
         run: |
-          ssh devss@10.90.15.143
+          ssh -t -vv devss@10.90.15.143
           whoami
           killall node
 
