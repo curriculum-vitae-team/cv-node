@@ -11,6 +11,15 @@ jobs:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
+      - name: Kill process
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            whoami
+            killall node
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
       # - uses: actions/checkout@v3
       # - uses: webfactory/ssh-agent@v0.7.0
       #   with:
@@ -49,14 +58,14 @@ jobs:
       #     scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
       # - name: Upload
       #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
-      - name: Upload
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: cv-node
-          remote: scp/cv-node
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.SSH_KEY }}
+      # - name: Upload
+      #   uses: garygrossgarten/github-action-scp@release
+      #   with:
+      #     local: cv-node
+      #     remote: scp/cv-node
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     privateKey : ${{ secrets.SSH_KEY }}
 
       # - name: Execute remote commands
       #   uses: appleboy/ssh-action@master
