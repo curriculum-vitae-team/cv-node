@@ -27,58 +27,11 @@ jobs:
         run: |
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          scp -r dist devss@10.90.15.143:.
+          scp -p 22 -r dist devss@cv-project-js:.
 
       - name: Start Node
         run: |
           ssh devss@10.90.15.143
+          whoami
+          killall node
           sudo node dist/main
-
-      # - name: Kill process
-      #   run: |
-      #     ssh -vvv -o StrictHostKeyChecking=accept-new devss@10.90.15.143 /bin/bash <<'EOT'
-      #     whoami
-      #     killall node
-      #     EOT
-
-      # - name: Build
-      #   run: |
-      #     yarn --frozen-lockfile
-      #     yarn build
-
-      # - name: Start process
-      #   run: sudo node cv-node/dist/main
-
-      # - name: Upload
-      #   run: scp -o StrictHostKeyChecking=no -r -P 22 cv-node devss@10.90.15.143:.
-
-      # - name:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      #   with:
-      #     path: repository
-
-      # - name: Upload repo to remote server
-      #   env:
-      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      #   run: |
-      #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-      #     ssh-add - <<< "${{ secrets.SSH_KEY }}"
-      #     scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
-      # - name: Upload
-      #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
-
-      # - name: Execute remote commands
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: 10.90.15.143
-      #     username: devss
-      #     # password: CGFe3cw!c@w
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       whoami
-      #       killall node
-      #       cd cv-node
-      #       yarn --frozen-lockfile
-      #       yarn build
-      #       sudo node cv-node/dist/main
