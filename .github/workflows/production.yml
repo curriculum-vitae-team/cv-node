@@ -11,21 +11,33 @@ jobs:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: repository
+
+      - name: Upload repo to remote server
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SSH_KEY }}"
+          scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
       # - name: Upload
       #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
 
-      - name: Execute remote commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: 10.90.15.143
-          username: devss
-          password: CGFe3cw!c@w
-          # key: ${{ secrets.SSH_KEY }}
-          # port: ${{ secrets.PORT }}
-          script: |
-            whoami
-            killall node
-            cd cv-node
-            yarn --frozen-lockfile
-            yarn build
-            sudo node cv-node/dist/main
+      # - name: Execute remote commands
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: 10.90.15.143
+      #     username: devss
+      #     password: CGFe3cw!c@w
+      #     # key: ${{ secrets.SSH_KEY }}
+      #     # port: ${{ secrets.PORT }}
+      #     script: |
+      #       whoami
+      #       killall node
+      #       cd cv-node
+      #       yarn --frozen-lockfile
+      #       yarn build
+      #       sudo node cv-node/dist/main
