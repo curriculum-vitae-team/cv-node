@@ -18,7 +18,9 @@ jobs:
 
       - name: Kill process
         run: |
+          cd ../
           ls -a
+          cd runner
           ssh -vvv -F ~/root/.ssh/config devss@10.90.15.143 /bin/bash <<'EOT'
           whoami
           killall node
