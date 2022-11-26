@@ -23,11 +23,11 @@ jobs:
         run: yarn build
 
       - name: Upload
-        run: scp -r dist devss@10.90.15.143:.
+        run: scp -r dist 10.90.15.143:.
 
       - name: Start Node
         run: |
-          ssh devss@10.90.15.143
+          ssh 10.90.15.143
           sudo node dist/main
 
     # - uses: actions/checkout@v3
