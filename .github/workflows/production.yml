@@ -18,7 +18,7 @@ jobs:
 
       - name: Kill process
         run: |
-          ssh -vvv StrictHostKeyChecking accept-new devss@10.90.15.143 /bin/bash <<'EOT'
+          ssh -vvv -o StrictHostKeyChecking=accept-new devss@10.90.15.143 /bin/bash <<'EOT'
           whoami
           killall node
           EOT
