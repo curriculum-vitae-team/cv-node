@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
@@ -26,7 +26,9 @@ jobs:
         run: |
           yarn --frozen-lockfile
           yarn build
-          sudo node cv-node/dist/main
+
+      - name: Start process
+        run: sudo node cv-node/dist/main
 
       # - name: Upload
       #   run: src -o StrictHostKeyChecking=no -r -P 22 cv-node devss@10.90.15.143:.
