@@ -18,9 +18,10 @@ jobs:
 
       - name: Kill process
         run: |
-          ssh -Tvv devss@10.90.15.143
+          ssh -vvv devss@10.90.15.143 /bin/bash <<'EOT'
           whoami
           killall node
+          EOT
 
       - name: Build
         run: |
