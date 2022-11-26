@@ -24,11 +24,11 @@ jobs:
         run: mkdir dist
 
       - name: Upload
-        run: scp -vvv -r dist 10.90.15.143:.
+        run: scp -vvv -r dist devss@10.90.15.143:.
 
       - name: Start Node
         run: |
-          ssh 10.90.15.143
+          ssh devss@10.90.15.143
           sudo node dist/main
 
     # - uses: actions/checkout@v3
