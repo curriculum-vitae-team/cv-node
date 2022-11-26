@@ -14,7 +14,7 @@ jobs:
       - uses: kielabokkie/ssh-key-and-known-hosts-action@v1
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-          ssh-host: devss@10.90.15.143
+          ssh-host: 10.90.15.143
 
       - name: Upload
         run: scp -r cv-node devss@10.90.15.143:.
