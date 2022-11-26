@@ -84,7 +84,7 @@ jobs:
           host: 10.90.15.143
           username: devss
           # password: CGFe3cw!c@w
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             whoami
             killall node
