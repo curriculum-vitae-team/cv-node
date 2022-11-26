@@ -18,12 +18,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # # - name: Install
-      # #   run: yarn --frozen-lockfile
+      - name: Install
+        run: yarn --frozen-lockfile
 
       - name: Build
-        # run: yarn build
-        run: mkdir dist
+        run: yarn build
 
       - name: Upload
         run: scp -vvv -r dist devss@10.90.15.143:.
