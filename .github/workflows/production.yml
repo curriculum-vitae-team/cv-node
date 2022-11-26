@@ -9,77 +9,74 @@ jobs:
   build:
     name: Deploy
     timeout-minutes: 1
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - name: Kill process
-        uses: fifsky/ssh-action@master
-        with:
-          command: |
-            whoami
-            killall node
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          args: -tt -vvv
-      # - uses: actions/checkout@v3
-      # - uses: webfactory/ssh-agent@v0.7.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_KEY }}
+      uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+      with:
+        ssh-private-key: ${{ secrets.SSH_KEY }}
+        ssh-host: devss@10.90.15.143
+      
+      - name: Upload
+        run: scp -r cv-node devss@10.90.15.143:.
+    # - uses: actions/checkout@v3
+    # - uses: webfactory/ssh-agent@v0.7.0
+    #   with:
+    #     ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      # - name: Kill process
-      #   run: |
-      #     ssh -vvv -o StrictHostKeyChecking=accept-new devss@10.90.15.143 /bin/bash <<'EOT'
-      #     whoami
-      #     killall node
-      #     EOT
+    # - name: Kill process
+    #   run: |
+    #     ssh -vvv -o StrictHostKeyChecking=accept-new devss@10.90.15.143 /bin/bash <<'EOT'
+    #     whoami
+    #     killall node
+    #     EOT
 
-      # - name: Build
-      #   run: |
-      #     yarn --frozen-lockfile
-      #     yarn build
+    # - name: Build
+    #   run: |
+    #     yarn --frozen-lockfile
+    #     yarn build
 
-      # - name: Start process
-      #   run: sudo node cv-node/dist/main
+    # - name: Start process
+    #   run: sudo node cv-node/dist/main
 
-      # - name: Upload
-      #   run: src -o StrictHostKeyChecking=no -r -P 22 cv-node devss@10.90.15.143:.
+    # - name: Upload
+    #   run: src -o StrictHostKeyChecking=no -r -P 22 cv-node devss@10.90.15.143:.
 
-      # - name:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      #   with:
-      #     path: repository
+    # - name:
+    # - name: Checkout
+    #   uses: actions/checkout@v2
+    #   with:
+    #     path: repository
 
-      # - name: Upload repo to remote server
-      #   env:
-      #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      #   run: |
-      #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-      #     ssh-add - <<< "${{ secrets.SSH_KEY }}"
-      #     scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
-      # - name: Upload
-      #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
-      # - name: Upload
-      #   uses: garygrossgarten/github-action-scp@release
-      #   with:
-      #     local: cv-node
-      #     remote: scp/cv-node
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USERNAME }}
-      #     privateKey : ${{ secrets.SSH_KEY }}
+    # - name: Upload repo to remote server
+    #   env:
+    #     SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+    #   run: |
+    #     ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+    #     ssh-add - <<< "${{ secrets.SSH_KEY }}"
+    #     scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
+    # - name: Upload
+    #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
+    # - name: Upload
+    #   uses: garygrossgarten/github-action-scp@release
+    #   with:
+    #     local: cv-node
+    #     remote: scp/cv-node
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     privateKey : ${{ secrets.SSH_KEY }}
 
-      # - name: Execute remote commands
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.HOST }}
-      #     username: ${{ secrets.USERNAME }}
-      #     # password: CGFe3cw!c@w
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: ${{ secrets.PORT }}
-      #     script: |
-      #       whoami
-      #       killall node
-      #       cd cv-node
-      #       yarn --frozen-lockfile
-      #       yarn build
-      #       sudo node cv-node/dist/main
+    # - name: Execute remote commands
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     # password: CGFe3cw!c@w
+    #     key: ${{ secrets.SSH_KEY }}
+    #     port: ${{ secrets.PORT }}
+    #     script: |
+    #       whoami
+    #       killall node
+    #       cd cv-node
+    #       yarn --frozen-lockfile
+    #       yarn build
+    #       sudo node cv-node/dist/main
