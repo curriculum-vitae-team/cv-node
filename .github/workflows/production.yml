@@ -18,10 +18,7 @@ jobs:
 
       - name: Kill process
         run: |
-          cd ../../../.ssh
-          ls -a
-          cd runner
-          ssh -vvv -F ~/root/.ssh/config devss@10.90.15.143 /bin/bash <<'EOT'
+          ssh -vvv StrictHostKeyChecking accept-new devss@10.90.15.143 /bin/bash <<'EOT'
           whoami
           killall node
           EOT
