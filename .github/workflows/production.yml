@@ -49,19 +49,27 @@ jobs:
       #     scp -o StrictHostKeyChecking=no -r -P 22 repository/cv-node devss@10.90.15.143:.
       # - name: Upload
       #   run: scp -vvv -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
-
-      - name: Execute remote commands
-        uses: appleboy/ssh-action@master
+      - name: Upload
+        uses: garygrossgarten/github-action-scp@release
         with:
+          local: cv-node
+          remote: scp/cv-node
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          # password: CGFe3cw!c@w
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            whoami
-            killall node
-            cd cv-node
-            yarn --frozen-lockfile
-            yarn build
-            sudo node cv-node/dist/main
+          privateKey: ${{ secrets.SSH_KEY }}
+
+      # - name: Execute remote commands
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     # password: CGFe3cw!c@w
+      #     key: ${{ secrets.SSH_KEY }}
+      #     port: ${{ secrets.PORT }}
+      #     script: |
+      #       whoami
+      #       killall node
+      #       cd cv-node
+      #       yarn --frozen-lockfile
+      #       yarn build
+      #       sudo node cv-node/dist/main
