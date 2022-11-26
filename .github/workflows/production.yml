@@ -27,7 +27,7 @@ jobs:
         run: |
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          scp -p 22 -r dist devss@cv-project-js:.
+          scp -p 22 -r dist devss@10.90.15.143:.
 
       - name: Start Node
         run: |
