@@ -22,12 +22,20 @@ jobs:
         run: yarn build
 
       - name: Upload
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          scp -p 22 -r dist devss@10.90.15.143:.
+        # env:
+        #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        # run: |
+        #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+        #   scp -p 22 -r dist devss@10.90.15.143:.
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: dist/
+          remote_path: dist/
+          remote_host: 10.90.15.143
+          remote_user: devss
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Start Node
         run: |
