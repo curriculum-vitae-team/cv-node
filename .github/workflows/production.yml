@@ -18,7 +18,7 @@ jobs:
 
       - name: Kill process
         run: |
-          ssh -vvv devss@10.90.15.143 /bin/bash <<'EOT'
+          ssh -vvv -F ~/ssh/ssh_config devss@10.90.15.143 /bin/bash <<'EOT'
           whoami
           killall node
           EOT
