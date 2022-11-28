@@ -37,5 +37,4 @@ Builds the app for production to the `dist` folder.
 
 ## Production
 
-Old deployment on [Heroku](https://cv-gen-be.herokuapp.com/api/graphql).
-Application should be exposed on port 80. Production [link](https://cv-project-js.inno.ws/api/graphql).
+Application should be exposed on port 80.
