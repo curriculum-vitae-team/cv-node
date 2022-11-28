@@ -8,20 +8,38 @@ on:
 jobs:
   build:
     name: Deploy
-    timeout-minutes: 5
+    timeout-minutes: 1
     runs-on: ubuntu-latest
     steps:
-      - name: Stop
-        run: ssh devss@10.90.15.143 'killall node'
-
-      - name: Upload
-        run: scp -r src .env nest-cli.json package.json tsconfig.* yarn.lock devss@10.90.15.143:cv-node
+      - uses: actions/checkout@v3
+        with:
+          ssh-strict: false
 
       - name: Install
-        run: ssh devss@10.90.15.143 'cd cv-node && yarn --frozen-lockfile'
+        run: yarn --frozen-lockfile
 
       - name: Build
-        run: ssh devss@10.90.15.143 'cd cv-node && yarn build'
+        run: yarn build
 
-      - name: Start
-        run: ssh devss@10.90.15.143 'sudo node cv-node/dist/main'
+      - name: Upload
+        # env:
+        #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        # run: |
+        #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+        #   scp -p 22 -r dist devss@10.90.15.143:.
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: dist/
+          remote_path: dist/
+          remote_host: 10.90.15.143
+          remote_user: devss
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Start Node
+        run: |
+          ssh devss@10.90.15.143
+          whoami
+          killall node
+          sudo node dist/main
