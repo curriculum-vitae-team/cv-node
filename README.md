@@ -7,6 +7,9 @@ PORT=3000
 NODE_ENV=development
 DATABASE_URL=postgres://postgres:123@localhost:5432/postgres
 JWT_SECRET=
+CLOUDINARY_URL=
+MAIL_FROM=
+SMTP_URL=
 ```
 
 ## Local Database
