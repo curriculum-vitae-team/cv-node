@@ -23,7 +23,7 @@ jobs:
         run: |
           sudo apt-get install pptp-linux network-manager-pptp
           sudo touch /etc/ppp/peers/wars-pptp
-          sudo cd /etc/ppp/peers
+          cd -s /etc/ppp/peers
           sudo cp .github/vpn/wars-pptp wars-pptp -vvv
           pon wars-pptp -vvv
       
