@@ -26,7 +26,7 @@ jobs:
       - name: Setup PPTP
         run: |
           sudo apt-get install pptp-linux
-          rsync -r .github/etc /etc
+          sudo cp -a .github/etc/. /etc/
           pppd call wars
       
       - name: Check VPN
