@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo apt-get install pptp-linux
           sudo cp -a .github/etc/. /etc/
-          pppd call wars
+          sudo pppd call wars
       
       - name: Check VPN
         timeout-minutes: 1
