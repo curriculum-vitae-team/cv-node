@@ -21,13 +21,13 @@ jobs:
 
       - name: Install VPN
         run: |
-          sudo apt-get update -vvv
+          sudo apt-get update
           sudo apt-get --assume-yes --no-install-recommends install openvpn  
       
       - name: Start VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
         with:
-          config_file: ./github/vpn/config.ovpn
+          config_file: .github/vpn/config.ovpn
           username: ${{ secrets.VPN_USERNAME }}
           password: ${{ secrets.VPN_PASSWORD }}
 
