@@ -20,9 +20,7 @@ jobs:
         run: yarn build
 
       - name: Install VPN
-        run: |
-          sudo apt update
-          sudo apt install -y openvpn openvpn-systemd-resolved
+        run: sudo apt install -y openvpn openvpn-systemd-resolved
       
       - name: Start VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
