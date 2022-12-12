@@ -24,7 +24,7 @@ jobs:
           sudo apt-get install pptp-linux network-manager-pptp
           sudo touch /etc/ppp/peers/wars-pptp
           sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
-          sudo pon /etc/ppp/peers/wars-pptp
+          sudo pon wars-pptp
       
       - name: Check VPN
         timeout-minutes: 1
