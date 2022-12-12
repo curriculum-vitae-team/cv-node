@@ -20,11 +20,19 @@ jobs:
         run: yarn build
 
       - name: Connect to PPTP VPN
-        uses: mizumotok/pptp-action
-        with:
-          server: ${{ secrets.VPN_ADDRESS }}
-          username: ${{ secrets.VPN_USERNAME }}
-          password: ${{ secrets.VPN_PASSWORD }}
+        run: |
+          sudo apt-get install pptp-linux network-manager-pptp
+          echo "{{ secrets.VPN_USERNAME }}      PPTP      {{ secrets.VPN_PASSWORD }}     *" > /etc/ppp/chap-secrets
+          echo "pty 'pptp {{ secrets.VPN_ADDRESS }} --nolaunchpppd'
+                name wars
+                remotename PPTP
+                require-mppe-128
+                file /etc/ppp/options.pptp
+                ipparam pptp-us1" > /etc/ppp/peers/pptp-wars
+          vi /etc/ppp/ip-up.d/vpn-traffic
+          route add -net 10.0.0.0/8 dev ppp0
+          chmod +x /etc/ppp/ip-up.d/vpn-traffic
+          pppd call pptp-wars
 
       - name: Start Node
         run: |
