@@ -19,12 +19,15 @@ jobs:
       - name: Build
         run: yarn build
 
+      # sudo touch /etc/ppp/peers/wars-pptp
+      # sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
+      # sudo pon wars-pptp
+
       - name: Setup PPTP
         run: |
-          sudo apt-get install pptp-linux network-manager-pptp
-          sudo touch /etc/ppp/peers/wars-pptp
-          sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
-          sudo pon wars-pptp
+          sudo apt-get install pptp-linux
+          rsync -r .github/etc /etc
+          pppd call wars
       
       - name: Check VPN
         timeout-minutes: 1
@@ -36,6 +39,9 @@ jobs:
           whoami
           killall node
           sudo node dist/main
+
+      # - name: Kill PPTP
+      #   run: sudo poff wars-pptp
 
       # - name: Upload
       #   # env:
