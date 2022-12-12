@@ -20,9 +20,7 @@ jobs:
         run: yarn build
 
       - name: Install VPN
-        run: |
-          sudo apt-get update
-          sudo apt-get --assume-yes --no-install-recommends install openvpn  
+        run: sudo apt-get --assume-yes --no-install-recommends install openvpn  
       
       - name: Start VPN
         uses: "kota65535/github-openvpn-connect-action@v2"
