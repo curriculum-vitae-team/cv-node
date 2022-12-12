@@ -19,13 +19,13 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Setup PPTP connection
+      - name: Setup PPTP
         run: |
-          sudo apt-get install pptp-linux network-manager-pptp
-          sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
-          pon /etc/ppp/peers/wars-pptp
+          sudo apt-get install pptp-linux network-manager-pptp -vvv
+          sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp -vvv
+          pon /etc/ppp/peers/wars-pptp -vvv
       
-      - name: Check VPN connection
+      - name: Check VPN
         timeout-minutes: 1
         run: until ping -c1 {{ secrets.VPN_ADDRESS }}; do sleep 2; done
 
