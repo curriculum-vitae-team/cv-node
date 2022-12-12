@@ -33,11 +33,11 @@ jobs:
       #   run: until ping 10.90.15.143; do sleep 2; done
 
       - name: Upload
-        run: scp -r /dist {{ secrets.SSH_USERNAME }}@{{ secrets.SSH_HOST }}:dist
+        run: scp -r /dist ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:dist
     
       - name: Start Node
         run: |
-          ssh {{ secrets.SSH_USERNAME }}@{{ secrets.SSH_HOST }} -vvv
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -vvv
           whoami
           killall node
           sudo node dist/main
