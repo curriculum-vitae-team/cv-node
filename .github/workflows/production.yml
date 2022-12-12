@@ -19,20 +19,15 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Connect to PPTP VPN
+      - name: Setup PPTP connection
         run: |
           sudo apt-get install pptp-linux network-manager-pptp
-          echo "{{ secrets.VPN_USERNAME }}      PPTP      {{ secrets.VPN_PASSWORD }}     *" > /etc/ppp/chap-secrets
-          echo "pty 'pptp {{ secrets.VPN_ADDRESS }} --nolaunchpppd'
-                name wars
-                remotename PPTP
-                require-mppe-128
-                file /etc/ppp/options.pptp
-                ipparam pptp-us1" > /etc/ppp/peers/pptp-wars
-          vi /etc/ppp/ip-up.d/vpn-traffic
-          route add -net 10.0.0.0/8 dev ppp0
-          chmod +x /etc/ppp/ip-up.d/vpn-traffic
-          pppd call pptp-wars
+          cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
+          pon /etc/ppp/peers/wars-pptp
+      
+      - name: Check VPN connection
+        timeout-minutes: 1
+        run: until ping -c1 {{ secrets.VPN_ADDRESS }}; do sleep 2; done
 
       - name: Start Node
         run: |
