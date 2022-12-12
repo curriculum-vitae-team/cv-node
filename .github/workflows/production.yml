@@ -20,7 +20,7 @@ jobs:
         run: yarn build
 
       - name: Connect to PPTP VPN
-        uses: mizumotok/pptp-action@v1
+        uses: mizumotok/pptp-action
         with:
           server: ${{ secrets.VPN_ADDRESS }}
           username: ${{ secrets.VPN_USERNAME }}
