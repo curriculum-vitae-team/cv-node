@@ -21,7 +21,7 @@ jobs:
 
       - name: Install VPN
         run: |
-          sudo apt-get update
+          sudo apt-get update -vvv
           sudo apt-get --assume-yes --no-install-recommends install openvpn  
       
       - name: Start VPN
