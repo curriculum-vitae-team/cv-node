@@ -2,4 +2,3 @@ pty "pptp wars.innowise-group.com --nolaunchpppd"
 name rastsislau.kharlanau
 password s4hr3nh3
 remotename PPTP
-option /etc/ppp/options
