@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Deploy
-    timeout-minutes: 1
+    timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
       - name: Setup PPTP
         run: |
           sudo apt-get install pptp-linux network-manager-pptp -vvv
-          cd /etc/ppp/peers -vvv
+          cd /etc/ppp/peers
           touch wars-pptp -vvv
           sudo cp .github/vpn/wars-pptp wars-pptp -vvv
           pon wars-pptp -vvv
