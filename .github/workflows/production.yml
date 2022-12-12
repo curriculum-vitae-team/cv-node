@@ -19,10 +19,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      # sudo touch /etc/ppp/peers/wars-pptp
-      # sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
-      # sudo pon wars-pptp
-
       - name: Setup PPTP
         run: |
           sudo apt-get install pptp-linux
@@ -33,28 +29,26 @@ jobs:
       #   timeout-minutes: 1
       #   run: until ping 10.90.15.143; do sleep 2; done
 
+      - name: Upload
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: dist/
+          remote_path: /dist/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
       - name: Start Node
-        run: |
-          ssh devss@10.90.15.143
-          whoami
-          killall node
-          sudo node dist/main
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            whoami
+            killall node
+            sudo node dist/main
 
       # - name: Kill PPTP
       #   run: sudo poff wars-pptp
-
-      # - name: Upload
-      #   # env:
-      #   #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      #   # run: |
-      #   #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-      #   #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-      #   #   scp -p 22 -r dist devss@10.90.15.143:.
-      #   uses: burnett01/rsync-deployments@5.2.1
-      #   with:
-      #     switches: -avzr --delete
-      #     path: dist/
-      #     remote_path: dist/
-      #     remote_host: 10.90.15.143
-      #     remote_user: devss
-      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
