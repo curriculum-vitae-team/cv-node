@@ -29,9 +29,9 @@ jobs:
           sudo cp -a .github/etc/. /etc/
           sudo pppd call wars
       
-      - name: Check VPN
-        timeout-minutes: 1
-        run: until ping 10.90.15.143; do sleep 2; done
+      # - name: Check VPN
+      #   timeout-minutes: 1
+      #   run: until ping 10.90.15.143; do sleep 2; done
 
       - name: Start Node
         run: |
