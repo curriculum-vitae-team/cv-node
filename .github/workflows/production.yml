@@ -22,7 +22,7 @@ jobs:
       - name: Setup PPTP connection
         run: |
           sudo apt-get install pptp-linux network-manager-pptp
-          cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
+          sudo cp .github/vpn/wars-pptp /etc/ppp/peers/wars-pptp
           pon /etc/ppp/peers/wars-pptp
       
       - name: Check VPN connection
