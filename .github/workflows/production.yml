@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install
         run: yarn --frozen-lockfile
@@ -30,25 +33,23 @@ jobs:
       #   run: until ping 10.90.15.143; do sleep 2; done
 
       - name: Upload
-        uses: burnett01/rsync-deployments@5.2.1
-        with:
-          switches: -avzr --delete
-          path: dist/
-          remote_path: /dist/
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USERNAME }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: scp -r /dist {{ secrets.SSH_USERNAME }}@{{ secrets.SSH_HOST }}:dist
     
       - name: Start Node
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            whoami
-            killall node
-            sudo node dist/main
+        run: |
+          ssh {{ secrets.SSH_USERNAME }}@{{ secrets.SSH_HOST }} -vvv
+          whoami
+          killall node
+          sudo node dist/main
+        # uses: appleboy/ssh-action@v0.1.6
+        # with:
+        #   host: ${{ secrets.SSH_HOST }}
+        #   username: ${{ secrets.SSH_USERNAME }}
+        #   password: ${{ secrets.SSH_PASSWORD }}
+        #   script: |
+        #     whoami
+        #     killall node
+        #     sudo node dist/main
 
       # - name: Kill PPTP
       #   run: sudo poff wars-pptp
