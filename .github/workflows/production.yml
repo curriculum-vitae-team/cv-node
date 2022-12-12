@@ -28,7 +28,7 @@ jobs:
       
       - name: Check VPN
         timeout-minutes: 1
-        run: until ping -c1 {{ secrets.VPN_ADDRESS }}; do sleep 2; done
+        run: until ping -c1 10.90.15.143; do sleep 2; done
 
       - name: Start Node
         run: |
