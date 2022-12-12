@@ -1,9 +1,9 @@
 name: Production
 
-# on:
-#   push:
-#     branches:
-#       - develop
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ssh-strict: false
 
       - name: Install
         run: yarn --frozen-lockfile
@@ -21,21 +19,17 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Upload
-        # env:
-        #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        # run: |
-        #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-        #   scp -p 22 -r dist devss@10.90.15.143:.
-        uses: burnett01/rsync-deployments@5.2.1
+      - name: Install VPN
+        run: |
+          sudo apt update
+          sudo apt install -y openvpn openvpn-systemd-resolved
+      
+      - name: Start VPN
+        uses: "kota65535/github-openvpn-connect-action@v2"
         with:
-          switches: -avzr --delete
-          path: dist/
-          remote_path: dist/
-          remote_host: 10.90.15.143
-          remote_user: devss
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          config_file: ./github/vpn/config.ovpn
+          username: ${{ secrets.VPN_USERNAME }}
+          password: ${{ secrets.VPN_PASSWORD }}
 
       - name: Start Node
         run: |
@@ -43,3 +37,19 @@ jobs:
           whoami
           killall node
           sudo node dist/main
+
+      # - name: Upload
+      #   # env:
+      #   #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      #   # run: |
+      #   #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+      #   #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+      #   #   scp -p 22 -r dist devss@10.90.15.143:.
+      #   uses: burnett01/rsync-deployments@5.2.1
+      #   with:
+      #     switches: -avzr --delete
+      #     path: dist/
+      #     remote_path: dist/
+      #     remote_host: 10.90.15.143
+      #     remote_user: devss
+      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
