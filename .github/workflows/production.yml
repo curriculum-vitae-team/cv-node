@@ -21,8 +21,8 @@ jobs:
 
       - name: Setup PPTP
         run: |
-          sudo apt-get install pptp-linux network-manager-pptp -vvv
-          touch /etc/ppp/peers/wars-pptp -vvv
+          sudo apt-get install pptp-linux network-manager-pptp
+          touch /etc/ppp/peers/wars-pptp
           cd /etc/ppp/peers
           sudo cp .github/vpn/wars-pptp wars-pptp -vvv
           pon wars-pptp -vvv
