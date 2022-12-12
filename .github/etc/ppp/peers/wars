@@ -2,5 +2,4 @@ pty "pptp wars.innowise-group.com --nolaunchpppd"
 name rastsislau.kharlanau
 remotename PPTP
 require-mppe-128
-/etc/ppp/options.pptp
 ipparam wars
