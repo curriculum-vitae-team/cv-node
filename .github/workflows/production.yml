@@ -8,12 +8,13 @@ name: Production
 jobs:
   build:
     name: Deploy
-    timeout-minutes: 1
+    timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-strict: false
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Install
         run: yarn --frozen-lockfile
@@ -21,25 +22,34 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Setup PPTP
+        run: |
+          sudo apt-get install pptp-linux
+          sudo cp -a .github/etc/. /etc/
+          sudo pppd call wars
+
+      # - name: Check VPN
+      #   timeout-minutes: 1
+      #   run: until ping 10.90.15.143; do sleep 2; done
+
       - name: Upload
-        # env:
-        #   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        # run: |
-        #   ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        #   ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-        #   scp -p 22 -r dist devss@10.90.15.143:.
-        uses: burnett01/rsync-deployments@5.2.1
-        with:
-          switches: -avzr --delete
-          path: dist/
-          remote_path: dist/
-          remote_host: 10.90.15.143
-          remote_user: devss
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: scp -r /dist ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:dist
 
       - name: Start Node
         run: |
-          ssh devss@10.90.15.143
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -vvv
           whoami
           killall node
           sudo node dist/main
+        # uses: appleboy/ssh-action@v0.1.6
+        # with:
+        #   host: ${{ secrets.SSH_HOST }}
+        #   username: ${{ secrets.SSH_USERNAME }}
+        #   password: ${{ secrets.SSH_PASSWORD }}
+        #   script: |
+        #     whoami
+        #     killall node
+        #     sudo node dist/main
+
+      # - name: Kill PPTP
+      #   run: sudo poff wars-pptp
