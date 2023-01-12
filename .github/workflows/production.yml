@@ -1,30 +1,55 @@
 name: Production
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - develop
 
 jobs:
   build:
     name: Deploy
-    timeout-minutes: 5
-    env:
-      PORT: 3000
-      NODE_ENV: production
-      DATABASE_URL: postgres://rjyxjtuowkxnig:af1092ab3911a43ef1324f15ddbbcbb65926ea81a3bc29620f85810da6160b92@ec2-34-253-119-24.eu-west-1.compute.amazonaws.com:5432/de3fb1pkk65f62
-      DATABASE_SSL: ""
-      JWT_SECRET: distant_distance_satellite
-      CLOUDINARY_URL: cloudinary://176525619261476:cOXUW6blKaXL89800PmAK3Umez0@cv-gen-cloud
-      MAIL_FROM: curriculum.vitae.team@gmail.com
-      SMTP_URL: smtp://curriculum.vitae.team@gmail.com:gymnjxhsmvgdbjxw@smtp.gmail.com:587
+    timeout-minutes: 3
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install
+        run: yarn --frozen-lockfile
+
       - name: Build
-        run: yarn install
         run: yarn build
+
+      - name: Setup PPTP
+        run: |
+          sudo apt-get install pptp-linux
+          sudo cp -a .github/etc/. /etc/
+          sudo pppd call wars
+
+      # - name: Check VPN
+      #   timeout-minutes: 1
+      #   run: until ping 10.90.15.143; do sleep 2; done
+
       - name: Upload
-        run: scp -r /dist devss@10.90.15.143:/dist
-      - name: Start
-        run: ssh devss@10.90.15.143 'killall node'
-        run: ssh devss@10.90.15.143 'node dist/src/main'
+        run: scp -r /dist ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:dist
+
+      - name: Start Node
+        run: |
+          ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -vvv
+          whoami
+          killall node
+          sudo node dist/main
+        # uses: appleboy/ssh-action@v0.1.6
+        # with:
+        #   host: ${{ secrets.SSH_HOST }}
+        #   username: ${{ secrets.SSH_USERNAME }}
+        #   password: ${{ secrets.SSH_PASSWORD }}
+        #   script: |
+        #     whoami
+        #     killall node
+        #     sudo node dist/main
+
+      # - name: Kill PPTP
+      #   run: sudo poff wars-pptp
