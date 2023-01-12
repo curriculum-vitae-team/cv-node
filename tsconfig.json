@@ -6,6 +6,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    // TODO: enable strict null checks
+    // "strictNullChecks": true,
     "target": "ES2019",
     "sourceMap": true,
     "outDir": "./dist",

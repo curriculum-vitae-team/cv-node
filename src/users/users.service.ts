@@ -27,7 +27,10 @@ export class UsersService {
     });
   }
 
-  findOneById(id: string) {
+  findOneById(id?: string) {
+    if (!id) {
+      return null;
+    }
     return this.userRepository.findOne({
       where: { id },
       relations: ["profile", "cvs", "department", "position"],
