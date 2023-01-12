@@ -7,6 +7,9 @@ PORT=3000
 NODE_ENV=development
 DATABASE_URL=postgres://postgres:123@localhost:5432/postgres
 JWT_SECRET=
+CLOUDINARY_URL=
+MAIL_FROM=
+SMTP_URL=
 ```
 
 ## Local Database
@@ -37,5 +40,5 @@ Builds the app for production to the `dist` folder.
 
 ## Production
 
-It is up to you. Any Node.js & PostgreSQL supported service will work.\
-Currently deployed on [Heroku](https://cv-gen-be.herokuapp.com/api/graphql).
+https://cv-project-js.inno.ws/api/graphql \
+Application should be exposed on port 80.
