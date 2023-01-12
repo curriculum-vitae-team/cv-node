@@ -40,7 +40,7 @@ export class AuthService {
     this.mailService.confirmEmailAfterSignUp(
       user,
       // TODO: use real url
-      "https://cv-gen-fe"
+      "https://curriculum-vitae-project.vercel.app"
     );
     return result;
   }
