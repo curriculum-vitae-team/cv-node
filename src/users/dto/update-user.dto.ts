@@ -1,4 +1,10 @@
-import { IsArray, IsObject, IsString, ValidateNested } from "class-validator";
+import {
+  IsArray,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { UpdateUserInput } from "src/graphql";
 import { ProfileDto } from "src/profile/dto/profile.dto";
@@ -10,6 +16,7 @@ export class UpdateUserDto implements UpdateUserInput {
   profile: ProfileDto;
 
   @IsArray()
+  @IsOptional()
   @Type(() => String)
   cvsIds: string[];
 
