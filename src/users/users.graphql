@@ -28,7 +28,7 @@ input CreateUserInput {
 
 input UpdateUserInput {
   profile: ProfileInput!
-  cvsIds: [String!]!
+  cvsIds: [String!]
   departmentId: ID
   positionId: ID
 }
