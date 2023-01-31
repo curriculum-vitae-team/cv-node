@@ -80,20 +80,22 @@ export class UsersService {
   }
 
   async update(id: string, variables: UpdateUserInput) {
-    const { cvsIds, departmentId, positionId } = variables;
-    const [user, cvs, department, position] = await Promise.all([
+    const { departmentId, positionId, cvsIds } = variables;
+    const [user, department, position] = await Promise.all([
       this.findOneById(id),
-      this.cvsService.findMany(cvsIds),
       this.departmentsService.findOneById(departmentId),
       this.positionsService.findOneById(positionId),
     ]);
+    if (cvsIds) {
+      const cvs = await this.cvsService.findMany(cvsIds);
+      user.cvs = cvs;
+    }
     const profile = await this.profileService.update(
       user.profile.id,
       variables.profile
     );
     Object.assign(user, {
       profile,
-      cvs,
       department,
       position,
     });

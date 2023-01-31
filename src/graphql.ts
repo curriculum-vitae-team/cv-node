@@ -44,8 +44,8 @@ export interface PositionInput {
 export interface ProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    skills: SkillMasteryInput[];
-    languages: LanguageProficiencyInput[];
+    skills?: Nullable<SkillMasteryInput[]>;
+    languages?: Nullable<LanguageProficiencyInput[]>;
 }
 
 export interface AvatarInput {
@@ -85,7 +85,7 @@ export interface CreateUserInput {
 
 export interface UpdateUserInput {
     profile: ProfileInput;
-    cvsIds: string[];
+    cvsIds?: Nullable<string[]>;
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
 }
