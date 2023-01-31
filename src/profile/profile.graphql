@@ -12,8 +12,8 @@ type Profile {
 input ProfileInput {
   first_name: String
   last_name: String
-  skills: [SkillMasteryInput!]!
-  languages: [LanguageProficiencyInput!]!
+  skills: [SkillMasteryInput!]
+  languages: [LanguageProficiencyInput!]
 }
 
 scalar Void
