@@ -19,4 +19,7 @@ export class LanguageModel implements Language {
 
   @Column({ unique: true })
   name: string;
+
+  @Column({ nullable: true })
+  native_name?: string;
 }

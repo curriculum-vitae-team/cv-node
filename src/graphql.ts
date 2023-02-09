@@ -30,6 +30,7 @@ export interface DepartmentInput {
 export interface LanguageInput {
     iso2: string;
     name: string;
+    native_name?: Nullable<string>;
 }
 
 export interface LanguageProficiencyInput {
@@ -165,6 +166,7 @@ export interface Language {
     created_at: string;
     iso2: string;
     name: string;
+    native_name?: Nullable<string>;
 }
 
 export interface LanguageProficiency {
