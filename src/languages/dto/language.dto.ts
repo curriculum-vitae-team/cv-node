@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
 import { LanguageInput } from "src/graphql";
 
 export class LanguageDto implements LanguageInput {
@@ -8,4 +8,8 @@ export class LanguageDto implements LanguageInput {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsOptional()
+  native_name?: string;
 }
