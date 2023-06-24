@@ -14,6 +14,8 @@ export class ProjectDto implements ProjectInput {
   @IsNotEmpty()
   name: string;
 
+  @IsString()
+  @IsOptional()
   internal_name: string;
 
   @IsString()
