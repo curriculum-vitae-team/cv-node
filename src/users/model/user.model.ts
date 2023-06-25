@@ -41,7 +41,11 @@ export class UserModel implements User {
   @OneToMany(() => CvModel, (cv) => cv.user, { cascade: true })
   cvs: CvModel[];
 
-  @ManyToOne(() => DepartmentModel, { nullable: true, eager: true })
+  @ManyToOne(() => DepartmentModel, {
+    nullable: true,
+    eager: true,
+    onDelete: "SET NULL",
+  })
   @JoinColumn()
   department: DepartmentModel;
 
@@ -53,7 +57,11 @@ export class UserModel implements User {
     return this.department.name;
   }
 
-  @ManyToOne(() => PositionModel, { nullable: true, eager: true })
+  @ManyToOne(() => PositionModel, {
+    nullable: true,
+    eager: true,
+    onDelete: "SET NULL",
+  })
   @JoinColumn()
   position: PositionModel;
 
