@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Roles } from "src/app/roles.decorator";
-import { UserRoles } from "src/users/model/user.roles";
+import { UserRoles } from "src/graphql";
 import { ProjectDto } from "./dto/project.dto";
 import { ProjectsService } from "./projects.service";
 

@@ -8,6 +8,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum UserRoles {
+    Employee = "Employee",
+    Admin = "Admin"
+}
+
 export interface AuthInput {
     email: string;
     password: string;
@@ -81,7 +86,7 @@ export interface CreateUserInput {
     cvsIds: string[];
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
-    role: string;
+    role: UserRoles;
 }
 
 export interface UpdateUserInput {
@@ -89,6 +94,7 @@ export interface UpdateUserInput {
     cvsIds?: Nullable<string[]>;
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
+    role?: Nullable<UserRoles>;
 }
 
 export interface DeleteResult {
@@ -226,7 +232,7 @@ export interface User {
     department_name?: Nullable<string>;
     position?: Nullable<Position>;
     position_name?: Nullable<string>;
-    role: string;
+    role: UserRoles;
 }
 
 export type Void = any;

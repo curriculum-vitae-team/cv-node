@@ -9,7 +9,7 @@ import { Type } from "class-transformer";
 import { CreateUserInput } from "src/graphql";
 import { SignupDto } from "src/auth/dto/signup.dto";
 import { ProfileDto } from "src/profile/dto/profile.dto";
-import { UserRoles } from "../model/user.roles";
+import { UserRoles } from "src/graphql";
 
 export class CreateUserDto implements CreateUserInput {
   @IsObject()

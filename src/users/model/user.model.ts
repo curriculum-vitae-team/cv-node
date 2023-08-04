@@ -14,7 +14,7 @@ import { CvModel } from "src/cvs/model/cv.model";
 import { ProfileModel } from "src/profile/model/profile.model";
 import { DepartmentModel } from "src/departments/model/department.model";
 import { PositionModel } from "src/positions/model/position.model";
-import { UserRoles } from "./user.roles";
+import { UserRoles } from "src/graphql";
 
 @Entity("user")
 export class UserModel implements User {

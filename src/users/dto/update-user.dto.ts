@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsEnum,
   IsObject,
   IsOptional,
   IsString,
@@ -8,6 +9,7 @@ import {
 import { Type } from "class-transformer";
 import { UpdateUserInput } from "src/graphql";
 import { ProfileDto } from "src/profile/dto/profile.dto";
+import { UserRoles } from "src/graphql";
 
 export class UpdateUserDto implements UpdateUserInput {
   @IsObject()
@@ -25,4 +27,8 @@ export class UpdateUserDto implements UpdateUserInput {
 
   @IsString()
   positionId: string;
+
+  @IsEnum(UserRoles)
+  @IsOptional()
+  role: UserRoles;
 }
