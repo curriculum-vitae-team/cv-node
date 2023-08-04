@@ -3,9 +3,8 @@
 These variables are recommended for local development:
 
 ```
-PORT=3000
-NODE_ENV=development
-DATABASE_URL=postgres://postgres:123@localhost:5432/postgres
+PORT=3001
+DATABASE_URL="postgres://postgres:123@localhost:5432/postgres"
 JWT_SECRET=
 CLOUDINARY_URL=
 MAIL_FROM=
@@ -17,9 +16,9 @@ SMTP_URL=
 You should have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 Then you can use:
 
-### `docker compose up`
+### `yarn database`
 
-Creates docker container with local PostgreSQL database.
+Creates docker container with local PostgreSQL database. You can inspect database table entities with pgAdmin 4.
 
 ## Available Scripts
 
@@ -29,10 +28,10 @@ In the project directory, you can run:
 
 Creates type definitions for GraphQL.
 
-### `yarn watch`
+### `yarn start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000/api/graphql](http://[::1]:3000/api/graphql) to access GraphQL playground.
+Open [http://localhost:3001/api/graphql](http://[::1]:3001/api/graphql) to access GraphQL playground.
 
 ### `yarn build`
 

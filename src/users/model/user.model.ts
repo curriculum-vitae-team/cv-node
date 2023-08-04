@@ -14,7 +14,7 @@ import { CvModel } from "src/cvs/model/cv.model";
 import { ProfileModel } from "src/profile/model/profile.model";
 import { DepartmentModel } from "src/departments/model/department.model";
 import { PositionModel } from "src/positions/model/position.model";
-import { UserRoles } from "./user.roles";
+import { UserRole } from "src/graphql";
 
 @Entity("user")
 export class UserModel implements User {
@@ -73,6 +73,6 @@ export class UserModel implements User {
     return this.position.name;
   }
 
-  @Column("enum", { enum: UserRoles, default: UserRoles.Employee })
-  role: UserRoles;
+  @Column("enum", { enum: UserRole, default: UserRole.Employee })
+  role: UserRole;
 }
