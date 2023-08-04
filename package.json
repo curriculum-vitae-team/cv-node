@@ -6,11 +6,11 @@
     "node": ">=16.x"
   },
   "scripts": {
+    "schema": "ts-node create-definitions",
+    "start": "yarn schema && nest start --watch",
     "clean": "rimraf dist",
     "build": "yarn clean && nest build",
-    "start": "node dist/src/main",
-    "schema": "ts-node create-definitions",
-    "watch": "yarn schema && nest start --watch"
+    "database": "docker compose -f ./docker/docker-compose.yml up -d"
   },
   "author": "",
   "license": "ISC",
