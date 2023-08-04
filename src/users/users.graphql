@@ -1,4 +1,4 @@
-enum UserRoles {
+enum UserRole {
   Employee
   Admin
 }
@@ -14,7 +14,7 @@ type User {
   department_name: String
   position: Position
   position_name: String
-  role: UserRoles!
+  role: UserRole!
 }
 
 type Query {
@@ -28,7 +28,7 @@ input CreateUserInput {
   cvsIds: [String!]!
   departmentId: ID
   positionId: ID
-  role: UserRoles!
+  role: UserRole!
 }
 
 input UpdateUserInput {
@@ -36,7 +36,7 @@ input UpdateUserInput {
   cvsIds: [String!]
   departmentId: ID
   positionId: ID
-  role: UserRoles
+  role: UserRole
 }
 
 type Mutation {

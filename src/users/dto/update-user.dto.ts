@@ -9,7 +9,7 @@ import {
 import { Type } from "class-transformer";
 import { UpdateUserInput } from "src/graphql";
 import { ProfileDto } from "src/profile/dto/profile.dto";
-import { UserRoles } from "src/graphql";
+import { UserRole } from "src/graphql";
 
 export class UpdateUserDto implements UpdateUserInput {
   @IsObject()
@@ -28,7 +28,7 @@ export class UpdateUserDto implements UpdateUserInput {
   @IsString()
   positionId: string;
 
-  @IsEnum(UserRoles)
+  @IsEnum(UserRole)
   @IsOptional()
-  role: UserRoles;
+  role: UserRole;
 }

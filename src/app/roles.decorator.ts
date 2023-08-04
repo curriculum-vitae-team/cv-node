@@ -1,4 +1,4 @@
 import { SetMetadata } from "@nestjs/common";
-import { UserRoles } from "src/graphql";
+import { UserRole } from "src/graphql";
 
-export const Roles = (...roles: UserRoles[]) => SetMetadata("roles", roles);
+export const Roles = (...roles: UserRole[]) => SetMetadata("roles", roles);

@@ -9,15 +9,15 @@ import { Type } from "class-transformer";
 import { CreateUserInput } from "src/graphql";
 import { SignupDto } from "src/auth/dto/signup.dto";
 import { ProfileDto } from "src/profile/dto/profile.dto";
-import { UserRoles } from "src/graphql";
+import { UserRole } from "src/graphql";
 
 export class CreateUserDto implements CreateUserInput {
   @IsObject()
   @Type(() => SignupDto)
   auth: SignupDto;
 
-  @IsEnum(UserRoles)
-  role: UserRoles;
+  @IsEnum(UserRole)
+  role: UserRole;
 
   @IsObject()
   @ValidateNested()

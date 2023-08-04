@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { ForbiddenException, Response } from "@nestjs/common";
 import { Roles } from "src/app/roles.decorator";
-import { UserRoles } from "src/graphql";
+import { UserRole } from "src/graphql";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -20,7 +20,7 @@ export class UsersResolver {
     return this.usersService.findOneById(id);
   }
 
-  @Roles(UserRoles.Admin)
+  @Roles(UserRole.Admin)
   @Mutation("createUser")
   createUser(@Args("user") args: CreateUserDto) {
     return this.usersService.create(args);
@@ -33,19 +33,19 @@ export class UsersResolver {
     @Response() { req }
   ) {
     // TODO: refactor access control?
-    const isAdmin = req.user.role === UserRoles.Admin;
+    const isAdmin = req.user.role === UserRole.Admin;
     const isSelfUpdate = req.user.id === Number(id);
 
     if (!isAdmin && !isSelfUpdate) {
       throw new ForbiddenException();
     }
-    if (!isAdmin && isSelfUpdate && args.role === UserRoles.Admin) {
+    if (!isAdmin && isSelfUpdate && args.role === UserRole.Admin) {
       throw new ForbiddenException("You cannot assign the Admin role yourself");
     }
     return this.usersService.update(id, args);
   }
 
-  @Roles(UserRoles.Admin)
+  @Roles(UserRole.Admin)
   @Mutation("deleteUser")
   async deleteUser(@Args("id") id: string) {
     const user = await this.usersService.findOneById(id);
