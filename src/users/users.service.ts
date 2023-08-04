@@ -80,7 +80,7 @@ export class UsersService {
   }
 
   async update(id: string, variables: UpdateUserInput) {
-    const { departmentId, positionId, cvsIds } = variables;
+    const { departmentId, positionId, cvsIds, role } = variables;
     const [user, department, position] = await Promise.all([
       this.findOneById(id),
       this.departmentsService.findOneById(departmentId),
@@ -94,6 +94,9 @@ export class UsersService {
       user.profile.id,
       variables.profile
     );
+    if (role) {
+      user.role = role;
+    }
     Object.assign(user, {
       profile,
       department,
