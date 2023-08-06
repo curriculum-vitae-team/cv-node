@@ -10,7 +10,8 @@
     "start": "yarn schema && nest start --watch",
     "clean": "rimraf dist",
     "build": "yarn clean && nest build",
-    "database": "docker compose -f ./docker/docker-compose.yml up -d"
+    "image": "docker build -f docker/Dockerfile -t cv_node .",
+    "docker": "yarn image && docker compose -f docker/docker-compose.yml up"
   },
   "author": "",
   "license": "ISC",
