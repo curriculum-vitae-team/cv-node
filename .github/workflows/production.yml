@@ -9,6 +9,18 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+       - name: Create Docker environment
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_PORT: 3001
+          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+          envkey_MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          envkey_SMTP_URL: ${{ secrets.SMTP_URL }}
+          directory: docker
+          file_name: .env.docker
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -20,4 +32,4 @@ jobs:
         with:
           file: docker/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cv_node:latest
