@@ -32,6 +32,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.1.1
         with:
+          context: .
           file: docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cv_node:latest
