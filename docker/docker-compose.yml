@@ -1,11 +1,21 @@
 version: "3"
+name: cv_node
 services:
-  db:
+  cv_postgres:
     image: postgres
+    container_name: cv_postgres
     restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: 123
     volumes:
       - .docker-data/postgres:/var/lib/postgresql/data
+
+  cv_node:
+    image: thornpear/cv_node
+    container_name: cv_node
+    depends_on:
+      - cv_postgres
+    ports:
+      - "80:3001"

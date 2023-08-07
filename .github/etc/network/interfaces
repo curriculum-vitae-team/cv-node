@@ -1,3 +1,0 @@
-auto ppp0
-iface ppp0 inet ppp
-provider wars
