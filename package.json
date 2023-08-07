@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": ">=16.x"
+    "node": ">=18.x"
   },
   "scripts": {
     "schema": "ts-node create-definitions",
@@ -11,11 +11,11 @@
     "clean": "rimraf dist",
     "build": "yarn clean && nest build",
     "image": "docker build -f docker/Dockerfile -t cv_node .",
-    "image:run": "yarn image && docker compose -f docker/docker-compose.yml up",
+    "image:up": "docker compose -f docker/docker-compose.yml up -d",
     "image:down": "docker compose -f docker/docker-compose.yml down",
-    "image:tag": "yarn image && docker tag cv_node thornpear/cv_node && docker image prune -f",
-    "image:push": "yarn image:tag && docker push thornpear/cv_node && docker rmi thornpear/cv_node",
-    "image:pull": "docker pull --platform linux/arm64/v8 thornpear/cv_node"
+    "image:tag": "docker tag cv_node thornpear/cv_node && docker image prune -f",
+    "image:push": "docker push thornpear/cv_node && docker rmi thornpear/cv_node",
+    "image:pull": "docker pull --platform=linux/arm64 thornpear/cv_node && docker image prune -f"
   },
   "author": "",
   "license": "ISC",

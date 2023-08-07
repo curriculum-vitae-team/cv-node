@@ -5,17 +5,17 @@ services:
     image: postgres
     container_name: cv_postgres
     restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - .docker-data/postgres:/var/lib/postgresql/data
 
   cv_node:
-    image: cv_node
+    image: thornpear/cv_node
     container_name: cv_node
     depends_on:
       - cv_postgres
     ports:
       - "80:3001"
-    expose:
-      - "80"
