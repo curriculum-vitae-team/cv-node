@@ -47,11 +47,25 @@ export interface PositionInput {
     name: string;
 }
 
-export interface ProfileInput {
+export interface CreateProfileInput {
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
-    skills?: Nullable<SkillMasteryInput[]>;
-    languages?: Nullable<LanguageProficiencyInput[]>;
+}
+
+export interface UpdateProfileInput {
+    profileId: string;
+    first_name?: Nullable<string>;
+    last_name?: Nullable<string>;
+}
+
+export interface ProfileSkillsInput {
+    profileId: string;
+    skills: SkillMasteryInput[];
+}
+
+export interface ProfileLanguagesInput {
+    profileId: string;
+    languages: LanguageProficiencyInput[];
 }
 
 export interface AvatarInput {
@@ -82,7 +96,7 @@ export interface SkillMasteryInput {
 
 export interface CreateUserInput {
     auth: AuthInput;
-    profile: ProfileInput;
+    profile: CreateProfileInput;
     cvsIds: string[];
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
@@ -90,7 +104,7 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-    profile: ProfileInput;
+    profile: UpdateProfileInput;
     cvsIds?: Nullable<string[]>;
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
@@ -136,6 +150,8 @@ export interface IMutation {
     createPosition(position: PositionInput): Position | Promise<Position>;
     updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
     deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
+    updateProfileSkills(input: ProfileSkillsInput): Profile | Promise<Profile>;
+    updateProfileLanguages(input: ProfileLanguagesInput): Profile | Promise<Profile>;
     uploadAvatar(id: string, avatar: AvatarInput): string | Promise<string>;
     deleteAvatar(id: string): Nullable<Void> | Promise<Nullable<Void>>;
     createProject(project: ProjectInput): Project | Promise<Project>;
