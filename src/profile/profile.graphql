@@ -9,22 +9,40 @@ type Profile {
   languages: [LanguageProficiency!]!
 }
 
-input ProfileInput {
+input CreateProfileInput {
   first_name: String
   last_name: String
-  skills: [SkillMasteryInput!]
-  languages: [LanguageProficiencyInput!]
+}
+
+input UpdateProfileInput {
+  profileId: ID!
+  first_name: String
+  last_name: String
+}
+
+input ProfileSkillsInput {
+  profileId: ID!
+  skills: [SkillMasteryInput!]!
+}
+
+input ProfileLanguagesInput {
+  profileId: ID!
+  languages: [LanguageProficiencyInput!]!
 }
 
 scalar Void
 
-input AvatarInput {
+input UploadAvatarInput {
+  profileId: ID!
   base64: String!
   size: Int!
   type: String!
 }
 
 type Mutation {
-  uploadAvatar(id: ID!, avatar: AvatarInput!): String!
+  updateProfile(input: UpdateProfileInput!): Profile!
+  updateProfileSkills(input: ProfileSkillsInput!): Profile!
+  updateProfileLanguages(input: ProfileLanguagesInput!): Profile!
+  uploadAvatar(input: UploadAvatarInput!): String!
   deleteAvatar(id: ID!): Void
 }

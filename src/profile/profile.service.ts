@@ -3,7 +3,13 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ProfileModel } from "./model/profile.model";
 import { CloudService } from "src/cloud/cloud.service";
-import { AvatarInput, ProfileInput } from "src/graphql";
+import {
+  UploadAvatarInput,
+  CreateProfileInput,
+  UpdateProfileInput,
+  ProfileLanguagesInput,
+  ProfileSkillsInput,
+} from "src/graphql";
 
 @Injectable()
 export class ProfileService {
@@ -19,30 +25,33 @@ export class ProfileService {
     });
   }
 
-  async create(variables: ProfileInput) {
-    const profile = this.profileRepository.create(variables);
+  async createProfile({ first_name, last_name }: CreateProfileInput) {
+    const profile = this.profileRepository.create({ first_name, last_name });
     return this.profileRepository.save(profile);
   }
 
-  async update(id: string, variables: ProfileInput) {
-    const { first_name, last_name, skills, languages } = variables;
-    const profile = await this.findOnyById(id);
-    if (skills) {
-      profile.skills = skills;
-    }
-    if (languages) {
-      profile.languages = languages;
-    }
-    Object.assign(profile, {
-      first_name,
-      last_name,
-    });
+  async updateProfile({ profileId, first_name, last_name }: UpdateProfileInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.first_name = first_name;
+    profile.last_name = last_name;
     return this.profileRepository.save(profile);
   }
 
-  async uploadAvatar(id: string, avatar: AvatarInput) {
-    const profile = await this.findOnyById(id);
-    const url = await this.cloudService.uploadImage(avatar.base64);
+  async updateProfileSkills({ profileId, skills }: ProfileSkillsInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.skills = skills;
+    return this.profileRepository.save(profile);
+  }
+
+  async updateProfileLanguages({ profileId, languages }: ProfileLanguagesInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.languages = languages;
+    return this.profileRepository.save(profile);
+  }
+
+  async uploadAvatar({ profileId, base64 }: UploadAvatarInput) {
+    const profile = await this.findOnyById(profileId);
+    const url = await this.cloudService.uploadImage(base64);
     profile.avatar = url;
     await this.profileRepository.save(profile);
     return url;

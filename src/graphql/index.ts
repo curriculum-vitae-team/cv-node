@@ -68,7 +68,8 @@ export interface ProfileLanguagesInput {
     languages: LanguageProficiencyInput[];
 }
 
-export interface AvatarInput {
+export interface UploadAvatarInput {
+    profileId: string;
     base64: string;
     size: number;
     type: string;
@@ -104,7 +105,6 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-    profile: UpdateProfileInput;
     cvsIds?: Nullable<string[]>;
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
@@ -150,9 +150,10 @@ export interface IMutation {
     createPosition(position: PositionInput): Position | Promise<Position>;
     updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
     deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
+    updateProfile(input: UpdateProfileInput): Profile | Promise<Profile>;
     updateProfileSkills(input: ProfileSkillsInput): Profile | Promise<Profile>;
     updateProfileLanguages(input: ProfileLanguagesInput): Profile | Promise<Profile>;
-    uploadAvatar(id: string, avatar: AvatarInput): string | Promise<string>;
+    uploadAvatar(input: UploadAvatarInput): string | Promise<string>;
     deleteAvatar(id: string): Nullable<Void> | Promise<Nullable<Void>>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;

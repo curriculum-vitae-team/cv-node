@@ -47,7 +47,7 @@ export class UsersService {
   async signup(variables: AuthInput) {
     const [password, profile] = await Promise.all([
       hash(variables.password, 10),
-      this.profileService.create({ skills: [], languages: [] }),
+      this.profileService.createProfile({}),
     ]);
     const user = this.userRepository.create({
       email: variables.email,
@@ -65,10 +65,10 @@ export class UsersService {
       this.departmentsService.findOneById(departmentId),
       this.positionsService.findOneById(positionId),
     ]);
-    const profile = await this.profileService.update(
-      user.profile.id,
-      variables.profile
-    );
+    const profile = await this.profileService.updateProfile({
+      profileId: user.profile.id,
+      ...variables.profile,
+    });
     Object.assign(user, {
       profile,
       cvs,
@@ -90,15 +90,10 @@ export class UsersService {
       const cvs = await this.cvsService.findMany(cvsIds);
       user.cvs = cvs;
     }
-    const profile = await this.profileService.update(
-      user.profile.id,
-      variables.profile
-    );
     if (role) {
       user.role = role;
     }
     Object.assign(user, {
-      profile,
       department,
       position,
     });

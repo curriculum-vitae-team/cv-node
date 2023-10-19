@@ -24,7 +24,7 @@ type Query {
 
 input CreateUserInput {
   auth: AuthInput!
-  profile: ProfileInput!
+  profile: CreateProfileInput!
   cvsIds: [String!]!
   departmentId: ID
   positionId: ID
@@ -32,7 +32,6 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  profile: ProfileInput!
   cvsIds: [String!]
   departmentId: ID
   positionId: ID

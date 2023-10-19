@@ -1,7 +1,10 @@
 import { IsIn, IsInt, IsString, Max, MaxLength } from "class-validator";
-import { AvatarInput } from "src/graphql";
+import { UploadAvatarInput } from "src/graphql";
 
-export class AvatarDto implements AvatarInput {
+export class UploadAvatarDto implements UploadAvatarInput {
+  @IsString()
+  profileId: string;
+
   @IsString()
   base64: string;
 
