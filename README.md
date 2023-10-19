@@ -11,14 +11,19 @@ MAIL_FROM=
 SMTP_URL=
 ```
 
-## Local Database
+## Local Database & Docker
 
 You should have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 Then you can use:
 
-### `yarn database`
+### `yarn image`
 
-Creates docker container with local PostgreSQL database. You can inspect database table entities with pgAdmin 4.
+Creates docker image for this application.
+
+### `yarn image:up`
+
+Creates docker container with local PostgreSQL database. You can inspect database table entities with pgAdmin 4.\
+Runs previously created image in another docker container connected to the database.
 
 ## Available Scripts
 
