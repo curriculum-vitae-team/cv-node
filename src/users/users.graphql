@@ -19,12 +19,12 @@ type User {
 
 type Query {
   users: [User!]!
-  user(id: ID!): User!
+  user(userId: ID!): User!
 }
 
 input CreateUserInput {
   auth: AuthInput!
-  profile: ProfileInput!
+  profile: CreateProfileInput!
   cvsIds: [String!]!
   departmentId: ID
   positionId: ID
@@ -32,7 +32,7 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-  profile: ProfileInput!
+  userId: ID!
   cvsIds: [String!]
   departmentId: ID
   positionId: ID
@@ -41,6 +41,6 @@ input UpdateUserInput {
 
 type Mutation {
   createUser(user: CreateUserInput!): User!
-  updateUser(id: ID!, user: UpdateUserInput!): User!
-  deleteUser(id: ID!): DeleteResult!
+  updateUser(user: UpdateUserInput!): User!
+  deleteUser(userId: ID!): DeleteResult!
 }

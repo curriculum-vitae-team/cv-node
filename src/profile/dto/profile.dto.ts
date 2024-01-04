@@ -1,25 +1,15 @@
-import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
-import { ProfileInput } from "src/graphql";
-import { SkillMasteryDto } from "src/skills/dto/skill-mastery.dto";
-import { LanguageProficiencyDto } from "src/languages/dto/language-proficiency.dto";
+import { IsString } from "class-validator";
+import { CreateProfileInput, UpdateProfileInput } from "src/graphql";
 
-export class ProfileDto implements ProfileInput {
+export class CreateProfileDto implements CreateProfileInput {
   @IsString()
   first_name: string;
 
   @IsString()
   last_name: string;
+}
 
-  @IsArray()
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => SkillMasteryDto)
-  skills: SkillMasteryDto[];
-
-  @IsArray()
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => LanguageProficiencyDto)
-  languages: LanguageProficiencyDto[];
+export class UpdateProfileDto extends CreateProfileDto implements UpdateProfileInput {
+  @IsString()
+  profileId: string;
 }

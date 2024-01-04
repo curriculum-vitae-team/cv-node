@@ -1,0 +1,12 @@
+{
+  "name": "cv-graphql",
+  "version": "1.4.0",
+  "types": "./index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/curriculum-vitae-team/cv-node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

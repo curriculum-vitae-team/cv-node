@@ -1,3 +1,5 @@
+# Profile
+
 type Profile {
   id: ID!
   created_at: String!
@@ -9,22 +11,82 @@ type Profile {
   languages: [LanguageProficiency!]!
 }
 
-input ProfileInput {
-  first_name: String
-  last_name: String
-  skills: [SkillMasteryInput!]
-  languages: [LanguageProficiencyInput!]
+type Query {
+  profile(profileId: ID!): Profile!
 }
 
-scalar Void
+input CreateProfileInput {
+  first_name: String
+  last_name: String
+}
 
-input AvatarInput {
+input UpdateProfileInput {
+  profileId: ID!
+  first_name: String
+  last_name: String
+}
+
+# Skills
+
+input AddProfileSkillInput {
+  profileId: ID!
+  skill_name: String!
+  mastery: String!
+}
+
+input UpdateProfileSkillInput {
+  profileId: ID!
+  skill_name: String!
+  mastery: String!
+}
+
+input DeleteProfileSkillInput {
+  profileId: ID!
+  skill_name: String!
+}
+
+# Languages
+
+input AddProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+  proficiency: String!
+}
+
+input UpdateProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+  proficiency: String!
+}
+
+input DeleteProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+}
+
+# Avatar
+
+input UploadAvatarInput {
+  profileId: ID!
   base64: String!
   size: Int!
   type: String!
 }
 
+input DeleteAvatarInput {
+  profileId: ID!
+}
+
+scalar Void
+
 type Mutation {
-  uploadAvatar(id: ID!, avatar: AvatarInput!): String!
-  deleteAvatar(id: ID!): Void
+  updateProfile(profile: UpdateProfileInput!): Profile!
+  addProfileSkill(skill: AddProfileSkillInput!): Profile!
+  updateProfileSkill(skill: UpdateProfileSkillInput!): Profile!
+  deleteProfileSkill(skill: DeleteProfileSkillInput!): Profile!
+  addProfileLanguage(language: AddProfileLanguageInput!): Profile!
+  updateProfileLanguage(language: UpdateProfileLanguageInput!): Profile!
+  deleteProfileLanguage(language: DeleteProfileLanguageInput!): Profile!
+  uploadAvatar(avatar: UploadAvatarInput!): String!
+  deleteAvatar(avatar: DeleteAvatarInput!): Void
 }
