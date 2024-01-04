@@ -25,6 +25,11 @@ Creates docker image for this application.
 Creates docker container with local PostgreSQL database. You can inspect database table entities with pgAdmin 4.\
 Runs previously created image in another docker container connected to the database.
 
+## GraphQL SDL-first
+
+This project use Schema-first approach.\
+TypeScript output is published as npm package https://www.npmjs.com/package/cv-graphql.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -44,5 +49,5 @@ Builds the app for production to the `dist` folder.
 
 ## Production
 
-https://cv-project-js.inno.ws/api/graphql \
+Current production URL https://cv-project-js.inno.ws/api/graphql. \
 Application should be exposed on port 80.
