@@ -27,12 +27,12 @@ export class UsersService {
     });
   }
 
-  findOneById(id?: string) {
-    if (!id) {
+  findOneById(userId?: string) {
+    if (!userId) {
       return null;
     }
     return this.userRepository.findOne({
-      where: { id },
+      where: { id: userId },
       relations: ["profile", "cvs", "department", "position"],
     });
   }
@@ -57,7 +57,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async create(variables: CreateUserInput) {
+  async createUser(variables: CreateUserInput) {
     const { role, cvsIds, departmentId, positionId } = variables;
     const [user, cvs, department, position] = await Promise.all([
       this.signup(variables.auth),
@@ -65,12 +65,12 @@ export class UsersService {
       this.departmentsService.findOneById(departmentId),
       this.positionsService.findOneById(positionId),
     ]);
-    const profile = await this.profileService.updateProfile({
-      profileId: user.profile.id,
-      ...variables.profile,
-    });
+    // const profile = await this.profileService.updateProfile({
+    //   profileId: user.profile.id,
+    //   ...variables.profile,
+    // });
     Object.assign(user, {
-      profile,
+      // profile,
       cvs,
       department,
       position,
@@ -79,10 +79,9 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  async update(id: string, variables: UpdateUserInput) {
-    const { departmentId, positionId, cvsIds, role } = variables;
+  async updateUser({ userId, cvsIds, departmentId, positionId, role }: UpdateUserInput) {
     const [user, department, position] = await Promise.all([
-      this.findOneById(id),
+      this.findOneById(userId),
       this.departmentsService.findOneById(departmentId),
       this.positionsService.findOneById(positionId),
     ]);
@@ -100,7 +99,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  delete(id: string) {
-    return this.userRepository.delete(id);
+  deleteUser(userId: string) {
+    return this.userRepository.delete(userId);
   }
 }

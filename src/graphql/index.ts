@@ -58,14 +58,38 @@ export interface UpdateProfileInput {
     last_name?: Nullable<string>;
 }
 
-export interface ProfileSkillsInput {
+export interface AddProfileSkillInput {
     profileId: string;
-    skills: SkillMasteryInput[];
+    skill_name: string;
+    mastery: string;
 }
 
-export interface ProfileLanguagesInput {
+export interface UpdateProfileSkillInput {
     profileId: string;
-    languages: LanguageProficiencyInput[];
+    skill_name: string;
+    mastery: string;
+}
+
+export interface DeleteProfileSkillInput {
+    profileId: string;
+    skill_name: string;
+}
+
+export interface AddProfileLanguageInput {
+    profileId: string;
+    language_name: string;
+    proficiency: string;
+}
+
+export interface UpdateProfileLanguageInput {
+    profileId: string;
+    language_name: string;
+    proficiency: string;
+}
+
+export interface DeleteProfileLanguageInput {
+    profileId: string;
+    language_name: string;
 }
 
 export interface UploadAvatarInput {
@@ -73,6 +97,10 @@ export interface UploadAvatarInput {
     base64: string;
     size: number;
     type: string;
+}
+
+export interface DeleteAvatarInput {
+    profileId: string;
 }
 
 export interface ProjectInput {
@@ -105,6 +133,7 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
+    userId: string;
     cvsIds?: Nullable<string[]>;
     departmentId?: Nullable<string>;
     positionId?: Nullable<string>;
@@ -128,11 +157,12 @@ export interface IQuery {
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
     positions(): Position[] | Promise<Position[]>;
     position(id: string): Position | Promise<Position>;
+    profile(profileId: string): Profile | Promise<Profile>;
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
     skills(): Skill[] | Promise<Skill[]>;
     users(): User[] | Promise<User[]>;
-    user(id: string): User | Promise<User>;
+    user(userId: string): User | Promise<User>;
 }
 
 export interface IMutation {
@@ -150,11 +180,15 @@ export interface IMutation {
     createPosition(position: PositionInput): Position | Promise<Position>;
     updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
     deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
-    updateProfile(input: UpdateProfileInput): Profile | Promise<Profile>;
-    updateProfileSkills(input: ProfileSkillsInput): Profile | Promise<Profile>;
-    updateProfileLanguages(input: ProfileLanguagesInput): Profile | Promise<Profile>;
-    uploadAvatar(input: UploadAvatarInput): string | Promise<string>;
-    deleteAvatar(id: string): Nullable<Void> | Promise<Nullable<Void>>;
+    updateProfile(profile: UpdateProfileInput): Profile | Promise<Profile>;
+    addProfileSkill(skill: AddProfileSkillInput): Profile | Promise<Profile>;
+    updateProfileSkill(skill: UpdateProfileSkillInput): Profile | Promise<Profile>;
+    deleteProfileSkill(skill: DeleteProfileSkillInput): Profile | Promise<Profile>;
+    addProfileLanguage(language: AddProfileLanguageInput): Profile | Promise<Profile>;
+    updateProfileLanguage(language: UpdateProfileLanguageInput): Profile | Promise<Profile>;
+    deleteProfileLanguage(language: DeleteProfileLanguageInput): Profile | Promise<Profile>;
+    uploadAvatar(avatar: UploadAvatarInput): string | Promise<string>;
+    deleteAvatar(avatar: DeleteAvatarInput): Nullable<Void> | Promise<Nullable<Void>>;
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
@@ -162,8 +196,8 @@ export interface IMutation {
     updateSkill(id: string, skill: SkillInput): Skill | Promise<Skill>;
     deleteSkill(id: string): DeleteResult | Promise<DeleteResult>;
     createUser(user: CreateUserInput): User | Promise<User>;
-    updateUser(id: string, user: UpdateUserInput): User | Promise<User>;
-    deleteUser(id: string): DeleteResult | Promise<DeleteResult>;
+    updateUser(user: UpdateUserInput): User | Promise<User>;
+    deleteUser(userId: string): DeleteResult | Promise<DeleteResult>;
 }
 
 export interface Cv {

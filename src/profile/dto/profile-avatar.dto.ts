@@ -1,5 +1,5 @@
-import { IsIn, IsInt, IsString, Max, MaxLength } from "class-validator";
-import { UploadAvatarInput } from "src/graphql";
+import { IsIn, IsInt, IsString, Max } from "class-validator";
+import { DeleteAvatarInput, UploadAvatarInput } from "src/graphql";
 
 export class UploadAvatarDto implements UploadAvatarInput {
   @IsString()
@@ -15,4 +15,9 @@ export class UploadAvatarDto implements UploadAvatarInput {
   @IsString()
   @IsIn(["image/jpeg", "image/png", "image/gif", "image/svg+xml"])
   type: string;
+}
+
+export class DeleteAvatarDto implements DeleteAvatarInput {
+  @IsString()
+  profileId: string;
 }

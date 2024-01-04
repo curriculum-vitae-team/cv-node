@@ -1,3 +1,5 @@
+# Profile
+
 type Profile {
   id: ID!
   created_at: String!
@@ -7,6 +9,10 @@ type Profile {
   avatar: String
   skills: [SkillMastery!]!
   languages: [LanguageProficiency!]!
+}
+
+type Query {
+  profile(profileId: ID!): Profile!
 }
 
 input CreateProfileInput {
@@ -20,17 +26,45 @@ input UpdateProfileInput {
   last_name: String
 }
 
-input ProfileSkillsInput {
+# Skills
+
+input AddProfileSkillInput {
   profileId: ID!
-  skills: [SkillMasteryInput!]!
+  skill_name: String!
+  mastery: String!
 }
 
-input ProfileLanguagesInput {
+input UpdateProfileSkillInput {
   profileId: ID!
-  languages: [LanguageProficiencyInput!]!
+  skill_name: String!
+  mastery: String!
 }
 
-scalar Void
+input DeleteProfileSkillInput {
+  profileId: ID!
+  skill_name: String!
+}
+
+# Languages
+
+input AddProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+  proficiency: String!
+}
+
+input UpdateProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+  proficiency: String!
+}
+
+input DeleteProfileLanguageInput {
+  profileId: ID!
+  language_name: String!
+}
+
+# Avatar
 
 input UploadAvatarInput {
   profileId: ID!
@@ -39,10 +73,20 @@ input UploadAvatarInput {
   type: String!
 }
 
+input DeleteAvatarInput {
+  profileId: ID!
+}
+
+scalar Void
+
 type Mutation {
-  updateProfile(input: UpdateProfileInput!): Profile!
-  updateProfileSkills(input: ProfileSkillsInput!): Profile!
-  updateProfileLanguages(input: ProfileLanguagesInput!): Profile!
-  uploadAvatar(input: UploadAvatarInput!): String!
-  deleteAvatar(id: ID!): Void
+  updateProfile(profile: UpdateProfileInput!): Profile!
+  addProfileSkill(skill: AddProfileSkillInput!): Profile!
+  updateProfileSkill(skill: UpdateProfileSkillInput!): Profile!
+  deleteProfileSkill(skill: DeleteProfileSkillInput!): Profile!
+  addProfileLanguage(language: AddProfileLanguageInput!): Profile!
+  updateProfileLanguage(language: UpdateProfileLanguageInput!): Profile!
+  deleteProfileLanguage(language: DeleteProfileLanguageInput!): Profile!
+  uploadAvatar(avatar: UploadAvatarInput!): String!
+  deleteAvatar(avatar: DeleteAvatarInput!): Void
 }

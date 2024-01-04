@@ -7,8 +7,13 @@ import {
   UploadAvatarInput,
   CreateProfileInput,
   UpdateProfileInput,
-  ProfileLanguagesInput,
-  ProfileSkillsInput,
+  AddProfileSkillInput,
+  UpdateProfileSkillInput,
+  DeleteProfileSkillInput,
+  AddProfileLanguageInput,
+  UpdateProfileLanguageInput,
+  DeleteProfileLanguageInput,
+  DeleteAvatarInput,
 } from "src/graphql";
 
 @Injectable()
@@ -19,9 +24,9 @@ export class ProfileService {
     private readonly cloudService: CloudService
   ) {}
 
-  findOnyById(id: string) {
+  findOnyById(profileId: string) {
     return this.profileRepository.findOne({
-      where: { id },
+      where: { id: profileId },
     });
   }
 
@@ -37,15 +42,55 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  async updateProfileSkills({ profileId, skills }: ProfileSkillsInput) {
+  async addProfileSkill({ profileId, skill_name, mastery }: AddProfileSkillInput) {
     const profile = await this.findOnyById(profileId);
-    profile.skills = skills;
+    profile.skills.push({ skill_name, mastery });
     return this.profileRepository.save(profile);
   }
 
-  async updateProfileLanguages({ profileId, languages }: ProfileLanguagesInput) {
+  async updateProfileSkill({ profileId, skill_name, mastery }: UpdateProfileSkillInput) {
     const profile = await this.findOnyById(profileId);
-    profile.languages = languages;
+    profile.skills = profile.skills.map((skill) => {
+      if (skill.skill_name === skill_name) {
+        return { skill_name, mastery };
+      }
+      return skill;
+    });
+    return this.profileRepository.save(profile);
+  }
+
+  async deleteProfileSkill({ profileId, skill_name }: DeleteProfileSkillInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.skills = profile.skills.filter((skill) => skill.skill_name !== skill_name);
+    return this.profileRepository.save(profile);
+  }
+
+  async addProfileLanguage({ profileId, language_name, proficiency }: AddProfileLanguageInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.languages.push({ language_name, proficiency });
+    return this.profileRepository.save(profile);
+  }
+
+  async updateProfileLanguage({
+    profileId,
+    language_name,
+    proficiency,
+  }: UpdateProfileLanguageInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.languages = profile.languages.map((language) => {
+      if (language.language_name === language_name) {
+        return { language_name, proficiency };
+      }
+      return language;
+    });
+    return this.profileRepository.save(profile);
+  }
+
+  async deleteProfileLanguage({ profileId, language_name }: DeleteProfileLanguageInput) {
+    const profile = await this.findOnyById(profileId);
+    profile.languages = profile.languages.filter(
+      (language) => language.language_name !== language_name
+    );
     return this.profileRepository.save(profile);
   }
 
@@ -57,8 +102,8 @@ export class ProfileService {
     return url;
   }
 
-  async deleteAvatar(id: string) {
-    const profile = await this.findOnyById(id);
+  async deleteAvatar({ profileId }: DeleteAvatarInput) {
+    const profile = await this.findOnyById(profileId);
     profile.avatar = null;
     await this.profileRepository.save(profile);
     return null;
