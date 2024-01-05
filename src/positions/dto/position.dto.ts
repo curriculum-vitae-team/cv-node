@@ -3,6 +3,7 @@ import { CreatePositionInput, DeletePositionInput, UpdatePositionInput } from "s
 
 export class CreatePositionDto implements CreatePositionInput {
   @IsString()
+  @IsNotEmpty()
   name: string;
 }
 
