@@ -28,8 +28,17 @@ export interface CvInput {
     is_template: boolean;
 }
 
-export interface DepartmentInput {
+export interface CreateDepartmentInput {
     name: string;
+}
+
+export interface UpdateDepartmentInput {
+    departmentId: string;
+    name: string;
+}
+
+export interface DeleteDepartmentInput {
+    departmentId: string;
 }
 
 export interface LanguageInput {
@@ -180,9 +189,9 @@ export interface IMutation {
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
     unbindCv(id: string): Cv | Promise<Cv>;
-    createDepartment(department: DepartmentInput): Department | Promise<Department>;
-    updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
-    deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
+    createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
+    updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
+    deleteDepartment(department: DeleteDepartmentInput): DeleteResult | Promise<DeleteResult>;
     createLanguage(language: LanguageInput): Language | Promise<Language>;
     updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;

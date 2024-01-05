@@ -8,12 +8,21 @@ type Query {
   departments: [Department!]!
 }
 
-input DepartmentInput {
+input CreateDepartmentInput {
   name: String!
 }
 
+input UpdateDepartmentInput {
+  departmentId: ID!
+  name: String!
+}
+
+input DeleteDepartmentInput {
+  departmentId: ID!
+}
+
 type Mutation {
-  createDepartment(department: DepartmentInput!): Department!
-  updateDepartment(id: ID!, department: DepartmentInput!): Department!
-  deleteDepartment(id: ID!): DeleteResult!
+  createDepartment(department: CreateDepartmentInput!): Department!
+  updateDepartment(department: UpdateDepartmentInput!): Department!
+  deleteDepartment(department: DeleteDepartmentInput!): DeleteResult!
 }
