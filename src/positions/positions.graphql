@@ -9,12 +9,21 @@ type Query {
   position(id: ID!): Position!
 }
 
-input PositionInput {
+input CreatePositionInput {
   name: String!
 }
 
+input UpdatePositionInput {
+  positionId: ID!
+  name: String!
+}
+
+input DeletePositionInput {
+  positionId: ID!
+}
+
 type Mutation {
-  createPosition(position: PositionInput!): Position!
-  updatePosition(id: ID!, position: PositionInput!): Position!
-  deletePosition(id: ID!): DeleteResult!
+  createPosition(position: CreatePositionInput!): Position!
+  updatePosition(position: UpdatePositionInput!): Position!
+  deletePosition(position: DeletePositionInput!): DeleteResult!
 }

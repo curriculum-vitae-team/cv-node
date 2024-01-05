@@ -28,8 +28,17 @@ export interface CvInput {
     is_template: boolean;
 }
 
-export interface DepartmentInput {
+export interface CreateDepartmentInput {
     name: string;
+}
+
+export interface UpdateDepartmentInput {
+    departmentId: string;
+    name: string;
+}
+
+export interface DeleteDepartmentInput {
+    departmentId: string;
 }
 
 export interface LanguageInput {
@@ -43,8 +52,17 @@ export interface LanguageProficiencyInput {
     proficiency: string;
 }
 
-export interface PositionInput {
+export interface CreatePositionInput {
     name: string;
+}
+
+export interface UpdatePositionInput {
+    positionId: string;
+    name: string;
+}
+
+export interface DeletePositionInput {
+    positionId: string;
 }
 
 export interface CreateProfileInput {
@@ -171,15 +189,15 @@ export interface IMutation {
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
     unbindCv(id: string): Cv | Promise<Cv>;
-    createDepartment(department: DepartmentInput): Department | Promise<Department>;
-    updateDepartment(id: string, department: DepartmentInput): Department | Promise<Department>;
-    deleteDepartment(id: string): DeleteResult | Promise<DeleteResult>;
+    createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
+    updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
+    deleteDepartment(department: DeleteDepartmentInput): DeleteResult | Promise<DeleteResult>;
     createLanguage(language: LanguageInput): Language | Promise<Language>;
     updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
-    createPosition(position: PositionInput): Position | Promise<Position>;
-    updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
-    deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
+    createPosition(position: CreatePositionInput): Position | Promise<Position>;
+    updatePosition(position: UpdatePositionInput): Position | Promise<Position>;
+    deletePosition(position: DeletePositionInput): DeleteResult | Promise<DeleteResult>;
     updateProfile(profile: UpdateProfileInput): Profile | Promise<Profile>;
     addProfileSkill(skill: AddProfileSkillInput): Profile | Promise<Profile>;
     updateProfileSkill(skill: UpdateProfileSkillInput): Profile | Promise<Profile>;

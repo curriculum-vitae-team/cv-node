@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { DepartmentModel } from "./model/department.model";
-import { DepartmentInput } from "src/graphql";
+import { CreateDepartmentInput, DeleteDepartmentInput, UpdateDepartmentInput } from "src/graphql";
 
 @Injectable()
 export class DepartmentsService {
@@ -24,18 +24,18 @@ export class DepartmentsService {
     });
   }
 
-  create(variables: DepartmentInput) {
-    const department = this.departmentRepository.create(variables);
+  create({ name }: CreateDepartmentInput) {
+    const department = this.departmentRepository.create({ name });
     return this.departmentRepository.save(department);
   }
 
-  async update(id: string, variables: DepartmentInput) {
-    const department = await this.findOneById(id);
-    Object.assign(department, variables);
+  async update({ departmentId, name }: UpdateDepartmentInput) {
+    const department = await this.findOneById(departmentId);
+    department.name = name;
     return this.departmentRepository.save(department);
   }
 
-  delete(id: string) {
-    return this.departmentRepository.delete(id);
+  delete({ departmentId }: DeleteDepartmentInput) {
+    return this.departmentRepository.delete(departmentId);
   }
 }
