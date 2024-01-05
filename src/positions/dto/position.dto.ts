@@ -1,7 +1,19 @@
-import { IsString } from "class-validator";
-import { PositionInput } from "src/graphql";
+import { IsNotEmpty, IsString } from "class-validator";
+import { CreatePositionInput, DeletePositionInput, UpdatePositionInput } from "src/graphql";
 
-export class PositionDto implements PositionInput {
+export class CreatePositionDto implements CreatePositionInput {
   @IsString()
   name: string;
+}
+
+export class UpdatePositionDto extends CreatePositionDto implements UpdatePositionInput {
+  @IsString()
+  @IsNotEmpty()
+  positionId: string;
+}
+
+export class DeletePositionDto implements DeletePositionInput {
+  @IsString()
+  @IsNotEmpty()
+  positionId: string;
 }

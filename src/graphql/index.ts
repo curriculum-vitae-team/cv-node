@@ -43,8 +43,17 @@ export interface LanguageProficiencyInput {
     proficiency: string;
 }
 
-export interface PositionInput {
+export interface CreatePositionInput {
     name: string;
+}
+
+export interface UpdatePositionInput {
+    positionId: string;
+    name: string;
+}
+
+export interface DeletePositionInput {
+    positionId: string;
 }
 
 export interface CreateProfileInput {
@@ -177,9 +186,9 @@ export interface IMutation {
     createLanguage(language: LanguageInput): Language | Promise<Language>;
     updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
-    createPosition(position: PositionInput): Position | Promise<Position>;
-    updatePosition(id: string, position: PositionInput): Position | Promise<Position>;
-    deletePosition(id: string): DeleteResult | Promise<DeleteResult>;
+    createPosition(position: CreatePositionInput): Position | Promise<Position>;
+    updatePosition(position: UpdatePositionInput): Position | Promise<Position>;
+    deletePosition(position: DeletePositionInput): DeleteResult | Promise<DeleteResult>;
     updateProfile(profile: UpdateProfileInput): Profile | Promise<Profile>;
     addProfileSkill(skill: AddProfileSkillInput): Profile | Promise<Profile>;
     updateProfileSkill(skill: UpdateProfileSkillInput): Profile | Promise<Profile>;

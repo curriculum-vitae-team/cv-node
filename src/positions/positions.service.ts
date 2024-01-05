@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { PositionModel } from "./model/position.model";
-import { PositionInput } from "src/graphql";
+import { CreatePositionInput, UpdatePositionInput, DeletePositionInput } from "src/graphql";
 
 @Injectable()
 export class PositionsService {
@@ -30,18 +30,18 @@ export class PositionsService {
     });
   }
 
-  create(variables: PositionInput) {
-    const position = this.positionRepository.create(variables);
+  create({ name }: CreatePositionInput) {
+    const position = this.positionRepository.create({ name });
     return this.positionRepository.save(position);
   }
 
-  async update(id: string, variables: PositionInput) {
-    const position = await this.findOneById(id);
-    Object.assign(position, variables);
+  async update({ positionId, name }: UpdatePositionInput) {
+    const position = await this.findOneById(positionId);
+    position.name = name;
     return this.positionRepository.save(position);
   }
 
-  delete(id: string) {
-    return this.positionRepository.delete(id);
+  delete({ positionId }: DeletePositionInput) {
+    return this.positionRepository.delete(positionId);
   }
 }
