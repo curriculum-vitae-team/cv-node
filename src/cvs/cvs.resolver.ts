@@ -1,6 +1,8 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { launch } from "puppeteer";
 import { CvsService } from "./cvs.service";
 import { CvDto } from "./dto/cv.dto";
+import { ExportPdfDto } from "./dto/pdf.dto";
 
 @Resolver()
 export class CvsResolver {
@@ -38,5 +40,18 @@ export class CvsResolver {
   @Mutation("unbindCv")
   unbindCv(@Args("id") id: string) {
     return this.cvsService.unbind(id);
+  }
+
+  @Mutation("exportPdf")
+  async exportPdf(@Args("pdf") args: ExportPdfDto) {
+    const browser = await launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.setContent(args.html);
+    const buffer = await page.pdf({
+      format: "A4",
+      margin: args.margin,
+    });
+    await browser.close();
+    return buffer.toString("base64");
   }
 }

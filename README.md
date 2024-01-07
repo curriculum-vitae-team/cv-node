@@ -16,11 +16,11 @@ SMTP_URL=
 You should have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
 Then you can use:
 
-### `yarn image`
+### `npm run image`
 
 Creates docker image for this application.
 
-### `yarn image:up`
+### `npm run image:up`
 
 Creates docker container with local PostgreSQL database. You can inspect database table entities with pgAdmin 4.\
 Runs previously created image in another docker container connected to the database.
@@ -34,16 +34,16 @@ TypeScript output is published as npm package https://www.npmjs.com/package/cv-g
 
 In the project directory, you can run:
 
-### `yarn schema`
+### `npm run schema`
 
 Creates type definitions for GraphQL.
 
-### `yarn start`
+### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3001/api/graphql](http://[::1]:3001/api/graphql) to access GraphQL playground.
 
-### `yarn build`
+### `npm run build`
 
 Builds the app for production to the `dist` folder.
 
