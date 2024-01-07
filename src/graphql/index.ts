@@ -28,6 +28,18 @@ export interface CvInput {
     is_template: boolean;
 }
 
+export interface MarginInput {
+    top: string;
+    bottom: string;
+    left: string;
+    right: string;
+}
+
+export interface ExportPdfInput {
+    html: string;
+    margin?: Nullable<MarginInput>;
+}
+
 export interface CreateDepartmentInput {
     name: string;
 }
@@ -189,6 +201,7 @@ export interface IMutation {
     updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
     deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
     unbindCv(id: string): Cv | Promise<Cv>;
+    exportPdf(pdf: ExportPdfInput): string | Promise<string>;
     createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
     updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
     deleteDepartment(department: DeleteDepartmentInput): DeleteResult | Promise<DeleteResult>;
