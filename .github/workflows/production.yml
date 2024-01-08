@@ -22,6 +22,7 @@ jobs:
           echo CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} >> .env.docker
           echo MAIL_FROM=${{ secrets.MAIL_FROM }} >> .env.docker
           echo SMTP_URL=${{ secrets.SMTP_URL }} >> .env.docker
+          echo CHROME_WS=${{ secrets.CHROME_WS }} >> .env.docker
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
