@@ -7,9 +7,9 @@
   },
   "scripts": {
     "schema": "ts-node create-definitions",
-    "start": "yarn schema && nest start --watch",
+    "start": "npm run schema && nest start --watch",
     "clean": "rimraf dist",
-    "build": "yarn clean && nest build",
+    "build": "npm run clean && nest build",
     "image": "docker build -f docker/Dockerfile -t cv_node .",
     "image:up": "docker compose -f docker/docker-compose.yml up -d",
     "image:down": "docker compose -f docker/docker-compose.yml down",
@@ -41,7 +41,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.3",
-    "puppeteer": "^21.7.0",
+    "puppeteer-core": "^21.7.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.6",
     "typeorm": "^0.3.7"

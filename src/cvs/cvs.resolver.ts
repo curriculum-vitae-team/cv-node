@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { launch } from "puppeteer";
+import { connect } from "puppeteer-core";
 import { CvsService } from "./cvs.service";
 import { CvDto } from "./dto/cv.dto";
 import { ExportPdfDto } from "./dto/pdf.dto";
@@ -44,7 +44,9 @@ export class CvsResolver {
 
   @Mutation("exportPdf")
   async exportPdf(@Args("pdf") args: ExportPdfDto) {
-    const browser = await launch({ headless: "new" });
+    const browser = await connect({
+      browserWSEndpoint: process.env.CHROME_WS,
+    });
     const page = await browser.newPage();
     await page.setContent(args.html);
     const buffer = await page.pdf({
