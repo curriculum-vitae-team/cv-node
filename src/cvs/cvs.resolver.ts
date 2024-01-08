@@ -49,6 +49,9 @@ export class CvsResolver {
     });
     const page = await browser.newPage();
     await page.setContent(args.html);
+    await page.reload({
+      waitUntil: "networkidle2",
+    });
     const buffer = await page.pdf({
       format: "A4",
       margin: args.margin,
