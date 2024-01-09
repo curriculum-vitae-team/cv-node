@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Roles } from "src/app/roles.decorator";
 import { UserRole } from "src/graphql";
 import { SkillsService } from "./skills.service";
-import { SkillDto } from "./dto/skill.dto";
+import { CreateSkillDto, UpdateSkillDto, DeleteSkillDto } from "./dto/skill.dto";
 
 @Resolver()
 export class SkillsResolver {
@@ -15,19 +15,19 @@ export class SkillsResolver {
 
   @Roles(UserRole.Admin)
   @Mutation("createSkill")
-  createSkill(@Args("skill") args: SkillDto) {
-    return this.skillsService.create(args);
+  createSkill(@Args("skill") args: CreateSkillDto) {
+    return this.skillsService.createSkill(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("updateSkill")
-  updateSkill(@Args("id") id: string, @Args("skill") args: SkillDto) {
-    return this.skillsService.update(id, args);
+  updateSkill(@Args("skill") args: UpdateSkillDto) {
+    return this.skillsService.updateSkill(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("deleteSkill")
-  deleteSkill(@Args("id") id: string) {
-    return this.skillsService.delete(id);
+  deleteSkill(@Args("skill") args: DeleteSkillDto) {
+    return this.skillsService.deleteSkill(args);
   }
 }

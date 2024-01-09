@@ -31,13 +31,13 @@ input UpdateProfileInput {
 input AddProfileSkillInput {
   profileId: ID!
   skill_name: String!
-  mastery: String!
+  mastery: Mastery!
 }
 
 input UpdateProfileSkillInput {
   profileId: ID!
   skill_name: String!
-  mastery: String!
+  mastery: Mastery!
 }
 
 input DeleteProfileSkillInput {

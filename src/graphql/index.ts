@@ -8,6 +8,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum Mastery {
+    Novice = "Novice",
+    Advanced = "Advanced",
+    Competent = "Competent",
+    Proficient = "Proficient",
+    Expert = "Expert"
+}
+
 export enum UserRole {
     Employee = "Employee",
     Admin = "Admin"
@@ -91,13 +99,13 @@ export interface UpdateProfileInput {
 export interface AddProfileSkillInput {
     profileId: string;
     skill_name: string;
-    mastery: string;
+    mastery: Mastery;
 }
 
 export interface UpdateProfileSkillInput {
     profileId: string;
     skill_name: string;
-    mastery: string;
+    mastery: Mastery;
 }
 
 export interface DeleteProfileSkillInput {
@@ -144,13 +152,24 @@ export interface ProjectInput {
     skillsIds: string[];
 }
 
-export interface SkillInput {
+export interface CreateSkillInput {
     name: string;
+    category?: Nullable<string>;
+}
+
+export interface UpdateSkillInput {
+    skillId: string;
+    name: string;
+    category?: Nullable<string>;
+}
+
+export interface DeleteSkillInput {
+    skillId: string;
 }
 
 export interface SkillMasteryInput {
     skill_name: string;
-    mastery: string;
+    mastery: Mastery;
 }
 
 export interface CreateUserInput {
@@ -223,9 +242,9 @@ export interface IMutation {
     createProject(project: ProjectInput): Project | Promise<Project>;
     updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
     deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
-    createSkill(skill: SkillInput): Skill | Promise<Skill>;
-    updateSkill(id: string, skill: SkillInput): Skill | Promise<Skill>;
-    deleteSkill(id: string): DeleteResult | Promise<DeleteResult>;
+    createSkill(skill: CreateSkillInput): Skill | Promise<Skill>;
+    updateSkill(skill: UpdateSkillInput): Skill | Promise<Skill>;
+    deleteSkill(skill: DeleteSkillInput): DeleteResult | Promise<DeleteResult>;
     createUser(user: CreateUserInput): User | Promise<User>;
     updateUser(user: UpdateUserInput): User | Promise<User>;
     deleteUser(userId: string): DeleteResult | Promise<DeleteResult>;
@@ -296,11 +315,12 @@ export interface Skill {
     id: string;
     created_at: string;
     name: string;
+    category?: Nullable<string>;
 }
 
 export interface SkillMastery {
     skill_name: string;
-    mastery: string;
+    mastery: Mastery;
 }
 
 export interface User {

@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { SkillInput } from "src/graphql";
+import { CreateSkillInput, UpdateSkillInput } from "src/graphql";
 import { In, Repository } from "typeorm";
 import { SkillModel } from "./model/skill.model";
+import { DeleteSkillDto } from "./dto/skill.dto";
 
 @Injectable()
 export class SkillsService {
@@ -27,18 +28,19 @@ export class SkillsService {
     });
   }
 
-  create(variables: SkillInput) {
-    const skill = this.skillsRepository.create(variables);
+  createSkill({ name, category }: CreateSkillInput) {
+    const skill = this.skillsRepository.create({ name, category });
     return this.skillsRepository.save(skill);
   }
 
-  async update(id: string, variables: SkillInput) {
-    const skill = await this.findOneById(id);
-    Object.assign(skill, variables);
+  async updateSkill({ skillId, name, category }: UpdateSkillInput) {
+    const skill = await this.findOneById(skillId);
+    skill.name = name;
+    skill.category = category;
     return this.skillsRepository.save(skill);
   }
 
-  delete(id: string) {
-    return this.skillsRepository.delete(id);
+  deleteSkill({ skillId }: DeleteSkillDto) {
+    return this.skillsRepository.delete(skillId);
   }
 }

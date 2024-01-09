@@ -1,9 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Skill } from "src/graphql";
 
 @Entity("skill")
@@ -16,4 +11,7 @@ export class SkillModel implements Skill {
 
   @Column({ unique: true })
   name: string;
+
+  @Column({ nullable: true })
+  category?: string;
 }
