@@ -4,6 +4,14 @@ import { UserRole } from "src/graphql";
 import { SkillsService } from "./skills.service";
 import { CreateSkillDto, UpdateSkillDto, DeleteSkillDto } from "./dto/skill.dto";
 
+const CATEGORIES = [
+  "Programming languages",
+  "Programming technologies",
+  "Integrated development environment",
+  "Source control systems",
+  "Database management system",
+];
+
 @Resolver()
 export class SkillsResolver {
   constructor(private readonly skillsService: SkillsService) {}
@@ -11,6 +19,11 @@ export class SkillsResolver {
   @Query("skills")
   skills() {
     return this.skillsService.findAll();
+  }
+
+  @Query("skillCategories")
+  skillCategories() {
+    return CATEGORIES;
   }
 
   @Roles(UserRole.Admin)

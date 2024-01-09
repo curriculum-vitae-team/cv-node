@@ -42,26 +42,26 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  async addProfileSkill({ profileId, skill_name, mastery }: AddProfileSkillInput) {
+  async addProfileSkill({ profileId, name, category, mastery }: AddProfileSkillInput) {
     const profile = await this.findOnyById(profileId);
-    profile.skills.push({ skill_name, mastery });
+    profile.skills.push({ name, category, mastery });
     return this.profileRepository.save(profile);
   }
 
-  async updateProfileSkill({ profileId, skill_name, mastery }: UpdateProfileSkillInput) {
+  async updateProfileSkill({ profileId, name, mastery }: UpdateProfileSkillInput) {
     const profile = await this.findOnyById(profileId);
     profile.skills = profile.skills.map((skill) => {
-      if (skill.skill_name === skill_name) {
-        return { skill_name, mastery };
+      if (skill.name === name) {
+        return { name, category: skill.category, mastery };
       }
       return skill;
     });
     return this.profileRepository.save(profile);
   }
 
-  async deleteProfileSkill({ profileId, skill_name }: DeleteProfileSkillInput) {
+  async deleteProfileSkill({ profileId, name }: DeleteProfileSkillInput) {
     const profile = await this.findOnyById(profileId);
-    profile.skills = profile.skills.filter((skill) => skill.skill_name !== skill_name);
+    profile.skills = profile.skills.filter((skill) => skill.name !== name);
     return this.profileRepository.save(profile);
   }
 

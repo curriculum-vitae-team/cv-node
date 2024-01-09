@@ -22,5 +22,5 @@ export class DeleteProfileSkillDto implements DeleteProfileSkillInput {
   profileId: string;
 
   @IsString()
-  skill_name: string;
+  name: string;
 }

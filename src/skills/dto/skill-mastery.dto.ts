@@ -1,11 +1,17 @@
-import { IsIn, IsString } from "class-validator";
+import { IsIn, IsOptional, IsString } from "class-validator";
 import { SkillMasteryInput, Mastery } from "src/graphql";
+
+const MASTERIES = ["Novice", "Advanced", "Competent", "Proficient", "Expert"];
 
 export class SkillMasteryDto implements SkillMasteryInput {
   @IsString()
-  skill_name: string;
+  name: string;
 
   @IsString()
-  @IsIn(["Novice", "Advanced", "Competent", "Proficient", "Expert"])
+  @IsOptional()
+  category?: string;
+
+  @IsString()
+  @IsIn(MASTERIES)
   mastery: Mastery;
 }

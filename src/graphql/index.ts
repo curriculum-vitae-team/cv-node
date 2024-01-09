@@ -98,19 +98,21 @@ export interface UpdateProfileInput {
 
 export interface AddProfileSkillInput {
     profileId: string;
-    skill_name: string;
+    name: string;
+    category?: Nullable<string>;
     mastery: Mastery;
 }
 
 export interface UpdateProfileSkillInput {
     profileId: string;
-    skill_name: string;
+    name: string;
+    category?: Nullable<string>;
     mastery: Mastery;
 }
 
 export interface DeleteProfileSkillInput {
     profileId: string;
-    skill_name: string;
+    name: string;
 }
 
 export interface AddProfileLanguageInput {
@@ -168,7 +170,8 @@ export interface DeleteSkillInput {
 }
 
 export interface SkillMasteryInput {
-    skill_name: string;
+    name: string;
+    category?: Nullable<string>;
     mastery: Mastery;
 }
 
@@ -210,6 +213,7 @@ export interface IQuery {
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
     skills(): Skill[] | Promise<Skill[]>;
+    skillCategories(): string[] | Promise<string[]>;
     users(): User[] | Promise<User[]>;
     user(userId: string): User | Promise<User>;
 }
@@ -319,7 +323,8 @@ export interface Skill {
 }
 
 export interface SkillMastery {
-    skill_name: string;
+    name: string;
+    category?: Nullable<string>;
     mastery: Mastery;
 }
 

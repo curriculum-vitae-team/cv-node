@@ -15,6 +15,7 @@ type Skill {
 
 type Query {
   skills: [Skill!]!
+  skillCategories: [String!]!
 }
 
 input CreateSkillInput {
@@ -39,11 +40,13 @@ type Mutation {
 }
 
 type SkillMastery {
-  skill_name: String!
+  name: String!
+  category: String
   mastery: Mastery!
 }
 
 input SkillMasteryInput {
-  skill_name: String!
+  name: String!
+  category: String
   mastery: Mastery!
 }
