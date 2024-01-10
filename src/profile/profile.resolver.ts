@@ -19,7 +19,7 @@ export class ProfileResolver {
 
   @Query("profile")
   profile(@Args("profileId") profileId: string) {
-    return this.profileService.findOnyById(profileId);
+    return this.profileService.findOneById(profileId);
   }
 
   @Mutation("updateProfile")

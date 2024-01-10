@@ -4,7 +4,14 @@ import { In, Repository } from "typeorm";
 import { CvModel } from "./model/cv.model";
 import { UsersService } from "../users/users.service";
 import { ProjectsService } from "../projects/projects.service";
-import { CvInput } from "../graphql";
+import {
+  AddCvSkillInput,
+  CreateCvInput,
+  DeleteCvInput,
+  DeleteCvSkillInput,
+  UpdateCvInput,
+  UpdateCvSkillInput,
+} from "../graphql";
 
 @Injectable()
 export class CvsService {
@@ -29,16 +36,16 @@ export class CvsService {
     });
   }
 
-  findOneById(id: string) {
+  findOneById(cvId: string) {
     return this.cvRepository.findOne({
-      where: { id },
+      where: { id: cvId },
       relations: ["user", "projects"],
     });
   }
 
-  findOneByIdAndJoinProfile(id: string) {
+  findOneByIdAndJoinProfile(cvId: string) {
     return this.cvRepository.findOne({
-      where: { id },
+      where: { id: cvId },
       relations: ["projects"],
       join: {
         alias: "cv",
@@ -52,44 +59,56 @@ export class CvsService {
     });
   }
 
-  async create(variables: CvInput) {
-    const { userId, projectsIds, ...fields } = variables;
+  async createCv({ name, description, userId, projectsIds }: CreateCvInput) {
     const [user, projects] = await Promise.all([
       this.usersService.findOneById(userId),
       this.projectsService.findMany(projectsIds),
     ]);
     const cv = this.cvRepository.create({
-      ...fields,
+      name,
+      description,
       user,
+      skills: user.profile.skills,
       projects,
     });
     return this.cvRepository.save(cv);
   }
 
-  async update(id: string, variables: CvInput) {
-    const { userId, projectsIds, ...fields } = variables;
-    const [cv, user, projects] = await Promise.all([
-      this.findOneById(id),
-      this.usersService.findOneById(userId),
+  async updateCv({ cvId, name, description, projectsIds }: UpdateCvInput) {
+    const [cv, projects] = await Promise.all([
+      this.findOneById(cvId),
       this.projectsService.findMany(projectsIds),
     ]);
-    Object.assign(cv, {
-      ...fields,
-      user,
-      projects,
+    cv.name = name;
+    cv.description = description;
+    cv.projects = projects;
+    return this.cvRepository.save(cv);
+  }
+
+  deleteCv({ cvId }: DeleteCvInput) {
+    return this.cvRepository.delete(cvId);
+  }
+
+  async addCvSkill({ cvId, name, category, mastery }: AddCvSkillInput) {
+    const cv = await this.findOneById(cvId);
+    cv.skills.push({ name, category, mastery });
+    return this.cvRepository.save(cv);
+  }
+
+  async updateCvSkill({ cvId, name, mastery }: UpdateCvSkillInput) {
+    const cv = await this.findOneById(cvId);
+    cv.skills = cv.skills.map((skill) => {
+      if (skill.name === name) {
+        return { name, category: skill.category, mastery };
+      }
+      return skill;
     });
     return this.cvRepository.save(cv);
   }
 
-  delete(id: string) {
-    return this.cvRepository.delete(id);
-  }
-
-  async unbind(id: string) {
-    const cv = await this.findOneById(id);
-    Object.assign(cv, {
-      user: null,
-    });
+  async deleteCvSkill({ cvId, name }: DeleteCvSkillInput) {
+    const cv = await this.findOneById(cvId);
+    cv.skills = cv.skills.filter((skill) => skill.name !== name);
     return this.cvRepository.save(cv);
   }
 }

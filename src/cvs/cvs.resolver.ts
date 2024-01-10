@@ -1,7 +1,8 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { connect } from "puppeteer-core";
 import { CvsService } from "./cvs.service";
-import { CvDto } from "./dto/cv.dto";
+import { CreateCvDto, UpdateCvDto, DeleteCvDto } from "./dto/cv.dto";
+import { AddCvSkillDto, UpdateCvSkillDto, DeleteCvSkillDto } from "./dto/cv-skill.dto";
 import { ExportPdfDto } from "./dto/pdf.dto";
 
 @Resolver()
@@ -14,32 +15,42 @@ export class CvsResolver {
   }
 
   @Query("cv")
-  cv(@Args("id") id: string) {
-    return this.cvsService.findOneByIdAndJoinProfile(id);
+  cv(@Args("cvId") cvId: string) {
+    return this.cvsService.findOneByIdAndJoinProfile(cvId);
   }
 
   @Mutation("createCv")
-  createCv(@Args("cv") args: CvDto) {
-    return this.cvsService.create(args);
+  createCv(@Args("cv") args: CreateCvDto) {
+    return this.cvsService.createCv(args);
   }
 
   // TODO: user can update only his own cvs
   // admin can update any
   @Mutation("updateCv")
-  updateCv(@Args("id") id: string, @Args("cv") args: CvDto) {
-    return this.cvsService.update(id, args);
+  updateCv(@Args("cv") args: UpdateCvDto) {
+    return this.cvsService.updateCv(args);
   }
 
   // TODO: user can delete only his own cvs
   // admin can delete any
   @Mutation("deleteCv")
-  deleteCv(@Args("id") id: string) {
-    return this.cvsService.delete(id);
+  deleteCv(@Args("cv") args: DeleteCvDto) {
+    return this.cvsService.deleteCv(args);
   }
 
-  @Mutation("unbindCv")
-  unbindCv(@Args("id") id: string) {
-    return this.cvsService.unbind(id);
+  @Mutation("addCvSkill")
+  addCvSkill(@Args("skill") args: AddCvSkillDto) {
+    return this.cvsService.addCvSkill(args);
+  }
+
+  @Mutation("updateCvSkill")
+  updateCvSkill(@Args("skill") args: UpdateCvSkillDto) {
+    return this.cvsService.updateCvSkill(args);
+  }
+
+  @Mutation("deleteCvSkill")
+  deleteCvSkill(@Args("skill") args: DeleteCvSkillDto) {
+    return this.cvsService.deleteCvSkill(args);
   }
 
   @Mutation("exportPdf")

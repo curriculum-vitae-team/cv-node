@@ -1,17 +1,8 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
-import { CvInput } from "src/graphql";
-import { LanguageProficiencyDto } from "src/languages/dto/language-proficiency.dto";
-import { SkillMasteryDto } from "src/skills/dto/skill-mastery.dto";
+import { CreateCvInput, UpdateCvInput, DeleteCvInput } from "src/graphql";
 
-export class CvDto implements CvInput {
+export class CreateCvDto implements CreateCvInput {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -28,17 +19,28 @@ export class CvDto implements CvInput {
   @IsArray()
   @Type(() => String)
   projectsIds: string[];
+}
+
+export class UpdateCvDto implements UpdateCvInput {
+  @IsString()
+  @IsNotEmpty()
+  cvId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  description: string;
 
   @IsArray()
-  @Type(() => SkillMasteryDto)
-  @ValidateNested()
-  skills: SkillMasteryDto[];
+  @Type(() => String)
+  projectsIds: string[];
+}
 
-  @IsArray()
-  @Type(() => LanguageProficiencyDto)
-  @ValidateNested()
-  languages: LanguageProficiencyDto[];
-
-  @IsBoolean()
-  is_template: boolean;
+export class DeleteCvDto implements DeleteCvInput {
+  @IsString()
+  @IsNotEmpty()
+  cvId: string;
 }

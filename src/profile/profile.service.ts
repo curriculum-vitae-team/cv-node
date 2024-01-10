@@ -24,7 +24,7 @@ export class ProfileService {
     private readonly cloudService: CloudService
   ) {}
 
-  findOnyById(profileId: string) {
+  findOneById(profileId: string) {
     return this.profileRepository.findOne({
       where: { id: profileId },
     });
@@ -36,20 +36,20 @@ export class ProfileService {
   }
 
   async updateProfile({ profileId, first_name, last_name }: UpdateProfileInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.first_name = first_name;
     profile.last_name = last_name;
     return this.profileRepository.save(profile);
   }
 
   async addProfileSkill({ profileId, name, category, mastery }: AddProfileSkillInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.skills.push({ name, category, mastery });
     return this.profileRepository.save(profile);
   }
 
   async updateProfileSkill({ profileId, name, mastery }: UpdateProfileSkillInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.skills = profile.skills.map((skill) => {
       if (skill.name === name) {
         return { name, category: skill.category, mastery };
@@ -60,13 +60,13 @@ export class ProfileService {
   }
 
   async deleteProfileSkill({ profileId, name }: DeleteProfileSkillInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.skills = profile.skills.filter((skill) => skill.name !== name);
     return this.profileRepository.save(profile);
   }
 
   async addProfileLanguage({ profileId, language_name, proficiency }: AddProfileLanguageInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.languages.push({ language_name, proficiency });
     return this.profileRepository.save(profile);
   }
@@ -76,7 +76,7 @@ export class ProfileService {
     language_name,
     proficiency,
   }: UpdateProfileLanguageInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.languages = profile.languages.map((language) => {
       if (language.language_name === language_name) {
         return { language_name, proficiency };
@@ -87,7 +87,7 @@ export class ProfileService {
   }
 
   async deleteProfileLanguage({ profileId, language_name }: DeleteProfileLanguageInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.languages = profile.languages.filter(
       (language) => language.language_name !== language_name
     );
@@ -95,7 +95,7 @@ export class ProfileService {
   }
 
   async uploadAvatar({ profileId, base64 }: UploadAvatarInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     const url = await this.cloudService.uploadImage(base64);
     profile.avatar = url;
     await this.profileRepository.save(profile);
@@ -103,7 +103,7 @@ export class ProfileService {
   }
 
   async deleteAvatar({ profileId }: DeleteAvatarInput) {
-    const profile = await this.findOnyById(profileId);
+    const profile = await this.findOneById(profileId);
     profile.avatar = null;
     await this.profileRepository.save(profile);
     return null;

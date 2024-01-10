@@ -7,22 +7,50 @@ type Cv {
   projects: [Project!]
   skills: [SkillMastery!]!
   languages: [LanguageProficiency!]!
-  is_template: Boolean!
 }
 
 type Query {
   cvs: [Cv!]!
-  cv(id: ID!): Cv!
+  cv(cvId: ID!): Cv!
 }
 
-input CvInput {
+input CreateCvInput {
   name: String!
   description: String!
   userId: ID
   projectsIds: [ID!]!
-  skills: [SkillMasteryInput!]!
-  languages: [LanguageProficiencyInput!]!
-  is_template: Boolean!
+}
+
+input UpdateCvInput {
+  cvId: ID!
+  name: String!
+  description: String!
+  projectsIds: [ID!]!
+}
+
+input DeleteCvInput {
+  cvId: ID!
+}
+
+# Skills
+
+input AddCvSkillInput {
+  cvId: ID!
+  name: String!
+  category: String
+  mastery: Mastery!
+}
+
+input UpdateCvSkillInput {
+  cvId: ID!
+  name: String!
+  category: String
+  mastery: Mastery!
+}
+
+input DeleteCvSkillInput {
+  cvId: ID!
+  name: String!
 }
 
 # Pdf
@@ -40,9 +68,11 @@ input ExportPdfInput {
 }
 
 type Mutation {
-  createCv(cv: CvInput!): Cv!
-  updateCv(id: ID!, cv: CvInput!): Cv!
-  deleteCv(id: ID!): DeleteResult!
-  unbindCv(id: ID!): Cv!
+  createCv(cv: CreateCvInput!): Cv!
+  updateCv(cv: UpdateCvInput!): Cv!
+  deleteCv(cv: DeleteCvInput!): DeleteResult!
+  addCvSkill(skill: AddCvSkillInput!): Cv!
+  updateCvSkill(skill: UpdateCvSkillInput!): Cv!
+  deleteCvSkill(skill: DeleteCvSkillInput!): Cv!
   exportPdf(pdf: ExportPdfInput!): String!
 }

@@ -26,14 +26,41 @@ export interface AuthInput {
     password: string;
 }
 
-export interface CvInput {
+export interface CreateCvInput {
     name: string;
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
-    skills: SkillMasteryInput[];
-    languages: LanguageProficiencyInput[];
-    is_template: boolean;
+}
+
+export interface UpdateCvInput {
+    cvId: string;
+    name: string;
+    description: string;
+    projectsIds: string[];
+}
+
+export interface DeleteCvInput {
+    cvId: string;
+}
+
+export interface AddCvSkillInput {
+    cvId: string;
+    name: string;
+    category?: Nullable<string>;
+    mastery: Mastery;
+}
+
+export interface UpdateCvSkillInput {
+    cvId: string;
+    name: string;
+    category?: Nullable<string>;
+    mastery: Mastery;
+}
+
+export interface DeleteCvSkillInput {
+    cvId: string;
+    name: string;
 }
 
 export interface MarginInput {
@@ -204,7 +231,7 @@ export interface AuthResult {
 export interface IQuery {
     login(auth: AuthInput): AuthResult | Promise<AuthResult>;
     cvs(): Cv[] | Promise<Cv[]>;
-    cv(id: string): Cv | Promise<Cv>;
+    cv(cvId: string): Cv | Promise<Cv>;
     departments(): Department[] | Promise<Department[]>;
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
     positions(): Position[] | Promise<Position[]>;
@@ -220,10 +247,12 @@ export interface IQuery {
 
 export interface IMutation {
     signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
-    createCv(cv: CvInput): Cv | Promise<Cv>;
-    updateCv(id: string, cv: CvInput): Cv | Promise<Cv>;
-    deleteCv(id: string): DeleteResult | Promise<DeleteResult>;
-    unbindCv(id: string): Cv | Promise<Cv>;
+    createCv(cv: CreateCvInput): Cv | Promise<Cv>;
+    updateCv(cv: UpdateCvInput): Cv | Promise<Cv>;
+    deleteCv(cv: DeleteCvInput): DeleteResult | Promise<DeleteResult>;
+    addCvSkill(skill: AddCvSkillInput): Cv | Promise<Cv>;
+    updateCvSkill(skill: UpdateCvSkillInput): Cv | Promise<Cv>;
+    deleteCvSkill(skill: DeleteCvSkillInput): Cv | Promise<Cv>;
     exportPdf(pdf: ExportPdfInput): string | Promise<string>;
     createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
     updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
@@ -263,7 +292,6 @@ export interface Cv {
     projects?: Nullable<Project[]>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
-    is_template: boolean;
 }
 
 export interface Department {

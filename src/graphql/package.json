@@ -1,6 +1,6 @@
 {
   "name": "cv-graphql",
-  "version": "1.7.0",
+  "version": "2.0.1",
   "types": "./index.ts",
   "repository": {
     "type": "git",

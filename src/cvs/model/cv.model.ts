@@ -41,7 +41,4 @@ export class CvModel implements Cv {
 
   @Column("simple-json", { default: [] })
   languages: LanguageProficiency[];
-
-  @Column("bool", { default: false })
-  is_template: boolean;
 }
