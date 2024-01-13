@@ -15,14 +15,14 @@ jobs:
       - name: Create Docker environment
         run: |
           cd docker
-          touch .env.docker
-          echo PORT=${{ secrets.PORT }} >> .env.docker
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.docker
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.docker
-          echo CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} >> .env.docker
-          echo MAIL_FROM=${{ secrets.MAIL_FROM }} >> .env.docker
-          echo SMTP_URL=${{ secrets.SMTP_URL }} >> .env.docker
-          echo CHROME_WS=${{ secrets.CHROME_WS }} >> .env.docker
+          touch .env.cv_node
+          echo PORT=${{ secrets.PORT }} >> .env.cv_node
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.cv_node
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env.cv_node
+          echo CLOUDINARY_URL=${{ secrets.CLOUDINARY_URL }} >> .env.cv_node
+          echo MAIL_FROM=${{ secrets.MAIL_FROM }} >> .env.cv_node
+          echo SMTP_URL=${{ secrets.SMTP_URL }} >> .env.cv_node
+          echo CHROME_WS=${{ secrets.CHROME_WS }} >> .env.cv_node
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2

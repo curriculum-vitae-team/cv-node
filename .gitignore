@@ -1,6 +1,7 @@
 /node_modules
 /dist
 /docker/.docker-data
-/docker/.env.docker
+/docker/.env.cv_postgres
+/docker/.env.cv_node
 
 .env

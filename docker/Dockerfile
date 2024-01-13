@@ -5,7 +5,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . ./
-COPY docker/.env.docker .env
+COPY docker/.env.cv_node .env
 RUN npm run build
 
 FROM amd64/node:18-alpine AS launch

@@ -3,12 +3,13 @@
 These variables are recommended for local development:
 
 ```
-PORT=3001
-DATABASE_URL="postgres://postgres:123@localhost:5432/postgres"
+PORT="3001"
+DATABASE_URL=
 JWT_SECRET=
 CLOUDINARY_URL=
 MAIL_FROM=
 SMTP_URL=
+CHROME_WS=
 ```
 
 ## Local Database & Docker
