@@ -34,11 +34,11 @@ export class AuthService {
     throw new BadRequestException({ message: "Invalid credentials" });
   }
 
-  async signup(variables: AuthInput) {
-    const user = await this.usersService.signup(variables);
+  async signup({ email, password }: AuthInput) {
+    const user = await this.usersService.signup({ email, password });
     const result = this.signJwt(user);
     this.mailService.confirmEmailAfterSignUp(
-      user,
+      email,
       // TODO: use real url
       "https://curriculum-vitae-project.vercel.app"
     );

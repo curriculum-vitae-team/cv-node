@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { MailerService } from "@nestjs-modules/mailer";
-import { User } from "src/graphql";
 
 @Injectable()
 export class MailService {
@@ -10,10 +9,10 @@ export class MailService {
     return [...Array(6)].map(() => (Math.random() * 10) | 0).join("");
   }
 
-  confirmEmailAfterSignUp(user: User, origin: string) {
+  confirmEmailAfterSignUp(email: string, origin: string) {
     const code = this.createVerificationCode();
     return this.mailerService.sendMail({
-      to: user.email,
+      to: email,
       subject: "Please confirm your email address.",
       template: "./confirm-email.hbs",
       context: {
