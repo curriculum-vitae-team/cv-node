@@ -1,6 +1,7 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { ForbiddenException, Response } from "@nestjs/common";
+import { ForbiddenException, UseGuards } from "@nestjs/common";
 import { Roles } from "src/app/roles.decorator";
+import { SelfGuard } from "src/app/users.guard";
 import { UserRole } from "src/graphql";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -26,18 +27,9 @@ export class UsersResolver {
     return this.usersService.createUser(args);
   }
 
+  @UseGuards(SelfGuard)
   @Mutation("updateUser")
-  updateUser(@Args("user") args: UpdateUserDto, @Response() { req }) {
-    // TODO: refactor access control?
-    const isAdmin = req.user.role === UserRole.Admin;
-    const isSelfUpdate = req.user.id === Number(args.userId);
-
-    if (!isAdmin && !isSelfUpdate) {
-      throw new ForbiddenException();
-    }
-    if (!isAdmin && isSelfUpdate && args.role === UserRole.Admin) {
-      throw new ForbiddenException("You cannot assign the Admin role yourself");
-    }
+  updateUser(@Args("user") args: UpdateUserDto) {
     return this.usersService.updateUser(args);
   }
 
