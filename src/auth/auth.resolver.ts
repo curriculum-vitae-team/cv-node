@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { Public } from "./public.decorator";
+import { Public } from "./guards/public.decorator";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { SignupDto } from "./dto/signup.dto";

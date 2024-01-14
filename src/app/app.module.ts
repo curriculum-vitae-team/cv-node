@@ -15,8 +15,8 @@ import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
 import { MailModule } from "src/mail/mail.module";
 import { Void } from "./void.scalar";
-import { JwtGuard } from "src/auth/jwt.guard";
-import { RolesGuard } from "./roles.guard";
+import { JwtGuard } from "src/auth/guards/jwt.guard";
+import { RolesGuard } from "./guards/roles.guard";
 import { ComplexityPlugin } from "./complexity.plugin";
 
 @Module({

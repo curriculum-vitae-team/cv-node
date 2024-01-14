@@ -4,6 +4,7 @@ import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
 import { AuthInput, AuthResult, User } from "../graphql";
+import { JwtPayload } from "./guards/jwt.strategy";
 
 @Injectable()
 export class AuthService {
@@ -21,8 +22,14 @@ export class AuthService {
   }
 
   signJwt(user: User): AuthResult {
-    const { id, email, role } = user;
-    const access_token = this.jwtService.sign({ sub: id, email, role });
+    const { id, email, role, profile } = user;
+    const payload: JwtPayload = {
+      sub: id,
+      profileId: profile.id,
+      email,
+      role,
+    };
+    const access_token = this.jwtService.sign(payload);
     return { user, access_token };
   }
 

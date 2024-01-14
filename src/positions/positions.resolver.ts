@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { Roles } from "src/app/roles.decorator";
+import { Roles } from "src/app/guards/roles.decorator";
 import { UserRole } from "src/graphql";
 import { PositionsService } from "./positions.service";
 import { CreatePositionDto, UpdatePositionDto, DeletePositionDto } from "./dto/position.dto";

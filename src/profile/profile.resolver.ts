@@ -12,6 +12,8 @@ import {
   DeleteProfileLanguageDto,
 } from "./dto/profile-language.dto";
 import { UpdateProfileDto } from "./dto/profile.dto";
+import { UseGuards } from "@nestjs/common";
+import { OwnProfileGuard } from "src/app/guards/own-profile.guard";
 
 @Resolver()
 export class ProfileResolver {
@@ -22,21 +24,25 @@ export class ProfileResolver {
     return this.profileService.findOneById(profileId);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("updateProfile")
   updateProfile(@Args("profile") args: UpdateProfileDto) {
     return this.profileService.updateProfile(args);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("addProfileSkill")
   addProfileSkill(@Args("skill") args: AddProfileSkillDto) {
     return this.profileService.addProfileSkill(args);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("updateProfileSkill")
   updateProfileSkill(@Args("skill") args: UpdateProfileSkillDto) {
     return this.profileService.updateProfileSkill(args);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("deleteProfileSkill")
   deleteProfileSkill(@Args("skill") args: DeleteProfileSkillDto) {
     return this.profileService.deleteProfileSkill(args);
@@ -57,11 +63,13 @@ export class ProfileResolver {
     return this.profileService.deleteProfileLanguage(args);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("uploadAvatar")
   uploadAvatar(@Args("avatar") args: UploadAvatarDto) {
     return this.profileService.uploadAvatar(args);
   }
 
+  @UseGuards(OwnProfileGuard)
   @Mutation("deleteAvatar")
   deleteAvatar(@Args("avatar") args: DeleteAvatarDto) {
     return this.profileService.deleteAvatar(args);

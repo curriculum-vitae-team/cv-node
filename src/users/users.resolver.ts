@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { ForbiddenException, UseGuards } from "@nestjs/common";
-import { Roles } from "src/app/roles.decorator";
-import { SelfGuard } from "src/app/users.guard";
+import { Roles } from "src/app/guards/roles.decorator";
+import { OwnUserGuard } from "src/app/guards/own-user.guard";
 import { UserRole } from "src/graphql";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -27,7 +27,7 @@ export class UsersResolver {
     return this.usersService.createUser(args);
   }
 
-  @UseGuards(SelfGuard)
+  @UseGuards(OwnUserGuard)
   @Mutation("updateUser")
   updateUser(@Args("user") args: UpdateUserDto) {
     return this.usersService.updateUser(args);
