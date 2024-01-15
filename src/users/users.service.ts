@@ -37,13 +37,6 @@ export class UsersService {
     });
   }
 
-  findOneByIdAndGetProfile(userId: string) {
-    return this.userRepository.findOne({
-      where: { id: userId },
-      relations: ["profile"],
-    });
-  }
-
   findOneByEmail(email: string) {
     return this.userRepository.findOne({
       where: { email },
@@ -61,6 +54,12 @@ export class UsersService {
       password,
       profile,
     });
+    return this.userRepository.save(user);
+  }
+
+  async verifyUser(email: string) {
+    const user = await this.findOneByEmail(email);
+    user.is_verified = true;
     return this.userRepository.save(user);
   }
 
@@ -114,6 +113,6 @@ export class UsersService {
   }
 
   deleteUser(userId: string) {
-    return this.userRepository.delete(userId);
+    return this.profileService.deleteProfile({ userId });
   }
 }

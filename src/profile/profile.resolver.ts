@@ -21,7 +21,7 @@ export class ProfileResolver {
 
   @Query("profile")
   profile(@Args("userId") userId: string) {
-    return this.profileService.findOneByUserId(userId);
+    return this.profileService.findOneById(userId);
   }
 
   @UseGuards(OwnProfileGuard)

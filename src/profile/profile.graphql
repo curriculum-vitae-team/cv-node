@@ -26,6 +26,10 @@ input UpdateProfileInput {
   last_name: String
 }
 
+input DeleteProfileInput {
+  userId: ID!
+}
+
 # Skills
 
 input AddProfileSkillInput {

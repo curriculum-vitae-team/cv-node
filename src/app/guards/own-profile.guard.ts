@@ -12,10 +12,10 @@ export class OwnProfileGuard implements CanActivate {
     const jwt = req.user as JwtResult;
 
     const args = context.getArgByIndex(1);
-    const profileId = args.profile?.profileId || args.skill?.profileId || args.avatar?.profileId;
+    const userId = args.profile?.userId || args.skill?.userId || args.avatar?.userId;
 
     const isAdmin = jwt.role === UserRole.Admin;
-    const isOwnProfile = String(jwt.profileId) === profileId;
+    const isOwnProfile = String(jwt.userId) === userId;
 
     if (isAdmin) {
       return true;

@@ -6,7 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { Exclude, Expose } from "class-transformer";
 import { User } from "src/graphql";
@@ -18,7 +18,7 @@ import { UserRole } from "src/graphql";
 
 @Entity("user")
 export class UserModel implements User {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn("int")
   id: string;
 
   @CreateDateColumn()
@@ -34,8 +34,8 @@ export class UserModel implements User {
   @Exclude()
   password: string;
 
-  @OneToOne(() => ProfileModel, { cascade: true })
-  @JoinColumn()
+  @OneToOne(() => ProfileModel, { cascade: true, onDelete: "CASCADE" })
+  @JoinColumn({ name: "id" })
   profile: ProfileModel;
 
   @OneToMany(() => CvModel, (cv) => cv.user, { cascade: true })

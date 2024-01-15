@@ -25,7 +25,6 @@ export class AuthService {
     const { id, email, role, profile } = user;
     const payload: JwtPayload = {
       sub: id,
-      profileId: profile.id,
       email,
       role,
     };
@@ -44,11 +43,13 @@ export class AuthService {
   async signup({ email, password }: AuthInput) {
     const user = await this.usersService.signup({ email, password });
     const result = this.signJwt(user);
-    this.mailService.confirmEmailAfterSignUp(
+
+    await this.mailService.sendVerificationEmail(
       email,
       // TODO: use real url
       "https://curriculum-vitae-project.vercel.app"
     );
+
     return result;
   }
 }

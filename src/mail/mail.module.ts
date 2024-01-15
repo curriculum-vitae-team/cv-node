@@ -1,10 +1,15 @@
 import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { UsersModule } from "src/users/users.module";
 import { MailService } from "./mail.service";
+import { MailModel } from "./model/mail.model";
+import { MailResolver } from "./mail.resolver";
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([MailModel]),
     MailerModule.forRoot({
       transport: process.env.SMTP_URL,
       defaults: {
@@ -18,8 +23,9 @@ import { MailService } from "./mail.service";
         },
       },
     }),
+    UsersModule,
   ],
-  providers: [MailService],
+  providers: [MailResolver, MailService],
   exports: [MailService],
 })
 export class MailModule {}

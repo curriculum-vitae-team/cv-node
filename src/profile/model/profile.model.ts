@@ -24,8 +24,6 @@ export class ProfileModel implements Profile {
     return [this.first_name, this.last_name].join(" ").trim();
   }
 
-  // TODO: cascade delete profile when user is deleted
-
   @Column({ nullable: true })
   avatar: string;
 

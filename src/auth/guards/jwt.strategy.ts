@@ -5,14 +5,12 @@ import { UserRole } from "src/graphql";
 
 export type JwtPayload = {
   sub: string;
-  profileId: string;
   email: string;
   role: UserRole;
 };
 
 export type JwtResult = {
   userId: string;
-  profileId: string;
   email: string;
   role: UserRole;
 };
@@ -30,7 +28,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   validate(payload: JwtPayload): JwtResult {
     return {
       userId: payload.sub,
-      profileId: payload.profileId,
       email: payload.email,
       role: payload.role,
     };

@@ -99,6 +99,10 @@ export interface LanguageProficiencyInput {
     proficiency: string;
 }
 
+export interface VerifyMailInput {
+    otp: string;
+}
+
 export interface CreatePositionInput {
     name: string;
 }
@@ -121,6 +125,10 @@ export interface UpdateProfileInput {
     userId: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
+}
+
+export interface DeleteProfileInput {
+    userId: string;
 }
 
 export interface AddProfileSkillInput {
@@ -260,6 +268,7 @@ export interface IMutation {
     createLanguage(language: LanguageInput): Language | Promise<Language>;
     updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
     deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
+    verifyMail(mail: VerifyMailInput): Nullable<Void> | Promise<Nullable<Void>>;
     createPosition(position: CreatePositionInput): Position | Promise<Position>;
     updatePosition(position: UpdatePositionInput): Position | Promise<Position>;
     deletePosition(position: DeletePositionInput): DeleteResult | Promise<DeleteResult>;
@@ -311,6 +320,13 @@ export interface Language {
 export interface LanguageProficiency {
     language_name: string;
     proficiency: string;
+}
+
+export interface Mail {
+    id: string;
+    created_at: string;
+    email: string;
+    otp: string;
 }
 
 export interface Position {

@@ -1,0 +1,14 @@
+type Mail {
+  id: ID!
+  created_at: String!
+  email: String!
+  otp: String!
+}
+
+input VerifyMailInput {
+  otp: String!
+}
+
+type Mutation {
+  verifyMail(mail: VerifyMailInput!): Void
+}
