@@ -118,56 +118,56 @@ export interface CreateProfileInput {
 }
 
 export interface UpdateProfileInput {
-    profileId: string;
+    userId: string;
     first_name?: Nullable<string>;
     last_name?: Nullable<string>;
 }
 
 export interface AddProfileSkillInput {
-    profileId: string;
+    userId: string;
     name: string;
     category?: Nullable<string>;
     mastery: Mastery;
 }
 
 export interface UpdateProfileSkillInput {
-    profileId: string;
+    userId: string;
     name: string;
     category?: Nullable<string>;
     mastery: Mastery;
 }
 
 export interface DeleteProfileSkillInput {
-    profileId: string;
+    userId: string;
     name: string;
 }
 
 export interface AddProfileLanguageInput {
-    profileId: string;
+    userId: string;
     language_name: string;
     proficiency: string;
 }
 
 export interface UpdateProfileLanguageInput {
-    profileId: string;
+    userId: string;
     language_name: string;
     proficiency: string;
 }
 
 export interface DeleteProfileLanguageInput {
-    profileId: string;
+    userId: string;
     language_name: string;
 }
 
 export interface UploadAvatarInput {
-    profileId: string;
+    userId: string;
     base64: string;
     size: number;
     type: string;
 }
 
 export interface DeleteAvatarInput {
-    profileId: string;
+    userId: string;
 }
 
 export interface ProjectInput {
@@ -236,7 +236,7 @@ export interface IQuery {
     languages(): Nullable<Language>[] | Promise<Nullable<Language>[]>;
     positions(): Position[] | Promise<Position[]>;
     position(id: string): Position | Promise<Position>;
-    profile(profileId: string): Profile | Promise<Profile>;
+    profile(userId: string): Profile | Promise<Profile>;
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
     skills(): Skill[] | Promise<Skill[]>;

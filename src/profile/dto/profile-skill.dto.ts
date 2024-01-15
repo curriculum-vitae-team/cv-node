@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 import {
   AddProfileSkillInput,
@@ -9,17 +9,20 @@ import { SkillMasteryDto } from "src/skills/dto/skill-mastery.dto";
 
 export class AddProfileSkillDto extends SkillMasteryDto implements AddProfileSkillInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }
 
 export class UpdateProfileSkillDto extends SkillMasteryDto implements UpdateProfileSkillInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }
 
 export class DeleteProfileSkillDto implements DeleteProfileSkillInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 
   @IsString()
   name: string;

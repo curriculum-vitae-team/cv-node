@@ -37,6 +37,13 @@ export class UsersService {
     });
   }
 
+  findOneByIdAndGetProfile(userId: string) {
+    return this.userRepository.findOne({
+      where: { id: userId },
+      relations: ["profile"],
+    });
+  }
+
   findOneByEmail(email: string) {
     return this.userRepository.findOne({
       where: { email },
@@ -72,7 +79,7 @@ export class UsersService {
       this.positionsService.findOneById(positionId),
     ]);
     const profile = await this.profileService.updateProfile({
-      profileId: user.profile.id,
+      userId: user.id,
       first_name,
       last_name,
     });

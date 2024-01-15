@@ -20,8 +20,8 @@ export class ProfileResolver {
   constructor(private readonly profileService: ProfileService) {}
 
   @Query("profile")
-  profile(@Args("profileId") profileId: string) {
-    return this.profileService.findOneById(profileId);
+  profile(@Args("userId") userId: string) {
+    return this.profileService.findOneByUserId(userId);
   }
 
   @UseGuards(OwnProfileGuard)

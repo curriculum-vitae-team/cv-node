@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import {
   AddProfileLanguageInput,
   DeleteProfileLanguageInput,
@@ -11,7 +11,8 @@ export class AddProfileLanguageDto
   implements AddProfileLanguageInput
 {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }
 
 export class UpdateProfileLanguageDto
@@ -19,12 +20,14 @@ export class UpdateProfileLanguageDto
   implements UpdateProfileLanguageInput
 {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }
 
 export class DeleteProfileLanguageDto implements DeleteProfileLanguageInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 
   @IsString()
   language_name: string;

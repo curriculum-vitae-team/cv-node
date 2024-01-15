@@ -12,7 +12,7 @@ type Profile {
 }
 
 type Query {
-  profile(profileId: ID!): Profile!
+  profile(userId: ID!): Profile!
 }
 
 input CreateProfileInput {
@@ -21,7 +21,7 @@ input CreateProfileInput {
 }
 
 input UpdateProfileInput {
-  profileId: ID!
+  userId: ID!
   first_name: String
   last_name: String
 }
@@ -29,54 +29,54 @@ input UpdateProfileInput {
 # Skills
 
 input AddProfileSkillInput {
-  profileId: ID!
+  userId: ID!
   name: String!
   category: String
   mastery: Mastery!
 }
 
 input UpdateProfileSkillInput {
-  profileId: ID!
+  userId: ID!
   name: String!
   category: String
   mastery: Mastery!
 }
 
 input DeleteProfileSkillInput {
-  profileId: ID!
+  userId: ID!
   name: String!
 }
 
 # Languages
 
 input AddProfileLanguageInput {
-  profileId: ID!
+  userId: ID!
   language_name: String!
   proficiency: String!
 }
 
 input UpdateProfileLanguageInput {
-  profileId: ID!
+  userId: ID!
   language_name: String!
   proficiency: String!
 }
 
 input DeleteProfileLanguageInput {
-  profileId: ID!
+  userId: ID!
   language_name: String!
 }
 
 # Avatar
 
 input UploadAvatarInput {
-  profileId: ID!
+  userId: ID!
   base64: String!
   size: Int!
   type: String!
 }
 
 input DeleteAvatarInput {
-  profileId: ID!
+  userId: ID!
 }
 
 scalar Void

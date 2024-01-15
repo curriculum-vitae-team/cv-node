@@ -1,9 +1,10 @@
-import { IsIn, IsInt, IsString, Max } from "class-validator";
+import { IsIn, IsInt, IsNotEmpty, IsString, Max } from "class-validator";
 import { DeleteAvatarInput, UploadAvatarInput } from "src/graphql";
 
 export class UploadAvatarDto implements UploadAvatarInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 
   @IsString()
   base64: string;
@@ -19,5 +20,6 @@ export class UploadAvatarDto implements UploadAvatarInput {
 
 export class DeleteAvatarDto implements DeleteAvatarInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }

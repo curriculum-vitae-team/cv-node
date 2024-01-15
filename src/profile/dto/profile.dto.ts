@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import { CreateProfileInput, UpdateProfileInput } from "src/graphql";
 
 export class CreateProfileDto implements CreateProfileInput {
@@ -11,5 +11,6 @@ export class CreateProfileDto implements CreateProfileInput {
 
 export class UpdateProfileDto extends CreateProfileDto implements UpdateProfileInput {
   @IsString()
-  profileId: string;
+  @IsNotEmpty()
+  userId: string;
 }
