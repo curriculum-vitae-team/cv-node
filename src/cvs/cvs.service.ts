@@ -108,7 +108,7 @@ export class CvsService {
 
   async deleteCvSkill({ cvId, name }: DeleteCvSkillInput) {
     const cv = await this.findOneById(cvId);
-    cv.skills = cv.skills.filter((skill) => skill.name !== name);
+    cv.skills = cv.skills.filter((skill) => !name.includes(skill.name));
     return this.cvRepository.save(cv);
   }
 }

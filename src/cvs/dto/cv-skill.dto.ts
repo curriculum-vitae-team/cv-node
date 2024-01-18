@@ -1,4 +1,5 @@
-import { IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsString } from "class-validator";
 import { AddCvSkillInput, UpdateCvSkillInput, DeleteCvSkillInput } from "src/graphql";
 import { SkillMasteryDto } from "src/skills/dto/skill-mastery.dto";
 
@@ -16,6 +17,7 @@ export class DeleteCvSkillDto implements DeleteCvSkillInput {
   @IsString()
   cvId: string;
 
-  @IsString()
-  name: string;
+  @IsArray()
+  @Type(() => String)
+  name: string[];
 }

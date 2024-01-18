@@ -50,7 +50,7 @@ input UpdateCvSkillInput {
 
 input DeleteCvSkillInput {
   cvId: ID!
-  name: String!
+  name: [String!]!
 }
 
 # Pdf

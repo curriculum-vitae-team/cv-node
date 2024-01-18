@@ -60,7 +60,7 @@ export interface UpdateCvSkillInput {
 
 export interface DeleteCvSkillInput {
     cvId: string;
-    name: string;
+    name: string[];
 }
 
 export interface MarginInput {
