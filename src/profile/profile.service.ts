@@ -62,7 +62,7 @@ export class ProfileService {
 
   async deleteProfileSkill({ userId, name }: DeleteProfileSkillInput) {
     const profile = await this.findOneById(userId);
-    profile.skills = profile.skills.filter((skill) => skill.name !== name);
+    profile.skills = profile.skills.filter((skill) => !name.includes(skill.name));
     return this.profileRepository.save(profile);
   }
 

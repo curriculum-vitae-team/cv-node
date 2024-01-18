@@ -48,7 +48,7 @@ input UpdateProfileSkillInput {
 
 input DeleteProfileSkillInput {
   userId: ID!
-  name: String!
+  name: [String!]!
 }
 
 # Languages

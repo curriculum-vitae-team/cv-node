@@ -147,7 +147,7 @@ export interface UpdateProfileSkillInput {
 
 export interface DeleteProfileSkillInput {
     userId: string;
-    name: string;
+    name: string[];
 }
 
 export interface AddProfileLanguageInput {

@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsNotEmpty, IsString } from "class-validator";
 
 import {
   AddProfileSkillInput,
@@ -24,6 +25,7 @@ export class DeleteProfileSkillDto implements DeleteProfileSkillInput {
   @IsNotEmpty()
   userId: string;
 
-  @IsString()
-  name: string;
+  @IsArray()
+  @Type(() => String)
+  name: string[];
 }
