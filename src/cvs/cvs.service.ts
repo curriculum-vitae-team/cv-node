@@ -69,6 +69,7 @@ export class CvsService {
       description,
       user,
       skills: user.profile.skills,
+      languages: user.profile.languages,
       projects,
     });
     return this.cvRepository.save(cv);
