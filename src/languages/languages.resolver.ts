@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Roles } from "src/app/guards/roles.decorator";
 import { UserRole } from "src/graphql";
 import { LanguagesService } from "./languages.service";
-import { LanguageDto } from "./dto/language.dto";
+import { CreateLanguageDto, UpdateLanguageDto, DeleteLanguageDto } from "./dto/language.dto";
 
 @Resolver()
 export class LanguagesResolver {
@@ -15,19 +15,19 @@ export class LanguagesResolver {
 
   @Roles(UserRole.Admin)
   @Mutation("createLanguage")
-  createLanguage(@Args("language") args: LanguageDto) {
-    return this.languagesService.create(args);
+  createLanguage(@Args("language") args: CreateLanguageDto) {
+    return this.languagesService.createLanguage(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("updateLanguage")
-  updateLanguage(@Args("id") id: string, @Args("language") args: LanguageDto) {
-    return this.languagesService.update(id, args);
+  updateLanguage(@Args("language") args: UpdateLanguageDto) {
+    return this.languagesService.updateLanguage(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("deleteLanguage")
-  deleteLanguage(@Args("id") id: string) {
-    return this.languagesService.delete(id);
+  deleteLanguage(@Args("language") args: DeleteLanguageDto) {
+    return this.languagesService.deleteLanguage(args);
   }
 }

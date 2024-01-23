@@ -8,6 +8,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum Proficiency {
+    A1 = "A1",
+    A2 = "A2",
+    B1 = "B1",
+    B2 = "B2",
+    C1 = "C1",
+    C2 = "C2",
+    Native = "Native"
+}
+
 export enum Mastery {
     Novice = "Novice",
     Advanced = "Advanced",
@@ -88,15 +98,26 @@ export interface DeleteDepartmentInput {
     departmentId: string;
 }
 
-export interface LanguageInput {
+export interface CreateLanguageInput {
     iso2: string;
     name: string;
     native_name?: Nullable<string>;
 }
 
+export interface UpdateLanguageInput {
+    languageId: string;
+    iso2: string;
+    name: string;
+    native_name?: Nullable<string>;
+}
+
+export interface DeleteLanguageInput {
+    languageId: string;
+}
+
 export interface LanguageProficiencyInput {
-    language_name: string;
-    proficiency: string;
+    name: string;
+    proficiency: Proficiency;
 }
 
 export interface VerifyMailInput {
@@ -152,19 +173,19 @@ export interface DeleteProfileSkillInput {
 
 export interface AddProfileLanguageInput {
     userId: string;
-    language_name: string;
-    proficiency: string;
+    name: string;
+    proficiency: Proficiency;
 }
 
 export interface UpdateProfileLanguageInput {
     userId: string;
-    language_name: string;
-    proficiency: string;
+    name: string;
+    proficiency: Proficiency;
 }
 
 export interface DeleteProfileLanguageInput {
     userId: string;
-    language_name: string;
+    name: string;
 }
 
 export interface UploadAvatarInput {
@@ -265,9 +286,9 @@ export interface IMutation {
     createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
     updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
     deleteDepartment(department: DeleteDepartmentInput): DeleteResult | Promise<DeleteResult>;
-    createLanguage(language: LanguageInput): Language | Promise<Language>;
-    updateLanguage(id: string, language: LanguageInput): Language | Promise<Language>;
-    deleteLanguage(id: string): DeleteResult | Promise<DeleteResult>;
+    createLanguage(language: CreateLanguageInput): Language | Promise<Language>;
+    updateLanguage(language: UpdateLanguageInput): Language | Promise<Language>;
+    deleteLanguage(language: DeleteLanguageInput): DeleteResult | Promise<DeleteResult>;
     verifyMail(mail: VerifyMailInput): Nullable<Void> | Promise<Nullable<Void>>;
     createPosition(position: CreatePositionInput): Position | Promise<Position>;
     updatePosition(position: UpdatePositionInput): Position | Promise<Position>;
@@ -318,8 +339,8 @@ export interface Language {
 }
 
 export interface LanguageProficiency {
-    language_name: string;
-    proficiency: string;
+    name: string;
+    proficiency: Proficiency;
 }
 
 export interface Mail {

@@ -55,19 +55,19 @@ input DeleteProfileSkillInput {
 
 input AddProfileLanguageInput {
   userId: ID!
-  language_name: String!
-  proficiency: String!
+  name: String!
+  proficiency: Proficiency!
 }
 
 input UpdateProfileLanguageInput {
   userId: ID!
-  language_name: String!
-  proficiency: String!
+  name: String!
+  proficiency: Proficiency!
 }
 
 input DeleteProfileLanguageInput {
   userId: ID!
-  language_name: String!
+  name: String!
 }
 
 # Avatar

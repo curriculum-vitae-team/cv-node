@@ -1,11 +1,13 @@
 import { IsIn, IsString } from "class-validator";
-import { LanguageProficiencyInput } from "src/graphql";
+import { LanguageProficiencyInput, Proficiency } from "src/graphql";
+
+const PROFICIENCIES = ["A1", "A2", "B1", "B2", "C1", "C2", "Native"];
 
 export class LanguageProficiencyDto implements LanguageProficiencyInput {
   @IsString()
-  language_name: string;
+  name: string;
 
   @IsString()
-  @IsIn(["a1", "a2", "b1", "b2", "c1", "c2", "native"])
-  proficiency: string;
+  @IsIn(PROFICIENCIES)
+  proficiency: Proficiency;
 }

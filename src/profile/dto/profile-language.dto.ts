@@ -30,5 +30,5 @@ export class DeleteProfileLanguageDto implements DeleteProfileLanguageInput {
   userId: string;
 
   @IsString()
-  language_name: string;
+  name: string;
 }

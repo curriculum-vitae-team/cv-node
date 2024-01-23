@@ -1,3 +1,13 @@
+enum Proficiency {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+  Native
+}
+
 type Language {
   id: ID!
   created_at: String!
@@ -10,24 +20,35 @@ type Query {
   languages: [Language]!
 }
 
-input LanguageInput {
+input CreateLanguageInput {
   iso2: String!
   name: String!
   native_name: String
 }
 
+input UpdateLanguageInput {
+  languageId: ID!
+  iso2: String!
+  name: String!
+  native_name: String
+}
+
+input DeleteLanguageInput {
+  languageId: ID!
+}
+
 type Mutation {
-  createLanguage(language: LanguageInput!): Language!
-  updateLanguage(id: ID!, language: LanguageInput!): Language!
-  deleteLanguage(id: ID!): DeleteResult!
+  createLanguage(language: CreateLanguageInput!): Language!
+  updateLanguage(language: UpdateLanguageInput!): Language!
+  deleteLanguage(language: DeleteLanguageInput!): DeleteResult!
 }
 
 type LanguageProficiency {
-  language_name: String!
-  proficiency: String!
+  name: String!
+  proficiency: Proficiency!
 }
 
 input LanguageProficiencyInput {
-  language_name: String!
-  proficiency: String!
+  name: String!
+  proficiency: Proficiency!
 }

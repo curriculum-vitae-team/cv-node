@@ -66,28 +66,26 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  async addProfileLanguage({ userId, language_name, proficiency }: AddProfileLanguageInput) {
+  async addProfileLanguage({ userId, name, proficiency }: AddProfileLanguageInput) {
     const profile = await this.findOneById(userId);
-    profile.languages.push({ language_name, proficiency });
+    profile.languages.push({ name, proficiency });
     return this.profileRepository.save(profile);
   }
 
-  async updateProfileLanguage({ userId, language_name, proficiency }: UpdateProfileLanguageInput) {
+  async updateProfileLanguage({ userId, name, proficiency }: UpdateProfileLanguageInput) {
     const profile = await this.findOneById(userId);
     profile.languages = profile.languages.map((language) => {
-      if (language.language_name === language_name) {
-        return { language_name, proficiency };
+      if (language.name === name) {
+        return { name, proficiency };
       }
       return language;
     });
     return this.profileRepository.save(profile);
   }
 
-  async deleteProfileLanguage({ userId, language_name }: DeleteProfileLanguageInput) {
+  async deleteProfileLanguage({ userId, name }: DeleteProfileLanguageInput) {
     const profile = await this.findOneById(userId);
-    profile.languages = profile.languages.filter(
-      (language) => language.language_name !== language_name
-    );
+    profile.languages = profile.languages.filter((language) => language.name !== name);
     return this.profileRepository.save(profile);
   }
 
