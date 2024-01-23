@@ -67,7 +67,7 @@ input UpdateProfileLanguageInput {
 
 input DeleteProfileLanguageInput {
   userId: ID!
-  name: String!
+  name: [String!]!
 }
 
 # Avatar

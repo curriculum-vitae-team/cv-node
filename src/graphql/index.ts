@@ -185,7 +185,7 @@ export interface UpdateProfileLanguageInput {
 
 export interface DeleteProfileLanguageInput {
     userId: string;
-    name: string;
+    name: string[];
 }
 
 export interface UploadAvatarInput {

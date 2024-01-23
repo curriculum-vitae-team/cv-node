@@ -85,7 +85,7 @@ export class ProfileService {
 
   async deleteProfileLanguage({ userId, name }: DeleteProfileLanguageInput) {
     const profile = await this.findOneById(userId);
-    profile.languages = profile.languages.filter((language) => language.name !== name);
+    profile.languages = profile.languages.filter((language) => !name.includes(language.name));
     return this.profileRepository.save(profile);
   }
 
