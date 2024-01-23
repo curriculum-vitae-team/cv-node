@@ -8,6 +8,10 @@ export class CreateCvDto implements CreateCvInput {
   name: string;
 
   @IsString()
+  @IsOptional()
+  education: string;
+
+  @IsString()
   @IsNotEmpty()
   description: string;
 
@@ -29,6 +33,10 @@ export class UpdateCvDto implements UpdateCvInput {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsOptional()
+  education: string;
 
   @IsString()
   @IsNotEmpty()

@@ -26,6 +26,9 @@ export class CvModel implements Cv {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  education: string;
+
   @Column()
   description: string;
 

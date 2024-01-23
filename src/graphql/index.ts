@@ -38,6 +38,7 @@ export interface AuthInput {
 
 export interface CreateCvInput {
     name: string;
+    education?: Nullable<string>;
     description: string;
     userId?: Nullable<string>;
     projectsIds: string[];
@@ -46,6 +47,7 @@ export interface CreateCvInput {
 export interface UpdateCvInput {
     cvId: string;
     name: string;
+    education?: Nullable<string>;
     description: string;
     projectsIds: string[];
 }
@@ -317,6 +319,7 @@ export interface Cv {
     id: string;
     created_at: string;
     name: string;
+    education?: Nullable<string>;
     description: string;
     user?: Nullable<User>;
     projects?: Nullable<Project[]>;

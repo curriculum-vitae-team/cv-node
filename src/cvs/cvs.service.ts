@@ -59,13 +59,14 @@ export class CvsService {
     });
   }
 
-  async createCv({ name, description, userId, projectsIds }: CreateCvInput) {
+  async createCv({ name, education, description, userId, projectsIds }: CreateCvInput) {
     const [user, projects] = await Promise.all([
       this.usersService.findOneById(userId),
       this.projectsService.findMany(projectsIds),
     ]);
     const cv = this.cvRepository.create({
       name,
+      education,
       description,
       user,
       skills: user.profile.skills,
@@ -75,12 +76,13 @@ export class CvsService {
     return this.cvRepository.save(cv);
   }
 
-  async updateCv({ cvId, name, description, projectsIds }: UpdateCvInput) {
+  async updateCv({ cvId, name, education, description, projectsIds }: UpdateCvInput) {
     const [cv, projects] = await Promise.all([
       this.findOneById(cvId),
       this.projectsService.findMany(projectsIds),
     ]);
     cv.name = name;
+    cv.education = education;
     cv.description = description;
     cv.projects = projects;
     return this.cvRepository.save(cv);
