@@ -20,6 +20,7 @@ services:
       - cv_postgres
     ports:
       - "80:3001"
+      - "443:3001"
 
 volumes:
   cv_postgres:
