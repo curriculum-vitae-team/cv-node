@@ -1,8 +1,9 @@
 version: "3"
 name: cv_node
+
 services:
   cv_postgres:
-    image: postgres
+    image: postgres:13
     container_name: cv_postgres
     restart: unless-stopped
     env_file:
@@ -10,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - .docker-data/postgres:/var/lib/postgresql/data
+      - cv_postgres:/var/lib/postgresql/data
 
   cv_node:
     image: thornpear/cv_node
@@ -19,3 +20,7 @@ services:
       - cv_postgres
     ports:
       - "80:3001"
+
+volumes:
+  cv_postgres:
+    external: false
