@@ -51,4 +51,4 @@ Builds the app for production to the `dist` folder.
 ## Production
 
 Current production URL https://cv-project-js.inno.ws/api/graphql. \
-Application should be exposed on port 80.
+Application should be exposed on port 80 and 443.
