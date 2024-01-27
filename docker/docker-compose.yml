@@ -9,7 +9,7 @@ services:
     env_file:
       - .env.cv_postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - cv_postgres:/var/lib/postgresql/data
 
@@ -19,8 +19,7 @@ services:
     depends_on:
       - cv_postgres
     ports:
-      - "80:3001"
-      - "443:3001"
+      - "3001:3001"
 
 volumes:
   cv_postgres:
