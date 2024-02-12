@@ -120,7 +120,7 @@ export class CvsService {
 
   async removeCvProject({ cvId, projectId }: RemoveCvProjectInput) {
     const cv = await this.findOneById(cvId);
-    cv.projects = cv.projects.filter(({ id }) => id !== projectId);
+    cv.projects = cv.projects.filter(({ id }) => String(id) !== projectId);
     return this.cvRepository.save(cv);
   }
 }
