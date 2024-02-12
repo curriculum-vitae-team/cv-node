@@ -1,12 +1,24 @@
 {
   "name": "cv-graphql",
-  "version": "2.3.0",
+  "version": "2.4.4",
   "types": "./index.ts",
+  "description": "Public cv-node GraphQL API types.",
+  "keywords": [
+    "graphql",
+    "types"
+  ],
+  "homepage": "https://github.com/curriculum-vitae-team/cv-node",
   "repository": {
     "type": "git",
     "url": "https://github.com/curriculum-vitae-team/cv-node"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "bugs": {
+    "url": "https://github.com/curriculum-vitae-team/cv-node/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Rostislav Harlanov",
+    "email": "thorn_pear@icloud.com",
+    "url": "https://www.linkedin.com/in/rastsislau-k"
+  }
 }

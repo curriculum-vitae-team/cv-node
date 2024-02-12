@@ -20,8 +20,8 @@ export class ProjectModel implements Project {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  internal_name?: string;
+  @Column()
+  internal_name: string;
 
   @Column()
   description: string;

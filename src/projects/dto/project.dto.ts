@@ -1,8 +1,7 @@
-import { IsArray, IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { Type } from "class-transformer";
-import { ProjectInput } from "src/graphql";
+import { IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { CreateProjectInput, UpdateProjectInput, DeleteProjectInput } from "src/graphql";
 
-export class ProjectDto implements ProjectInput {
+export class CreateProjectDto implements CreateProjectInput {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -14,7 +13,6 @@ export class ProjectDto implements ProjectInput {
   description: string;
 
   @IsString()
-  @IsNotEmpty()
   domain: string;
 
   @IsISO8601()
@@ -26,8 +24,14 @@ export class ProjectDto implements ProjectInput {
 
   @IsNumber()
   team_size: number;
+}
 
-  @IsArray()
-  @Type(() => String)
-  skillsIds: string[];
+export class UpdateProjectDto extends CreateProjectDto implements UpdateProjectInput {
+  @IsString()
+  projectId: string;
+}
+
+export class DeleteProjectDto implements DeleteProjectInput {
+  @IsString()
+  projectId: string;
 }

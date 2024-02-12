@@ -1,0 +1,14 @@
+input AddCvProjectInput {
+  cvId: ID!
+  projectId: ID!
+}
+
+input RemoveCvProjectInput {
+  cvId: ID!
+  projectId: ID!
+}
+
+type Mutation {
+  addCvProject(project: AddCvProjectInput!): Cv!
+  removeCvProject(project: RemoveCvProjectInput!): Cv!
+}

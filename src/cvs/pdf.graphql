@@ -1,0 +1,15 @@
+input MarginInput {
+  top: String!
+  bottom: String!
+  left: String!
+  right: String!
+}
+
+input ExportPdfInput {
+  html: String!
+  margin: MarginInput
+}
+
+type Mutation {
+  exportPdf(pdf: ExportPdfInput!): String!
+}

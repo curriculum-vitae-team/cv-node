@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Roles } from "src/app/guards/roles.decorator";
 import { UserRole } from "src/graphql";
-import { ProjectDto } from "./dto/project.dto";
+import { CreateProjectDto, UpdateProjectDto, DeleteProjectDto } from "./dto/project.dto";
 import { ProjectsService } from "./projects.service";
 
 @Resolver()
@@ -14,25 +14,25 @@ export class ProjectsResolver {
   }
 
   @Query("project")
-  project(@Args("id") id: string) {
-    return this.projectsService.findOneById(id);
+  project(@Args("projectId") projectId: string) {
+    return this.projectsService.findOneById(projectId);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("createProject")
-  createProject(@Args("project") args: ProjectDto) {
-    return this.projectsService.create(args);
+  createProject(@Args("project") args: CreateProjectDto) {
+    return this.projectsService.createProject(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("updateProject")
-  updateProject(@Args("id") id: string, @Args("project") args: ProjectDto) {
-    return this.projectsService.update(id, args);
+  updateProject(@Args("project") args: UpdateProjectDto) {
+    return this.projectsService.updateProject(args);
   }
 
   @Roles(UserRole.Admin)
   @Mutation("deleteProject")
-  deleteProject(@Args("id") id: string) {
-    return this.projectsService.delete(id);
+  deleteProject(@Args("project") args: DeleteProjectDto) {
+    return this.projectsService.deleteProject(args);
   }
 }

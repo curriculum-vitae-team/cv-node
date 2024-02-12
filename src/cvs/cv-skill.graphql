@@ -1,0 +1,24 @@
+input AddCvSkillInput {
+  cvId: ID!
+  name: String!
+  category: String
+  mastery: Mastery!
+}
+
+input UpdateCvSkillInput {
+  cvId: ID!
+  name: String!
+  category: String
+  mastery: Mastery!
+}
+
+input DeleteCvSkillInput {
+  cvId: ID!
+  name: [String!]!
+}
+
+type Mutation {
+  addCvSkill(skill: AddCvSkillInput!): Cv!
+  updateCvSkill(skill: UpdateCvSkillInput!): Cv!
+  deleteCvSkill(skill: DeleteCvSkillInput!): Cv!
+}

@@ -36,24 +36,14 @@ export interface AuthInput {
     password: string;
 }
 
-export interface CreateCvInput {
-    name: string;
-    education?: Nullable<string>;
-    description: string;
-    userId?: Nullable<string>;
-    projectsIds: string[];
+export interface AddCvProjectInput {
+    cvId: string;
+    projectId: string;
 }
 
-export interface UpdateCvInput {
+export interface RemoveCvProjectInput {
     cvId: string;
-    name: string;
-    education?: Nullable<string>;
-    description: string;
-    projectsIds: string[];
-}
-
-export interface DeleteCvInput {
-    cvId: string;
+    projectId: string;
 }
 
 export interface AddCvSkillInput {
@@ -73,6 +63,24 @@ export interface UpdateCvSkillInput {
 export interface DeleteCvSkillInput {
     cvId: string;
     name: string[];
+}
+
+export interface CreateCvInput {
+    name: string;
+    education?: Nullable<string>;
+    description: string;
+    userId?: Nullable<string>;
+}
+
+export interface UpdateCvInput {
+    cvId: string;
+    name: string;
+    education?: Nullable<string>;
+    description: string;
+}
+
+export interface DeleteCvInput {
+    cvId: string;
 }
 
 export interface MarginInput {
@@ -201,7 +209,7 @@ export interface DeleteAvatarInput {
     userId: string;
 }
 
-export interface ProjectInput {
+export interface CreateProjectInput {
     name: string;
     internal_name?: Nullable<string>;
     description: string;
@@ -209,7 +217,21 @@ export interface ProjectInput {
     start_date: string;
     end_date?: Nullable<string>;
     team_size: number;
-    skillsIds: string[];
+}
+
+export interface UpdateProjectInput {
+    projectId: string;
+    name: string;
+    internal_name?: Nullable<string>;
+    description: string;
+    domain: string;
+    start_date: string;
+    end_date?: Nullable<string>;
+    team_size: number;
+}
+
+export interface DeleteProjectInput {
+    projectId: string;
 }
 
 export interface CreateSkillInput {
@@ -269,7 +291,7 @@ export interface IQuery {
     position(id: string): Position | Promise<Position>;
     profile(userId: string): Profile | Promise<Profile>;
     projects(): Project[] | Promise<Project[]>;
-    project(id: string): Project | Promise<Project>;
+    project(projectId: string): Project | Promise<Project>;
     skills(): Skill[] | Promise<Skill[]>;
     skillCategories(): string[] | Promise<string[]>;
     users(): User[] | Promise<User[]>;
@@ -278,12 +300,14 @@ export interface IQuery {
 
 export interface IMutation {
     signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
-    createCv(cv: CreateCvInput): Cv | Promise<Cv>;
-    updateCv(cv: UpdateCvInput): Cv | Promise<Cv>;
-    deleteCv(cv: DeleteCvInput): DeleteResult | Promise<DeleteResult>;
+    addCvProject(project: AddCvProjectInput): Cv | Promise<Cv>;
+    removeCvProject(project: RemoveCvProjectInput): Cv | Promise<Cv>;
     addCvSkill(skill: AddCvSkillInput): Cv | Promise<Cv>;
     updateCvSkill(skill: UpdateCvSkillInput): Cv | Promise<Cv>;
     deleteCvSkill(skill: DeleteCvSkillInput): Cv | Promise<Cv>;
+    createCv(cv: CreateCvInput): Cv | Promise<Cv>;
+    updateCv(cv: UpdateCvInput): Cv | Promise<Cv>;
+    deleteCv(cv: DeleteCvInput): DeleteResult | Promise<DeleteResult>;
     exportPdf(pdf: ExportPdfInput): string | Promise<string>;
     createDepartment(department: CreateDepartmentInput): Department | Promise<Department>;
     updateDepartment(department: UpdateDepartmentInput): Department | Promise<Department>;
@@ -304,9 +328,9 @@ export interface IMutation {
     deleteProfileLanguage(language: DeleteProfileLanguageInput): Profile | Promise<Profile>;
     uploadAvatar(avatar: UploadAvatarInput): string | Promise<string>;
     deleteAvatar(avatar: DeleteAvatarInput): Nullable<Void> | Promise<Nullable<Void>>;
-    createProject(project: ProjectInput): Project | Promise<Project>;
-    updateProject(id: string, project: ProjectInput): Project | Promise<Project>;
-    deleteProject(id: string): DeleteResult | Promise<DeleteResult>;
+    createProject(project: CreateProjectInput): Project | Promise<Project>;
+    updateProject(project: UpdateProjectInput): Project | Promise<Project>;
+    deleteProject(project: DeleteProjectInput): DeleteResult | Promise<DeleteResult>;
     createSkill(skill: CreateSkillInput): Skill | Promise<Skill>;
     updateSkill(skill: UpdateSkillInput): Skill | Promise<Skill>;
     deleteSkill(skill: DeleteSkillInput): DeleteResult | Promise<DeleteResult>;
@@ -374,7 +398,7 @@ export interface Project {
     id: string;
     created_at: string;
     name: string;
-    internal_name?: Nullable<string>;
+    internal_name: string;
     description: string;
     domain: string;
     start_date: string;

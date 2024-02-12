@@ -1,0 +1,40 @@
+type Cv {
+  id: ID!
+  created_at: String!
+  name: String!
+  education: String
+  description: String!
+  user: User
+  projects: [Project!]
+  skills: [SkillMastery!]!
+  languages: [LanguageProficiency!]!
+}
+
+type Query {
+  cvs: [Cv!]!
+  cv(cvId: ID!): Cv!
+}
+
+input CreateCvInput {
+  name: String!
+  education: String
+  description: String!
+  userId: ID
+}
+
+input UpdateCvInput {
+  cvId: ID!
+  name: String!
+  education: String
+  description: String!
+}
+
+input DeleteCvInput {
+  cvId: ID!
+}
+
+type Mutation {
+  createCv(cv: CreateCvInput!): Cv!
+  updateCv(cv: UpdateCvInput!): Cv!
+  deleteCv(cv: DeleteCvInput!): DeleteResult!
+}

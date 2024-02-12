@@ -2,7 +2,7 @@ type Project {
   id: ID!
   created_at: String!
   name: String!
-  internal_name: String
+  internal_name: String!
   description: String!
   domain: String!
   start_date: String!
@@ -13,10 +13,10 @@ type Project {
 
 type Query {
   projects: [Project!]!
-  project(id: ID!): Project!
+  project(projectId: ID!): Project!
 }
 
-input ProjectInput {
+input CreateProjectInput {
   name: String!
   internal_name: String
   description: String!
@@ -24,11 +24,25 @@ input ProjectInput {
   start_date: String!
   end_date: String
   team_size: Int!
-  skillsIds: [ID!]!
+}
+
+input UpdateProjectInput {
+  projectId: ID!
+  name: String!
+  internal_name: String
+  description: String!
+  domain: String!
+  start_date: String!
+  end_date: String
+  team_size: Int!
+}
+
+input DeleteProjectInput {
+  projectId: ID!
 }
 
 type Mutation {
-  createProject(project: ProjectInput!): Project!
-  updateProject(id: ID!, project: ProjectInput!): Project!
-  deleteProject(id: ID!): DeleteResult!
+  createProject(project: CreateProjectInput!): Project!
+  updateProject(project: UpdateProjectInput!): Project!
+  deleteProject(project: DeleteProjectInput!): DeleteResult!
 }

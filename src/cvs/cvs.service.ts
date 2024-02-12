@@ -5,10 +5,12 @@ import { CvModel } from "./model/cv.model";
 import { UsersService } from "../users/users.service";
 import { ProjectsService } from "../projects/projects.service";
 import {
+  AddCvProjectInput,
   AddCvSkillInput,
   CreateCvInput,
   DeleteCvInput,
   DeleteCvSkillInput,
+  RemoveCvProjectInput,
   UpdateCvInput,
   UpdateCvSkillInput,
 } from "../graphql";
@@ -59,11 +61,8 @@ export class CvsService {
     });
   }
 
-  async createCv({ name, education, description, userId, projectsIds }: CreateCvInput) {
-    const [user, projects] = await Promise.all([
-      this.usersService.findOneById(userId),
-      this.projectsService.findMany(projectsIds),
-    ]);
+  async createCv({ name, education, description, userId }: CreateCvInput) {
+    const user = await this.usersService.findOneById(userId);
     const cv = this.cvRepository.create({
       name,
       education,
@@ -71,20 +70,15 @@ export class CvsService {
       user,
       skills: user.profile.skills,
       languages: user.profile.languages,
-      projects,
     });
     return this.cvRepository.save(cv);
   }
 
-  async updateCv({ cvId, name, education, description, projectsIds }: UpdateCvInput) {
-    const [cv, projects] = await Promise.all([
-      this.findOneById(cvId),
-      this.projectsService.findMany(projectsIds),
-    ]);
+  async updateCv({ cvId, name, education, description }: UpdateCvInput) {
+    const cv = await this.findOneById(cvId);
     cv.name = name;
     cv.education = education;
     cv.description = description;
-    cv.projects = projects;
     return this.cvRepository.save(cv);
   }
 
@@ -112,6 +106,21 @@ export class CvsService {
   async deleteCvSkill({ cvId, name }: DeleteCvSkillInput) {
     const cv = await this.findOneById(cvId);
     cv.skills = cv.skills.filter((skill) => !name.includes(skill.name));
+    return this.cvRepository.save(cv);
+  }
+
+  async addCvProject({ cvId, projectId }: AddCvProjectInput) {
+    const [cv, project] = await Promise.all([
+      this.findOneById(cvId),
+      this.projectsService.findOneById(projectId),
+    ]);
+    cv.projects.push(project);
+    return this.cvRepository.save(cv);
+  }
+
+  async removeCvProject({ cvId, projectId }: RemoveCvProjectInput) {
+    const cv = await this.findOneById(cvId);
+    cv.projects = cv.projects.filter(({ id }) => id !== projectId);
     return this.cvRepository.save(cv);
   }
 }

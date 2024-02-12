@@ -1,5 +1,4 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { Type } from "class-transformer";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { CreateCvInput, UpdateCvInput, DeleteCvInput } from "src/graphql";
 
 export class CreateCvDto implements CreateCvInput {
@@ -19,10 +18,6 @@ export class CreateCvDto implements CreateCvInput {
   @IsNotEmpty()
   @IsOptional()
   userId: string;
-
-  @IsArray()
-  @Type(() => String)
-  projectsIds: string[];
 }
 
 export class UpdateCvDto implements UpdateCvInput {
@@ -41,10 +36,6 @@ export class UpdateCvDto implements UpdateCvInput {
   @IsString()
   @IsNotEmpty()
   description: string;
-
-  @IsArray()
-  @Type(() => String)
-  projectsIds: string[];
 }
 
 export class DeleteCvDto implements DeleteCvInput {
