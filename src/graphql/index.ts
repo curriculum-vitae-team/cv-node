@@ -39,6 +39,19 @@ export interface AuthInput {
 export interface AddCvProjectInput {
     cvId: string;
     projectId: string;
+    start_date: string;
+    end_date?: Nullable<string>;
+    roles: string[];
+    responsibilities: string[];
+}
+
+export interface UpdateCvProjectInput {
+    cvId: string;
+    projectId: string;
+    start_date: string;
+    end_date?: Nullable<string>;
+    roles: string[];
+    responsibilities: string[];
 }
 
 export interface RemoveCvProjectInput {
@@ -301,6 +314,7 @@ export interface IQuery {
 export interface IMutation {
     signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
     addCvProject(project: AddCvProjectInput): Cv | Promise<Cv>;
+    updateCvProject(project: UpdateCvProjectInput): Cv | Promise<Cv>;
     removeCvProject(project: RemoveCvProjectInput): Cv | Promise<Cv>;
     addCvSkill(skill: AddCvSkillInput): Cv | Promise<Cv>;
     updateCvSkill(skill: UpdateCvSkillInput): Cv | Promise<Cv>;
@@ -339,6 +353,20 @@ export interface IMutation {
     deleteUser(userId: string): DeleteResult | Promise<DeleteResult>;
 }
 
+export interface CvProject {
+    id: string;
+    project: Project;
+    name: string;
+    internal_name: string;
+    description: string;
+    domain: string;
+    start_date: string;
+    end_date?: Nullable<string>;
+    team_size: number;
+    roles: string[];
+    responsibilities: string[];
+}
+
 export interface Cv {
     id: string;
     created_at: string;
@@ -346,7 +374,7 @@ export interface Cv {
     education?: Nullable<string>;
     description: string;
     user?: Nullable<User>;
-    projects?: Nullable<Project[]>;
+    projects?: Nullable<CvProject[]>;
     skills: SkillMastery[];
     languages: LanguageProficiency[];
 }

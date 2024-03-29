@@ -1,6 +1,33 @@
+type CvProject {
+  id: ID!
+  project: Project!
+  name: String!
+  internal_name: String!
+  description: String!
+  domain: String!
+  start_date: String!
+  end_date: String
+  team_size: Int!
+  roles: [String!]!
+  responsibilities: [String!]!
+}
+
 input AddCvProjectInput {
   cvId: ID!
   projectId: ID!
+  start_date: String!
+  end_date: String
+  roles: [String!]!
+  responsibilities: [String!]!
+}
+
+input UpdateCvProjectInput {
+  cvId: ID!
+  projectId: ID!
+  start_date: String!
+  end_date: String
+  roles: [String!]!
+  responsibilities: [String!]!
 }
 
 input RemoveCvProjectInput {
@@ -10,5 +37,6 @@ input RemoveCvProjectInput {
 
 type Mutation {
   addCvProject(project: AddCvProjectInput!): Cv!
+  updateCvProject(project: UpdateCvProjectInput!): Cv!
   removeCvProject(project: RemoveCvProjectInput!): Cv!
 }

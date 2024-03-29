@@ -1,7 +1,8 @@
-import { IsString } from "class-validator";
-import { AddCvProjectInput, RemoveCvProjectInput } from "src/graphql";
+import { Type } from "class-transformer";
+import { IsArray, IsISO8601, IsOptional, IsString } from "class-validator";
+import { AddCvProjectInput, RemoveCvProjectInput, UpdateCvProjectInput } from "src/graphql";
 
-export class AddCvProjectDto implements AddCvProjectInput {
+export class RemoveCvProjectDto implements RemoveCvProjectInput {
   @IsString()
   cvId: string;
 
@@ -9,4 +10,21 @@ export class AddCvProjectDto implements AddCvProjectInput {
   projectId: string;
 }
 
-export class RemoveCvProjectDto extends AddCvProjectDto implements RemoveCvProjectInput {}
+export class UpdateCvProjectDto extends RemoveCvProjectDto implements UpdateCvProjectInput {
+  @IsISO8601()
+  start_date: string;
+
+  @IsISO8601()
+  @IsOptional()
+  end_date?: string;
+
+  @IsArray()
+  @Type(() => String)
+  roles: string[];
+
+  @IsArray()
+  @Type(() => String)
+  responsibilities: string[];
+}
+
+export class AddCvProjectDto extends UpdateCvProjectDto implements AddCvProjectInput {}

@@ -6,7 +6,7 @@ import { AddCvSkillDto, UpdateCvSkillDto, DeleteCvSkillDto } from "./dto/cv-skil
 import { ExportPdfDto } from "./dto/pdf.dto";
 import { UseGuards } from "@nestjs/common";
 import { OwnCvGuard } from "src/app/guards/own-cv.guard";
-import { AddCvProjectDto, RemoveCvProjectDto } from "./dto/cv-project.dto";
+import { AddCvProjectDto, RemoveCvProjectDto, UpdateCvProjectDto } from "./dto/cv-project.dto";
 
 @Resolver()
 export class CvsResolver {
@@ -19,7 +19,7 @@ export class CvsResolver {
 
   @Query("cv")
   cv(@Args("cvId") cvId: string) {
-    return this.cvsService.findOneByIdAndJoinProfile(cvId);
+    return this.cvsService.findOneByIdAndJoin(cvId);
   }
 
   @Mutation("createCv")
@@ -61,6 +61,12 @@ export class CvsResolver {
   @Mutation("addCvProject")
   addCvProject(@Args("project") args: AddCvProjectDto) {
     return this.cvsService.addCvProject(args);
+  }
+
+  @UseGuards(OwnCvGuard)
+  @Mutation("updateCvProject")
+  updateCvProject(@Args("project") args: UpdateCvProjectDto) {
+    return this.cvsService.updateCvProject(args);
   }
 
   @UseGuards(OwnCvGuard)

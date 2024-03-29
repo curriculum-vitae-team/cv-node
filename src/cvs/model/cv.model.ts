@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { Cv, LanguageProficiency, SkillMastery } from "src/graphql";
 import { UserModel } from "src/users/model/user.model";
-import { ProjectModel } from "src/projects/model/project.model";
+import { CvProjectModel } from "./cv-project.model";
 
 @Entity("cv")
 export class CvModel implements Cv {
@@ -35,9 +35,9 @@ export class CvModel implements Cv {
   @ManyToOne(() => UserModel, (user) => user.cvs, { onDelete: "SET NULL" })
   user: UserModel;
 
-  @ManyToMany(() => ProjectModel, { cascade: true })
+  @ManyToMany(() => CvProjectModel, { cascade: true })
   @JoinTable()
-  projects: ProjectModel[];
+  projects: CvProjectModel[];
 
   @Column("simple-json", { default: [] })
   skills: SkillMastery[];

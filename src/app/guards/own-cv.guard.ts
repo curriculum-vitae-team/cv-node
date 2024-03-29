@@ -15,7 +15,7 @@ export class OwnCvGuard implements CanActivate {
     const jwt = req.user as JwtResult;
 
     const args = context.getArgByIndex(1);
-    const cvId = args.cv?.cvId || args.skill?.cvId;
+    const cvId = args.cv?.cvId || args.skill?.cvId || args.project?.cvId;
 
     const isAdmin = jwt.role === UserRole.Admin;
     const cv = await this.cvsService.findOneById(cvId);

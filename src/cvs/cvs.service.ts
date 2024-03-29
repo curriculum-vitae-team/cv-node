@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { CvModel } from "./model/cv.model";
@@ -12,14 +12,18 @@ import {
   DeleteCvSkillInput,
   RemoveCvProjectInput,
   UpdateCvInput,
+  UpdateCvProjectInput,
   UpdateCvSkillInput,
 } from "../graphql";
+import { CvProjectModel } from "./model/cv-project.model";
 
 @Injectable()
 export class CvsService {
   constructor(
     @InjectRepository(CvModel)
     private readonly cvRepository: Repository<CvModel>,
+    @InjectRepository(CvProjectModel)
+    private readonly cvProjectRepository: Repository<CvProjectModel>,
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
     @Inject(forwardRef(() => ProjectsService))
@@ -45,19 +49,19 @@ export class CvsService {
     });
   }
 
-  findOneByIdAndJoinProfile(cvId: string) {
+  findOneByIdAndJoin(cvId: string) {
     return this.cvRepository.findOne({
       where: { id: cvId },
-      relations: ["projects"],
-      join: {
-        alias: "cv",
-        leftJoinAndSelect: {
-          user: "cv.user",
-          profile: "user.profile",
-          department: "user.department",
-          position: "user.position",
-        },
-      },
+      relations: ["user", "user.profile", "projects", "projects.project"],
+      // join: {
+      //   alias: "cv",
+      //   leftJoinAndSelect: {
+      //     user: "cv.user",
+      //     profile: "user.profile",
+      //     department: "user.department",
+      //     position: "user.position",
+      //   },
+      // },
     });
   }
 
@@ -109,18 +113,67 @@ export class CvsService {
     return this.cvRepository.save(cv);
   }
 
-  async addCvProject({ cvId, projectId }: AddCvProjectInput) {
+  async addCvProject({
+    cvId,
+    projectId,
+    start_date,
+    end_date,
+    roles,
+    responsibilities,
+  }: AddCvProjectInput) {
     const [cv, project] = await Promise.all([
-      this.findOneById(cvId),
+      this.findOneByIdAndJoin(cvId),
       this.projectsService.findOneById(projectId),
     ]);
-    cv.projects.push(project);
-    return this.cvRepository.save(cv);
+
+    if (cv.projects.find(({ project }) => String(project.id) === projectId)) {
+      throw new BadRequestException({
+        message: "The project has already been added to this resume",
+      });
+    }
+
+    const cvProject = this.cvProjectRepository.create({
+      project,
+      start_date,
+      end_date,
+      roles,
+      responsibilities,
+    });
+
+    cv.projects.push(cvProject);
+    await this.cvProjectRepository.save(cvProject);
+    await this.cvRepository.save(cv);
+
+    return cv;
+  }
+
+  async updateCvProject({
+    cvId,
+    projectId,
+    start_date,
+    end_date = null,
+    roles,
+    responsibilities,
+  }: UpdateCvProjectInput) {
+    const cv = await this.findOneByIdAndJoin(cvId);
+    const cvProject = cv.projects.find(({ project }) => String(project.id) === projectId);
+
+    cvProject.start_date = start_date;
+    cvProject.end_date = end_date;
+    cvProject.roles = roles;
+    cvProject.responsibilities = responsibilities;
+
+    await this.cvProjectRepository.save(cvProject);
+
+    return cv;
   }
 
   async removeCvProject({ cvId, projectId }: RemoveCvProjectInput) {
-    const cv = await this.findOneById(cvId);
-    cv.projects = cv.projects.filter(({ id }) => String(id) !== projectId);
-    return this.cvRepository.save(cv);
+    const cv = await this.findOneByIdAndJoin(cvId);
+
+    cv.projects = cv.projects.filter(({ project }) => String(project.id) !== projectId);
+    await this.cvProjectRepository.delete({ project: { id: projectId } });
+
+    return cv;
   }
 }
