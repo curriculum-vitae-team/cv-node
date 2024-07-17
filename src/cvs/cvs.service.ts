@@ -126,6 +126,12 @@ export class CvsService {
       this.projectsService.findOneById(projectId),
     ]);
 
+    if (!project) {
+      throw new BadRequestException({
+        message: "Project not found",
+      });
+    }
+
     if (cv.projects.find(({ project }) => String(project.id) === projectId)) {
       throw new BadRequestException({
         message: "The project has already been added to this resume",
