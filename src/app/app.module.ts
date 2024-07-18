@@ -15,9 +15,9 @@ import { CvsModule } from "../cvs/cvs.module";
 import { ProjectsModule } from "../projects/projects.module";
 import { MailModule } from "src/mail/mail.module";
 import { Void } from "./void.scalar";
-import { JwtGuard } from "src/auth/guards/jwt.guard";
 import { RolesGuard } from "./guards/roles.guard";
 import { ComplexityPlugin } from "./complexity.plugin";
+import { AccessTokenGuard } from "src/auth/guards/access_token.guard";
 
 @Module({
   imports: [
@@ -57,7 +57,7 @@ import { ComplexityPlugin } from "./complexity.plugin";
     ComplexityPlugin,
     {
       provide: APP_GUARD,
-      useClass: JwtGuard,
+      useClass: AccessTokenGuard,
     },
     {
       provide: APP_GUARD,

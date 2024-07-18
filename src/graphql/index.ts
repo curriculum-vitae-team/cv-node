@@ -292,6 +292,7 @@ export interface DeleteResult {
 export interface AuthResult {
     user: User;
     access_token: string;
+    refresh_token: string;
 }
 
 export interface IQuery {
@@ -311,8 +312,14 @@ export interface IQuery {
     user(userId: string): User | Promise<User>;
 }
 
+export interface UpdateTokenResult {
+    access_token: string;
+    refresh_token: string;
+}
+
 export interface IMutation {
     signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
+    updateToken(): UpdateTokenResult | Promise<UpdateTokenResult>;
     addCvProject(project: AddCvProjectInput): Cv | Promise<Cv>;
     updateCvProject(project: UpdateCvProjectInput): Cv | Promise<Cv>;
     removeCvProject(project: RemoveCvProjectInput): Cv | Promise<Cv>;

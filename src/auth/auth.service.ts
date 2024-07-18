@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
-import { AuthInput, AuthResult, User } from "../graphql";
-import { JwtPayload } from "./guards/jwt.strategy";
+import { AuthInput, User } from "../graphql";
+import { JwtPayload } from "./strategies/access_token.strategy";
 
 @Injectable()
 export class AuthService {
@@ -16,33 +16,52 @@ export class AuthService {
 
   async validate({ email, password }: AuthInput) {
     const user = await this.usersService.findOneByEmail(email);
+
     if (user && (await compare(password, user.password))) {
       return user;
     }
   }
 
-  signJwt(user: User): AuthResult {
-    const { id, email, role, profile } = user;
+  async signJwt(user: User) {
+    const { id, email, role } = user;
     const payload: JwtPayload = {
       sub: id,
       email,
       role,
     };
-    const access_token = this.jwtService.sign(payload);
-    return { user, access_token };
+    const [access_token, refresh_token] = await Promise.all([
+      this.jwtService.signAsync(payload, { expiresIn: "1m" }),
+      this.jwtService.signAsync(payload, { expiresIn: "7d" }),
+    ]);
+
+    return { access_token, refresh_token };
   }
 
-  async login(variables: AuthInput) {
-    const user = await this.validate(variables);
-    if (user) {
-      return this.signJwt(user);
+  async updateJwt(userId: string) {
+    const user = await this.usersService.findOneById(userId);
+
+    if (!user) {
+      return new ForbiddenException("Access denied");
     }
-    throw new BadRequestException({ message: "Invalid credentials" });
+
+    return this.signJwt(user);
+  }
+
+  async login({ email, password }: AuthInput) {
+    const user = await this.validate({ email, password });
+
+    if (!user) {
+      return new BadRequestException({ message: "Invalid credentials" });
+    }
+
+    const tokens = await this.signJwt(user);
+
+    return { user, ...tokens };
   }
 
   async signup({ email, password }: AuthInput) {
     const user = await this.usersService.signup({ email, password });
-    const result = this.signJwt(user);
+    const tokens = await this.signJwt(user);
 
     await this.mailService.sendVerificationEmail(
       email,
@@ -50,6 +69,6 @@ export class AuthService {
       "https://curriculum-vitae-project.vercel.app"
     );
 
-    return result;
+    return { user, ...tokens };
   }
 }

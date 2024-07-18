@@ -6,12 +6,19 @@ input AuthInput {
 type AuthResult {
   user: User!
   access_token: String!
+  refresh_token: String!
 }
 
 type Query {
   login(auth: AuthInput!): AuthResult!
 }
 
+type UpdateTokenResult {
+  access_token: String!
+  refresh_token: String!
+}
+
 type Mutation {
   signup(auth: AuthInput!): AuthResult!
+  updateToken: UpdateTokenResult!
 }

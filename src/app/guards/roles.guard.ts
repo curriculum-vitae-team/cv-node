@@ -3,7 +3,7 @@ import { Reflector } from "@nestjs/core";
 import { CanActivate, ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
 import { UserRole } from "src/graphql";
-import { JwtResult } from "src/auth/guards/jwt.strategy";
+import { JwtPayload } from "src/auth/strategies/access_token.strategy";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -18,7 +18,7 @@ export class RolesGuard implements CanActivate {
 
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
-    const jwt = req.user as JwtResult;
+    const jwt = req.user as JwtPayload;
 
     return roles.includes(jwt.role);
   }

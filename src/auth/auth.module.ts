@@ -4,17 +4,17 @@ import { UsersModule } from "src/users/users.module";
 import { MailModule } from "src/mail/mail.module";
 import { AuthResolver } from "./auth.resolver";
 import { AuthService } from "./auth.service";
-import { JwtStrategy } from "./guards/jwt.strategy";
+import { AccessTokenStrategy } from "./strategies/access_token.strategy";
+import { RefreshTokenStrategy } from "./strategies/refresh_token.strategy";
 
 @Module({
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: "2h" },
     }),
     UsersModule,
     MailModule,
   ],
-  providers: [AuthResolver, AuthService, JwtStrategy],
+  providers: [AuthResolver, AuthService, AccessTokenStrategy, RefreshTokenStrategy],
 })
 export class AuthModule {}
