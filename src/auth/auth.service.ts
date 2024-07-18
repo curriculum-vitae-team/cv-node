@@ -1,9 +1,9 @@
-import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
-import { AuthInput, User } from "../graphql";
+import { AuthInput, UpdateTokenResult, User } from "../graphql";
 import { JwtPayload } from "./strategies/access_token.strategy";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService {
     private readonly mailService: MailService
   ) {}
 
-  async validate({ email, password }: AuthInput) {
+  private async validatePassword({ email, password }: AuthInput) {
     const user = await this.usersService.findOneByEmail(email);
 
     if (user && (await compare(password, user.password))) {
@@ -22,7 +22,7 @@ export class AuthService {
     }
   }
 
-  async signJwt(user: User) {
+  private async signJwt(user: User): Promise<UpdateTokenResult> {
     const { id, email, role } = user;
     const payload: JwtPayload = {
       sub: id,
@@ -41,17 +41,17 @@ export class AuthService {
     const user = await this.usersService.findOneById(userId);
 
     if (!user) {
-      return new ForbiddenException("Access denied");
+      throw new UnauthorizedException();
     }
 
     return this.signJwt(user);
   }
 
   async login({ email, password }: AuthInput) {
-    const user = await this.validate({ email, password });
+    const user = await this.validatePassword({ email, password });
 
     if (!user) {
-      return new BadRequestException({ message: "Invalid credentials" });
+      throw new BadRequestException({ message: "Invalid credentials" });
     }
 
     const tokens = await this.signJwt(user);
@@ -59,7 +59,16 @@ export class AuthService {
     return { user, ...tokens };
   }
 
+  private async validateEmail({ email }: AuthInput) {
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (user) {
+      throw new BadRequestException({ message: "User already exists" });
+    }
+  }
+
   async signup({ email, password }: AuthInput) {
+    await this.validateEmail({ email, password });
     const user = await this.usersService.signup({ email, password });
     const tokens = await this.signJwt(user);
 
