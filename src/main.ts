@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+import "./sentry";
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { json } from "body-parser";

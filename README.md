@@ -2,14 +2,17 @@
 
 These variables are recommended for local development:
 
-```
+```sh
 PORT="3001"
-DATABASE_URL=
-JWT_SECRET=
-CLOUDINARY_URL=
-MAIL_FROM=
-SMTP_URL=
-CHROME_WS=
+DATABASE_URL="postgres://user:password@host:port/name"
+DATABASE_SSL=""
+JWT_SECRET=""
+JWT_SECRET_2=""
+CLOUDINARY_URL="cloudinary://key:secret@name"
+MAIL_FROM=""
+SMTP_URL="smtp://user:password@host:port"
+CHROME_WS="wss://url"
+SENTRY_DSN_URL="https://url"
 ```
 
 ## Local Database & Docker
