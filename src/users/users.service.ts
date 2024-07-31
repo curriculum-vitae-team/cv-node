@@ -112,6 +112,14 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
+  async updatePassword(email: string, newPassword: string) {
+    const user = await this.findOneByEmail(email);
+
+    user.password = await hash(newPassword, 10);
+
+    return this.userRepository.save(user);
+  }
+
   deleteUser(userId: string) {
     return this.profileService.deleteProfile({ userId });
   }

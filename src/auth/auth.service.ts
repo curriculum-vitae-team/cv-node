@@ -1,11 +1,27 @@
-import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  ServiceUnavailableException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
-import { AuthInput, ForgotPasswordInput, UpdateTokenResult, User } from "../graphql";
+import {
+  AuthInput,
+  ForgotPasswordInput,
+  ResetPasswordInput,
+  UpdateTokenResult,
+  User,
+} from "../graphql";
 import { JwtPayload } from "./strategies/access_token.strategy";
 import { randomBytesAsync } from "src/app/util/random_bytes_async";
+
+const invalidCredentials = new BadRequestException({ message: "Invalid credentials" });
+const userAlreadyExists = new BadRequestException({ message: "User already exists" });
+const failedToSendEmail = new ServiceUnavailableException({ message: "Failed to send email" });
+const actionExpired = new UnauthorizedException({ message: "Action expired" });
 
 @Injectable()
 export class AuthService {
@@ -52,7 +68,7 @@ export class AuthService {
     const user = await this.validatePassword({ email, password });
 
     if (!user) {
-      throw new BadRequestException({ message: "Invalid credentials" });
+      throw invalidCredentials;
     }
 
     const tokens = await this.signJwt(user);
@@ -64,7 +80,7 @@ export class AuthService {
     const user = await this.usersService.findOneByEmail(email);
 
     if (user) {
-      throw new BadRequestException({ message: "User already exists" });
+      throw userAlreadyExists;
     }
   }
 
@@ -84,7 +100,7 @@ export class AuthService {
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
-      throw new BadRequestException({ message: "Failed to send email" });
+      throw failedToSendEmail;
     }
 
     const jti = (await randomBytesAsync(16)).toString("hex");
@@ -97,8 +113,20 @@ export class AuthService {
     const token = await this.jwtService.signAsync(payload, { expiresIn: "10m" });
     const url = `${origin}/reset-password?token=${token}`;
 
-    await this.mailService.sendResetPasswordEmail(email, url);
+    await this.mailService.sendResetPasswordEmail(email, url).catch(() => {
+      throw failedToSendEmail;
+    });
 
     return { token };
+  }
+
+  async resetPassword({ newPassword }: ResetPasswordInput, token: string) {
+    const { email } = await this.jwtService.verifyAsync<JwtPayload>(token).catch(() => {
+      throw actionExpired;
+    });
+
+    await this.usersService.updatePassword(email, newPassword);
+
+    return;
   }
 }

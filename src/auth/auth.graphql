@@ -21,13 +21,20 @@ type ForgotPasswordResult {
   token: String!
 }
 
+input ResetPasswordInput {
+  newPassword: String!
+}
+
 type UpdateTokenResult {
   access_token: String!
   refresh_token: String!
 }
 
+scalar Void
+
 type Mutation {
   signup(auth: AuthInput!): AuthResult!
   forgotPassword(auth: ForgotPasswordInput!): ForgotPasswordResult!
+  resetPassword(auth: ResetPasswordInput!): Void
   updateToken: UpdateTokenResult!
 }
