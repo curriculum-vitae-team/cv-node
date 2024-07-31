@@ -25,7 +25,7 @@ export class MailService {
     return [...Array(6)].map(() => (Math.random() * 10) | 0).join("");
   }
 
-  async sendVerificationEmail(email: string, origin: string) {
+  async sendVerificationEmail(email: string, url: string) {
     let mail = await this.findOneByEmail(email);
     const otp = this.createOneTimePassword();
 
@@ -42,7 +42,8 @@ export class MailService {
       template: "./confirm-email.hbs",
       context: {
         code: otp,
-        url: origin + `/verify`,
+        duration: "2 hours",
+        url,
         from: process.env.MAIL_FROM,
       },
     });
@@ -61,4 +62,19 @@ export class MailService {
 
     throw new BadRequestException({ message: "Invalid credentials" });
   }
+
+  sendResetPasswordEmail(email: string, url: string) {
+    return this.mailerService.sendMail({
+      to: email,
+      subject: "Password reset.",
+      template: "./reset_password.hbs",
+      context: {
+        duration: "10 minutes",
+        url,
+        from: process.env.MAIL_FROM,
+      },
+    });
+  }
+
+  async verifyResetPasswordCode() {}
 }

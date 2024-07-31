@@ -13,6 +13,14 @@ type Query {
   login(auth: AuthInput!): AuthResult!
 }
 
+input ForgotPasswordInput {
+  email: String!
+}
+
+type ForgotPasswordResult {
+  token: String!
+}
+
 type UpdateTokenResult {
   access_token: String!
   refresh_token: String!
@@ -20,5 +28,6 @@ type UpdateTokenResult {
 
 type Mutation {
   signup(auth: AuthInput!): AuthResult!
+  forgotPassword(auth: ForgotPasswordInput!): ForgotPasswordResult!
   updateToken: UpdateTokenResult!
 }

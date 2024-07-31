@@ -36,6 +36,10 @@ export interface AuthInput {
     password: string;
 }
 
+export interface ForgotPasswordInput {
+    email: string;
+}
+
 export interface AddCvProjectInput {
     cvId: string;
     projectId: string;
@@ -312,6 +316,10 @@ export interface IQuery {
     user(userId: string): User | Promise<User>;
 }
 
+export interface ForgotPasswordResult {
+    token: string;
+}
+
 export interface UpdateTokenResult {
     access_token: string;
     refresh_token: string;
@@ -319,6 +327,7 @@ export interface UpdateTokenResult {
 
 export interface IMutation {
     signup(auth: AuthInput): AuthResult | Promise<AuthResult>;
+    forgotPassword(auth: ForgotPasswordInput): ForgotPasswordResult | Promise<ForgotPasswordResult>;
     updateToken(): UpdateTokenResult | Promise<UpdateTokenResult>;
     addCvProject(project: AddCvProjectInput): Cv | Promise<Cv>;
     updateCvProject(project: UpdateCvProjectInput): Cv | Promise<Cv>;

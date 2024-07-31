@@ -3,8 +3,9 @@ import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
-import { AuthInput, UpdateTokenResult, User } from "../graphql";
+import { AuthInput, ForgotPasswordInput, UpdateTokenResult, User } from "../graphql";
 import { JwtPayload } from "./strategies/access_token.strategy";
+import { randomBytesAsync } from "src/app/util/random_bytes_async";
 
 @Injectable()
 export class AuthService {
@@ -67,17 +68,37 @@ export class AuthService {
     }
   }
 
-  async signup({ email, password }: AuthInput) {
+  async signup({ email, password }: AuthInput, origin: string) {
     await this.validateEmail({ email, password });
+
     const user = await this.usersService.signup({ email, password });
     const tokens = await this.signJwt(user);
+    const url = `${origin}/verify-email`;
 
-    await this.mailService.sendVerificationEmail(
-      email,
-      // TODO: use real url
-      "https://curriculum-vitae-project.vercel.app"
-    );
+    await this.mailService.sendVerificationEmail(email, url);
 
     return { user, ...tokens };
+  }
+
+  async forgotPassword({ email }: ForgotPasswordInput, origin: string) {
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (!user) {
+      throw new BadRequestException({ message: "Failed to send email" });
+    }
+
+    const jti = (await randomBytesAsync(16)).toString("hex");
+    const payload: JwtPayload = {
+      sub: user.id,
+      email,
+      role: user.role,
+      jti,
+    };
+    const token = await this.jwtService.signAsync(payload, { expiresIn: "10m" });
+    const url = `${origin}/reset-password?token=${token}`;
+
+    await this.mailService.sendResetPasswordEmail(email, url);
+
+    return { token };
   }
 }
