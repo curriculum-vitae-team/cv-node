@@ -17,10 +17,6 @@ input ForgotPasswordInput {
   email: String!
 }
 
-type ForgotPasswordResult {
-  token: String!
-}
-
 input ResetPasswordInput {
   newPassword: String!
 }
@@ -34,7 +30,7 @@ scalar Void
 
 type Mutation {
   signup(auth: AuthInput!): AuthResult!
-  forgotPassword(auth: ForgotPasswordInput!): ForgotPasswordResult!
+  forgotPassword(auth: ForgotPasswordInput!): Void
   resetPassword(auth: ResetPasswordInput!): Void
   updateToken: UpdateTokenResult!
 }

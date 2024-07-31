@@ -117,7 +117,7 @@ export class AuthService {
       throw failedToSendEmail;
     });
 
-    return { token };
+    return;
   }
 
   async resetPassword({ newPassword }: ResetPasswordInput, token: string) {
