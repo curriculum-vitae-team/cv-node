@@ -2,7 +2,6 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { connect } from "puppeteer-core";
 import { CvsService } from "./cvs.service";
 import { CreateCvDto, UpdateCvDto, DeleteCvDto } from "./dto/cv.dto";
-import { AddCvSkillDto, UpdateCvSkillDto, DeleteCvSkillDto } from "./dto/cv-skill.dto";
 import { ExportPdfDto } from "./dto/pdf.dto";
 import { UseGuards } from "@nestjs/common";
 import { OwnCvGuard } from "src/app/guards/own_cv.guard";
@@ -36,24 +35,6 @@ export class CvsResolver {
   @Mutation("deleteCv")
   deleteCv(@Args("cv") args: DeleteCvDto) {
     return this.cvsService.deleteCv(args);
-  }
-
-  @UseGuards(OwnCvGuard)
-  @Mutation("addCvSkill")
-  addCvSkill(@Args("skill") args: AddCvSkillDto) {
-    return this.cvsService.addCvSkill(args);
-  }
-
-  @UseGuards(OwnCvGuard)
-  @Mutation("updateCvSkill")
-  updateCvSkill(@Args("skill") args: UpdateCvSkillDto) {
-    return this.cvsService.updateCvSkill(args);
-  }
-
-  @UseGuards(OwnCvGuard)
-  @Mutation("deleteCvSkill")
-  deleteCvSkill(@Args("skill") args: DeleteCvSkillDto) {
-    return this.cvsService.deleteCvSkill(args);
   }
 
   @Mutation("exportPdf")
