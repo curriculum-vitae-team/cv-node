@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 import { Cv, LanguageProficiency, SkillMastery } from "src/graphql";
 import { UserModel } from "src/users/model/user.model";
-import { CvProjectModel } from "./cv-project.model";
+import { CvProjectModel } from "src/cv_projects/model/cv_project.model";
 
 @Entity("cv")
 export class CvModel implements Cv {

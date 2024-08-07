@@ -14,19 +14,21 @@ export class OwnCvGuard implements CanActivate {
     const req = ctx.getContext().req;
     const jwt = req.user as JwtPayload;
 
-    const args = context.getArgByIndex(1);
-    const cvId = args.cv?.cvId || args.skill?.cvId || args.project?.cvId;
-
     const isAdmin = jwt.role === UserRole.Admin;
-    const cv = await this.cvsService.findOneById(cvId);
-    const isOwnCv = jwt.sub === cv.user.id;
 
     if (isAdmin) {
       return true;
     }
+
+    const args = context.getArgByIndex(1);
+    const cvId = args.cv?.cvId || args.skill?.cvId || args.project?.cvId;
+    const cv = await this.cvsService.findOneById(cvId);
+    const isOwnCv = jwt.sub === cv.user.id;
+
     if (isOwnCv) {
       return true;
     }
+
     return false;
   }
 }
