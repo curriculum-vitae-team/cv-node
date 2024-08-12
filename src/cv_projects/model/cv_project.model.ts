@@ -38,11 +38,6 @@ export class CvProjectModel implements CvProject {
   @Column("date", { nullable: true })
   end_date?: string;
 
-  @Expose()
-  get team_size() {
-    return this.project.team_size;
-  }
-
   @Column("simple-json", { default: [] })
   roles: string[];
 

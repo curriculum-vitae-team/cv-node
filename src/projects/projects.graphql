@@ -3,12 +3,10 @@ type Project {
   created_at: String!
   name: String!
   internal_name: String!
-  description: String!
   domain: String!
   start_date: String!
   end_date: String
-  team_size: Int!
-  tech_stack: [Skill!]
+  description: String!
 }
 
 type Query {
@@ -18,23 +16,19 @@ type Query {
 
 input CreateProjectInput {
   name: String!
-  internal_name: String
-  description: String!
   domain: String!
   start_date: String!
   end_date: String
-  team_size: Int!
+  description: String!
 }
 
 input UpdateProjectInput {
   projectId: ID!
   name: String!
-  internal_name: String
-  description: String!
   domain: String!
   start_date: String!
   end_date: String
-  team_size: Int!
+  description: String!
 }
 
 input DeleteProjectInput {

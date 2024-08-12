@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { SkillModel } from "src/skills/model/skill.model";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Project } from "../../graphql";
 
 @Entity("project")
@@ -20,10 +12,10 @@ export class ProjectModel implements Project {
   @Column()
   name: string;
 
-  @Column()
+  @Column("varchar", { default: "" })
   internal_name: string;
 
-  @Column()
+  @Column("varchar", { default: "" })
   description: string;
 
   @Column()
@@ -34,11 +26,4 @@ export class ProjectModel implements Project {
 
   @Column("date", { nullable: true })
   end_date?: string;
-
-  @Column("int", { default: 1 })
-  team_size: number;
-
-  @ManyToMany(() => SkillModel)
-  @JoinTable()
-  tech_stack: SkillModel[];
 }

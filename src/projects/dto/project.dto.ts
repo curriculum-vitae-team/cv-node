@@ -1,4 +1,4 @@
-import { IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsISO8601, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { CreateProjectInput, UpdateProjectInput, DeleteProjectInput } from "src/graphql";
 
 export class CreateProjectDto implements CreateProjectInput {
@@ -7,9 +7,7 @@ export class CreateProjectDto implements CreateProjectInput {
   name: string;
 
   @IsString()
-  internal_name: string;
-
-  @IsString()
+  @IsOptional()
   description: string;
 
   @IsString()
@@ -21,9 +19,6 @@ export class CreateProjectDto implements CreateProjectInput {
   @IsISO8601()
   @IsOptional()
   end_date: string;
-
-  @IsNumber()
-  team_size: number;
 }
 
 export class UpdateProjectDto extends CreateProjectDto implements UpdateProjectInput {

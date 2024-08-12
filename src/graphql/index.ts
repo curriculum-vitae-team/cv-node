@@ -232,23 +232,19 @@ export interface DeleteAvatarInput {
 
 export interface CreateProjectInput {
     name: string;
-    internal_name?: Nullable<string>;
-    description: string;
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
-    team_size: number;
+    description: string;
 }
 
 export interface UpdateProjectInput {
     projectId: string;
     name: string;
-    internal_name?: Nullable<string>;
-    description: string;
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
-    team_size: number;
+    description: string;
 }
 
 export interface DeleteProjectInput {
@@ -379,7 +375,6 @@ export interface CvProject {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
-    team_size: number;
     roles: string[];
     responsibilities: string[];
 }
@@ -444,12 +439,10 @@ export interface Project {
     created_at: string;
     name: string;
     internal_name: string;
-    description: string;
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
-    team_size: number;
-    tech_stack?: Nullable<Skill[]>;
+    description: string;
 }
 
 export interface Skill {

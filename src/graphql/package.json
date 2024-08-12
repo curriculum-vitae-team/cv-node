@@ -1,6 +1,6 @@
 {
   "name": "cv-graphql",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "types": "./index.ts",
   "description": "Public cv-node GraphQL API types.",
   "keywords": [
