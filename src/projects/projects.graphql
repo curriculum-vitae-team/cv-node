@@ -7,6 +7,7 @@ type Project {
   start_date: String!
   end_date: String
   description: String!
+  environment: [String!]!
 }
 
 type Query {
@@ -20,6 +21,7 @@ input CreateProjectInput {
   start_date: String!
   end_date: String
   description: String!
+  environment: [String!]!
 }
 
 input UpdateProjectInput {
@@ -29,6 +31,7 @@ input UpdateProjectInput {
   start_date: String!
   end_date: String
   description: String!
+  environment: [String!]!
 }
 
 input DeleteProjectInput {

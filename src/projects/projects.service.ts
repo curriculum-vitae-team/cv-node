@@ -27,13 +27,21 @@ export class ProjectsService {
     });
   }
 
-  async createProject({ name, domain, description, start_date, end_date }: CreateProjectInput) {
+  async createProject({
+    name,
+    domain,
+    description,
+    start_date,
+    end_date,
+    environment,
+  }: CreateProjectInput) {
     const project = this.projectsRepository.create({
       name,
       domain,
       description,
       start_date,
       end_date,
+      environment,
     });
 
     return this.projectsRepository.save(project);
@@ -46,6 +54,7 @@ export class ProjectsService {
     description,
     start_date,
     end_date,
+    environment,
   }: UpdateProjectInput) {
     const project = await this.findOneById(projectId);
 
@@ -55,6 +64,7 @@ export class ProjectsService {
       description,
       start_date,
       end_date,
+      environment,
     });
 
     return this.projectsRepository.save(project);

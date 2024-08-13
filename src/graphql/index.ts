@@ -236,6 +236,7 @@ export interface CreateProjectInput {
     start_date: string;
     end_date?: Nullable<string>;
     description: string;
+    environment: string[];
 }
 
 export interface UpdateProjectInput {
@@ -245,6 +246,7 @@ export interface UpdateProjectInput {
     start_date: string;
     end_date?: Nullable<string>;
     description: string;
+    environment: string[];
 }
 
 export interface DeleteProjectInput {
@@ -375,6 +377,7 @@ export interface CvProject {
     domain: string;
     start_date: string;
     end_date?: Nullable<string>;
+    environment: string[];
     roles: string[];
     responsibilities: string[];
 }
@@ -443,6 +446,7 @@ export interface Project {
     start_date: string;
     end_date?: Nullable<string>;
     description: string;
+    environment: string[];
 }
 
 export interface Skill {

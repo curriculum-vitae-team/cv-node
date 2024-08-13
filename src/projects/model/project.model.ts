@@ -26,4 +26,7 @@ export class ProjectModel implements Project {
 
   @Column("date", { nullable: true })
   end_date?: string;
+
+  @Column("simple-json", { default: [] })
+  environment: string[];
 }

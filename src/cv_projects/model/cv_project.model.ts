@@ -32,6 +32,11 @@ export class CvProjectModel implements CvProject {
     return this.project.domain;
   }
 
+  @Expose()
+  get environment() {
+    return this.project.environment;
+  }
+
   @Column("date")
   start_date: string;
 

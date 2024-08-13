@@ -7,6 +7,7 @@ type CvProject {
   domain: String!
   start_date: String!
   end_date: String
+  environment: [String!]!
   roles: [String!]!
   responsibilities: [String!]!
 }
