@@ -11,6 +11,7 @@ import { DepartmentsModule } from "src/departments/departments.module";
 import { PositionsModule } from "src/positions/positions.module";
 import { LanguagesModule } from "../languages/languages.module";
 import { SkillsModule } from "src/skills/skills.module";
+import { SkillCategoriesModule } from "src/skill_categories/skill_categories.module";
 import { CvsModule } from "../cvs/cvs.module";
 import { CvSkillsModule } from "src/cv_skills/cv_skills.module";
 import { CvProjectsModule } from "src/cv_projects/cv_projects.module";
@@ -51,6 +52,7 @@ import { AccessTokenGuard } from "src/auth/guards/access_token.guard";
     PositionsModule,
     LanguagesModule,
     SkillsModule,
+    SkillCategoriesModule,
     ProjectsModule,
     CvsModule,
     CvSkillsModule,

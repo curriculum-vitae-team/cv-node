@@ -1,0 +1,9 @@
+type SkillCategory {
+  name: String!
+  type: String
+}
+
+type Query {
+  skillTypes: [String!]!
+  skillCategories: [SkillCategory!]!
+}
