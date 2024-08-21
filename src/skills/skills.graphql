@@ -1,32 +1,25 @@
-enum Mastery {
-  Novice
-  Advanced
-  Competent
-  Proficient
-  Expert
-}
-
 type Skill {
   id: ID!
   created_at: String!
   name: String!
-  category: String
+  category: SkillCategory
+  category_name: String
+  category_parent_name: String
 }
 
 type Query {
   skills: [Skill!]!
-  skillCategories: [String!]!
 }
 
 input CreateSkillInput {
   name: String!
-  category: String
+  categoryId: ID
 }
 
 input UpdateSkillInput {
   skillId: ID!
   name: String!
-  category: String
+  categoryId: ID
 }
 
 input DeleteSkillInput {
@@ -37,16 +30,4 @@ type Mutation {
   createSkill(skill: CreateSkillInput!): Skill!
   updateSkill(skill: UpdateSkillInput!): Skill!
   deleteSkill(skill: DeleteSkillInput!): DeleteResult!
-}
-
-type SkillMastery {
-  name: String!
-  category: String
-  mastery: Mastery!
-}
-
-input SkillMasteryInput {
-  name: String!
-  category: String
-  mastery: Mastery!
 }

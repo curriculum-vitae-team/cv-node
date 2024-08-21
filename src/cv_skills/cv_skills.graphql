@@ -1,14 +1,14 @@
 input AddCvSkillInput {
   cvId: ID!
   name: String!
-  category: String
+  categoryId: ID
   mastery: Mastery!
 }
 
 input UpdateCvSkillInput {
   cvId: ID!
   name: String!
-  category: String
+  categoryId: ID
   mastery: Mastery!
 }
 

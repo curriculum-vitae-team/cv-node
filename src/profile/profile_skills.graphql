@@ -1,0 +1,24 @@
+input AddProfileSkillInput {
+  userId: ID!
+  name: String!
+  categoryId: ID
+  mastery: Mastery!
+}
+
+input UpdateProfileSkillInput {
+  userId: ID!
+  name: String!
+  categoryId: ID
+  mastery: Mastery!
+}
+
+input DeleteProfileSkillInput {
+  userId: ID!
+  name: [String!]!
+}
+
+type Mutation {
+  addProfileSkill(skill: AddProfileSkillInput!): Profile!
+  updateProfileSkill(skill: UpdateProfileSkillInput!): Profile!
+  deleteProfileSkill(skill: DeleteProfileSkillInput!): Profile!
+}

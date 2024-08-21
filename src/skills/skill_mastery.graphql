@@ -1,0 +1,19 @@
+enum Mastery {
+  Novice
+  Advanced
+  Competent
+  Proficient
+  Expert
+}
+
+type SkillMastery {
+  name: String!
+  categoryId: ID
+  mastery: Mastery!
+}
+
+input SkillMasteryInput {
+  name: String!
+  categoryId: ID
+  mastery: Mastery!
+}

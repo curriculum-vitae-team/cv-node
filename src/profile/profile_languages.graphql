@@ -1,0 +1,22 @@
+input AddProfileLanguageInput {
+  userId: ID!
+  name: String!
+  proficiency: Proficiency!
+}
+
+input UpdateProfileLanguageInput {
+  userId: ID!
+  name: String!
+  proficiency: Proficiency!
+}
+
+input DeleteProfileLanguageInput {
+  userId: ID!
+  name: [String!]!
+}
+
+type Mutation {
+  addProfileLanguage(language: AddProfileLanguageInput!): Profile!
+  updateProfileLanguage(language: UpdateProfileLanguageInput!): Profile!
+  deleteProfileLanguage(language: DeleteProfileLanguageInput!): Profile!
+}

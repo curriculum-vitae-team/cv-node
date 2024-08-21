@@ -8,7 +8,7 @@ export class CreateSkillDto implements CreateSkillInput {
 
   @IsString()
   @IsOptional()
-  category?: string;
+  categoryId: string;
 }
 
 export class UpdateSkillDto extends CreateSkillDto implements UpdateSkillInput {

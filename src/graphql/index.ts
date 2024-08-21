@@ -70,14 +70,14 @@ export interface RemoveCvProjectInput {
 export interface AddCvSkillInput {
     cvId: string;
     name: string;
-    category?: Nullable<string>;
+    categoryId?: Nullable<string>;
     mastery: Mastery;
 }
 
 export interface UpdateCvSkillInput {
     cvId: string;
     name: string;
-    category?: Nullable<string>;
+    categoryId?: Nullable<string>;
     mastery: Mastery;
 }
 
@@ -183,23 +183,15 @@ export interface DeleteProfileInput {
     userId: string;
 }
 
-export interface AddProfileSkillInput {
+export interface UploadAvatarInput {
     userId: string;
-    name: string;
-    category?: Nullable<string>;
-    mastery: Mastery;
+    base64: string;
+    size: number;
+    type: string;
 }
 
-export interface UpdateProfileSkillInput {
+export interface DeleteAvatarInput {
     userId: string;
-    name: string;
-    category?: Nullable<string>;
-    mastery: Mastery;
-}
-
-export interface DeleteProfileSkillInput {
-    userId: string;
-    name: string[];
 }
 
 export interface AddProfileLanguageInput {
@@ -219,15 +211,23 @@ export interface DeleteProfileLanguageInput {
     name: string[];
 }
 
-export interface UploadAvatarInput {
+export interface AddProfileSkillInput {
     userId: string;
-    base64: string;
-    size: number;
-    type: string;
+    name: string;
+    categoryId?: Nullable<string>;
+    mastery: Mastery;
 }
 
-export interface DeleteAvatarInput {
+export interface UpdateProfileSkillInput {
     userId: string;
+    name: string;
+    categoryId?: Nullable<string>;
+    mastery: Mastery;
+}
+
+export interface DeleteProfileSkillInput {
+    userId: string;
+    name: string[];
 }
 
 export interface CreateProjectInput {
@@ -253,25 +253,25 @@ export interface DeleteProjectInput {
     projectId: string;
 }
 
+export interface SkillMasteryInput {
+    name: string;
+    categoryId?: Nullable<string>;
+    mastery: Mastery;
+}
+
 export interface CreateSkillInput {
     name: string;
-    category?: Nullable<string>;
+    categoryId?: Nullable<string>;
 }
 
 export interface UpdateSkillInput {
     skillId: string;
     name: string;
-    category?: Nullable<string>;
+    categoryId?: Nullable<string>;
 }
 
 export interface DeleteSkillInput {
     skillId: string;
-}
-
-export interface SkillMasteryInput {
-    name: string;
-    category?: Nullable<string>;
-    mastery: Mastery;
 }
 
 export interface CreateUserInput {
@@ -312,8 +312,8 @@ export interface IQuery {
     profile(userId: string): Profile | Promise<Profile>;
     projects(): Project[] | Promise<Project[]>;
     project(projectId: string): Project | Promise<Project>;
+    skillCategories(): SkillCategory[] | Promise<SkillCategory[]>;
     skills(): Skill[] | Promise<Skill[]>;
-    skillCategories(): string[] | Promise<string[]>;
     users(): User[] | Promise<User[]>;
     user(userId: string): User | Promise<User>;
 }
@@ -349,14 +349,14 @@ export interface IMutation {
     updatePosition(position: UpdatePositionInput): Position | Promise<Position>;
     deletePosition(position: DeletePositionInput): DeleteResult | Promise<DeleteResult>;
     updateProfile(profile: UpdateProfileInput): Profile | Promise<Profile>;
-    addProfileSkill(skill: AddProfileSkillInput): Profile | Promise<Profile>;
-    updateProfileSkill(skill: UpdateProfileSkillInput): Profile | Promise<Profile>;
-    deleteProfileSkill(skill: DeleteProfileSkillInput): Profile | Promise<Profile>;
+    uploadAvatar(avatar: UploadAvatarInput): string | Promise<string>;
+    deleteAvatar(avatar: DeleteAvatarInput): Nullable<Void> | Promise<Nullable<Void>>;
     addProfileLanguage(language: AddProfileLanguageInput): Profile | Promise<Profile>;
     updateProfileLanguage(language: UpdateProfileLanguageInput): Profile | Promise<Profile>;
     deleteProfileLanguage(language: DeleteProfileLanguageInput): Profile | Promise<Profile>;
-    uploadAvatar(avatar: UploadAvatarInput): string | Promise<string>;
-    deleteAvatar(avatar: DeleteAvatarInput): Nullable<Void> | Promise<Nullable<Void>>;
+    addProfileSkill(skill: AddProfileSkillInput): Profile | Promise<Profile>;
+    updateProfileSkill(skill: UpdateProfileSkillInput): Profile | Promise<Profile>;
+    deleteProfileSkill(skill: DeleteProfileSkillInput): Profile | Promise<Profile>;
     createProject(project: CreateProjectInput): Project | Promise<Project>;
     updateProject(project: UpdateProjectInput): Project | Promise<Project>;
     deleteProject(project: DeleteProjectInput): DeleteResult | Promise<DeleteResult>;
@@ -449,17 +449,27 @@ export interface Project {
     environment: string[];
 }
 
-export interface Skill {
+export interface SkillCategory {
     id: string;
-    created_at: string;
     name: string;
-    category?: Nullable<string>;
+    order: number;
+    parent?: Nullable<SkillCategory>;
+    children: SkillCategory[];
 }
 
 export interface SkillMastery {
     name: string;
-    category?: Nullable<string>;
+    categoryId?: Nullable<string>;
     mastery: Mastery;
+}
+
+export interface Skill {
+    id: string;
+    created_at: string;
+    name: string;
+    category?: Nullable<SkillCategory>;
+    category_name?: Nullable<string>;
+    category_parent_name?: Nullable<string>;
 }
 
 export interface User {

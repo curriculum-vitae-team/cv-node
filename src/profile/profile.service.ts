@@ -43,20 +43,22 @@ export class ProfileService {
     return this.profileRepository.save(profile);
   }
 
-  async addProfileSkill({ userId, name, category, mastery }: AddProfileSkillInput) {
+  async addProfileSkill({ userId, name, categoryId, mastery }: AddProfileSkillInput) {
     const profile = await this.findOneById(userId);
-    profile.skills.push({ name, category, mastery });
+
+    profile.skills.push({ name, categoryId, mastery });
+
     return this.profileRepository.save(profile);
   }
 
-  async updateProfileSkill({ userId, name, mastery }: UpdateProfileSkillInput) {
+  async updateProfileSkill({ userId, name, categoryId, mastery }: UpdateProfileSkillInput) {
     const profile = await this.findOneById(userId);
-    profile.skills = profile.skills.map((skill) => {
-      if (skill.name === name) {
-        return { name, category: skill.category, mastery };
-      }
-      return skill;
-    });
+    const index = profile.skills.findIndex((skill) => skill.name === name);
+
+    if (index !== -1) {
+      profile.skills[index] = { name, categoryId, mastery };
+    }
+
     return this.profileRepository.save(profile);
   }
 

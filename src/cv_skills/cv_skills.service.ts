@@ -17,24 +17,21 @@ export class CvSkillsService {
     });
   }
 
-  async addCvSkill({ cvId, name, category, mastery }: AddCvSkillInput) {
+  async addCvSkill({ cvId, name, categoryId, mastery }: AddCvSkillInput) {
     const cv = await this.findOneById(cvId);
 
-    cv.skills.push({ name, category, mastery });
+    cv.skills.push({ name, categoryId, mastery });
 
     return this.cvRepository.save(cv);
   }
 
-  async updateCvSkill({ cvId, name, mastery }: UpdateCvSkillInput) {
+  async updateCvSkill({ cvId, name, categoryId, mastery }: UpdateCvSkillInput) {
     const cv = await this.findOneById(cvId);
+    const index = cv.skills.findIndex((skill) => skill.name === name);
 
-    cv.skills = cv.skills.map((skill) => {
-      if (skill.name === name) {
-        return { name, category: skill.category, mastery };
-      }
-
-      return skill;
-    });
+    if (index !== -1) {
+      cv.skills[index] = { name, categoryId, mastery };
+    }
 
     return this.cvRepository.save(cv);
   }

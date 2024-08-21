@@ -9,7 +9,7 @@ export class SkillMasteryDto implements SkillMasteryInput {
 
   @IsString()
   @IsOptional()
-  category?: string;
+  categoryId?: string;
 
   @IsString()
   @IsIn(MASTERIES)
