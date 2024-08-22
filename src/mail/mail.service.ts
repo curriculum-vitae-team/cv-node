@@ -38,7 +38,7 @@ export class MailService {
 
     return this.mailerService.sendMail({
       to: email,
-      subject: "Please confirm your email address.",
+      subject: "Verify email.",
       template: "./confirm-email.hbs",
       context: {
         code: otp,
