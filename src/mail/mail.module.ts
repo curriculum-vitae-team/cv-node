@@ -16,7 +16,7 @@ import { MailResolver } from "./mail.resolver";
         url: process.env.SMTP_URL,
       },
       defaults: {
-        from: `"Curriculum Vitae Team" <${process.env.MAIL_FROM}>`,
+        from: `"Curriculum Vitae" <${process.env.MAIL_FROM}>`,
       },
       template: {
         dir: "dist/mail/templates",
