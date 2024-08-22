@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { captureException } from "@sentry/nestjs";
 import { compare } from "bcrypt";
 import { UsersService } from "../users/users.service";
 import { MailService } from "src/mail/mail.service";
@@ -91,7 +92,9 @@ export class AuthService {
     const tokens = await this.signJwt(user);
     const url = `${origin}/verify-email`;
 
-    await this.mailService.sendVerificationEmail(email, url);
+    await this.mailService.sendVerificationEmail(email, url).catch((error) => {
+      captureException(error, { data: "verification email" });
+    });
 
     return { user, ...tokens };
   }
@@ -113,7 +116,8 @@ export class AuthService {
     const token = await this.jwtService.signAsync(payload, { expiresIn: "10m" });
     const url = `${origin}/reset-password?token=${token}`;
 
-    await this.mailService.sendResetPasswordEmail(email, url).catch(() => {
+    await this.mailService.sendResetPasswordEmail(email, url).catch((error) => {
+      captureException(error, { data: "reset password email" });
       throw failedToSendEmail;
     });
 

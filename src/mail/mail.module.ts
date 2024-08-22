@@ -11,7 +11,10 @@ import { MailResolver } from "./mail.resolver";
   imports: [
     TypeOrmModule.forFeature([MailModel]),
     MailerModule.forRoot({
-      transport: process.env.SMTP_URL,
+      transport: {
+        pool: true,
+        url: process.env.SMTP_URL,
+      },
       defaults: {
         from: `"Curriculum Vitae Team" <${process.env.MAIL_FROM}>`,
       },
