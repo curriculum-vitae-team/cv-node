@@ -20,6 +20,13 @@ export class CvsService {
     });
   }
 
+  findAllByUserId(userId: string) {
+    return this.cvRepository.find({
+      relations: ["user", "projects"],
+      where: { user: { id: userId } },
+    });
+  }
+
   findMany(ids: string[]) {
     return this.cvRepository.find({
       where: { id: In(ids) },
